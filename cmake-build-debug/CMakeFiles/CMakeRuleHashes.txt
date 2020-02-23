@@ -1,0 +1,2 @@
+# Hashes of file build rules.
+db9850bd316c1c4a89c92969eaefa8e8 CMakeFiles/WinFtp_autogen

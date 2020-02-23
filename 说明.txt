@@ -1,0 +1,6 @@
+1. pro文件是用于Qt creator的，设计时需要
+2. ui文件是设计的结构
+3. mainwindow等文件暂时不用
+4. 目前主要在ftpsock和uils文件夹里折腾
+5. 命令的简化封装函数已经写在这两个里面了
+   主要是utils文件夹的SendCommand两个函数

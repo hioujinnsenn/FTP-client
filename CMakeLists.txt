@@ -1,0 +1,18 @@
+cmake_minimum_required(VERSION 3.10)
+project(WinFtp)
+set(CMAKE_CXX_STANDARD 11)
+##调用的机制是这样的，会直接以命令的形式自动调用moc uic rcc
+##那么这三个软件一定要在环境变量中，这也就是qt需要进入系统环境变量的原因。
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+#注意此处的地址cmake的地址，需要根据自己的电脑情况决定
+set(CMAKE_PREFIX_PATH "C:\\Qt\\Qt5.13.0\\5.13.0\\mingw73_64\\lib\\cmake")
+find_package(Qt5Core REQUIRED)
+find_package(Qt5Widgets REQUIRED)
+add_executable(WinFtp main.cpp mainwindow.cpp mainwindow.h ftpsock/login.cpp ftpsock/login.h ftpsock/ftpdata.cpp ftpsock/ftpdata.h utils/utils.cpp utils/utils.h)
+target_link_libraries(WinFtp Qt5::Core)
+target_link_libraries(WinFtp Qt5::Widgets)
+target_link_libraries(WinFtp wsock32)
