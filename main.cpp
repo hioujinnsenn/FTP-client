@@ -106,7 +106,6 @@ int main(int argc, char *argv[])
     memset(command,0,clength);
     memset(message,0,clength);
     SOCKET  DataSock=getNewSocket("127.0.0.1",newport);
-    Message=ls(sock,DataSock);
-    cout<<Message;
-
+    vector<File> files=ls(sock,DataSock);
+    
 }

@@ -21,18 +21,21 @@ using  namespace  std;
 #define SIZE  "SIZE %s\r\n"
 #define PASS  "PASS %s\r\n"
 #define USER  "USER %s\r\n"
+#define PWD   "PWD\r\n"
 //注意List命令需要走数据接口
 #define LIST  "LIST %s\r\n"
 #define LISTCUR  "LIST\r\n"
 #define length 400
 #define Dlength 4000
 /*file：类似于linux的操作，将文件和目录都视为File*/
+
 typedef struct File{
     int     type;/*1:目录，2：文件*/
     string  name;/*文件、目录名称*/
     string  path;/*完整的文件路径*/
     int     size;/*以字节为单位，目录大小设置为0，文件目录根据实际大小确定*/
 }File;
+
 typedef struct sockaddr_in sockaddr_in;
 
 /*function：发送一条指令，同时收到一条响应回复*/
@@ -47,7 +50,7 @@ struct sockaddr_in getLocalAddr(int port);
 /**
  * @details ls命令，无路径参数
  * */
-string ls(SOCKET sock,SOCKET DataSock);
+vector<File> ls(SOCKET sock,SOCKET DataSock);
 
 /**
  * @details ls命令，带路径参数
@@ -55,7 +58,15 @@ string ls(SOCKET sock,SOCKET DataSock);
 string ls(SOCKET sock,SOCKET datasock,char * dir);
 
 /**
+ * @details 返回当前路径pwd
+ *          注意pwd命令的返回信息就在命令端口，无需前往数据端口
+ * */
+string pwd(SOCKET sock);
+
+/**
  * @details 路径切割成一个个独立的文件路径和信息
  * */
-vector<string> split_dir(string dirs);
+vector<File> split_dir(string dirs);
+
+File deal_file_item(string p);
 #endif //WINFTP_UTILS_H
