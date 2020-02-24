@@ -52,6 +52,11 @@ https://www.ibm.com/developerworks/cn/linux/l-cn-socketftp/
 
 另外在utils文件里，设计了关于命令的简化版本SendCommand，简化了对char*内存的操作。
 
+建立数据端口的设置已经在main和ftpdata文件里实现了
+
+### 6.第四步，通过对命令端口发送命令，在数据端口接受数据
+
+### 上传和下载
 
 
-### 6.第四步，
+
