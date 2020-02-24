@@ -7,8 +7,6 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-
-#注意此处的地址cmake的地址，需要根据自己的电脑情况决定
 set(CMAKE_PREFIX_PATH "C:\\Qt\\Qt5.13.0\\5.13.0\\mingw73_64\\lib\\cmake")
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Widgets REQUIRED)

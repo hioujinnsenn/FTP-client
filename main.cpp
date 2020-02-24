@@ -11,9 +11,8 @@
 #define dlength 1000
 using namespace std;
 /**
- * @deprecated 测试时写的，已经弃用 2020.2.23
- * @brief 连接到本地ftp服务器    2020.2.21
- * @authors 许敏章 、叶茂鑫
+ * @brief 连接到本地ftp服务器
+ * @author 叶茂鑫
  * @details 连接到本机的127.0.0.1的21端口的ftp
  *          该服务端口暂时设置为匿名可访问
  *          根据由IBM教程中获得的关于ftp协议的规定内容设置，只要实现对应的即可
@@ -86,7 +85,7 @@ int main(int argc, char *argv[])
     char *command=(char*)malloc(clength);
     char *message=(CHAR*)malloc(clength);
     string Message;
-    //malloc和memset还有sprintf一定要配套使用。才能保证数据的干净正确
+    //malloc和memset还有sprintf一定要配套使用。
     memset(username,0,clength);
     memset(password,0,clength);
     memset(command,0,clength);
@@ -106,14 +105,8 @@ int main(int argc, char *argv[])
     cout<<newport<<endl;
     memset(command,0,clength);
     memset(message,0,clength);
-
-    //新建的数据端口
     SOCKET  DataSock=getNewSocket("127.0.0.1",newport);
-    //向命令端口发送命令，此处为列出当前目录列表
-    SendCommand(sock,LISTCUR);
-    //从数据端口取数据。次数信息为当前目录列表
-    recv(DataSock,message,Dlength,0);
-    Message=message;
+    Message=ls(sock,DataSock);
     cout<<Message;
 
 }

@@ -5,10 +5,6 @@
 #include "login.h"
 
 using namespace std;
-/*
- * 登录模块
- *
- * */
 SOCKET login(char* username,char* password)
 {
 

@@ -7,13 +7,7 @@
 using namespace std;
 #define length 400
 
-/**
- * 返回一个与预设地址端口的socket建立连接的本地socket
- * @param addr:对方的地址设定为const char*：可以直接提供用引号引起来的字符串，也可以提供char*
- * @param port：对方的端口
- * 开启一个新的Socket链接,只需要提供ip地址和端口即可
- * 主要用于数据传输端口的建立和目标网络地址的链接。
- * */
+/*开启一个新的Socket链接,只需要提供ip地址和端口即可*/
 SOCKET getNewSocket(const char* addr,int port){
     struct sockaddr_in sockaddrIn;
     memset(&sockaddrIn,0,sizeof(sockaddrIn));
@@ -36,10 +30,7 @@ SOCKET getNewSocket(const char* addr,int port){
     }
 }
 
-/* *
- * 根据PASV命令得到的响应信息，提取出新的端口号码
- * 主要在于字符串切割，比较复杂所以独立抽出
- * */
+/* 根据PASV命令得到的响应信息，提取出新的端口号码  */
 int  getNewPort(string port)
 {
     int i=port.find_first_of('(');

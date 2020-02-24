@@ -8,9 +8,8 @@ using namespace std;
 /**
  * 使用注意
  * 使用此函数的要点在于，s参数必须使用设置好的预定义宏
- * @param s:即utils头文件中设计好的如下一下预定义：PASS
- * @param parameter:即额外的提供给参数s的中的%s的换位参数
  * 而且必须有参数parameter需要填；
+ * @return 回显服务器的回复
  * #define SIZE  "SIZE %s\r\n"
    #define PASS  "PASS %s\r\n"
    #define USER  "USER %s\r\n"
@@ -22,7 +21,7 @@ using namespace std;
    #define LIST  "LIST %s\r\n"
  * */
 
-int SendCommand(SOCKET sock,const char*s,char* parameter)
+string SendCommand(SOCKET sock,const char*s,char* parameter)
 {
     char*command=(char*)malloc(length);
     memset(command,0,length);
@@ -36,10 +35,11 @@ int SendCommand(SOCKET sock,const char*s,char* parameter)
     cout<<Message;
     free(command);
     free(message);
+    return Message;
 }
 
 /*不需要多余参数的就用这个*/
-int SendCommand(SOCKET sock,const char*s)
+string SendCommand(SOCKET sock,const char*s)
 {
     char*command=(char*)malloc(length);
     memset(command,0,length);
@@ -53,13 +53,8 @@ int SendCommand(SOCKET sock,const char*s)
     cout<<Message;
     free(command);
     free(message);
+    return Message;
 }
-
-/*
- * 提供需要的端口号
- * 返回127.0.0.1对应的地址和端口号的数据结构
- * @return struct  sockaddr_in
- * */
 struct sockaddr_in getLocalAddr(int port){
     struct sockaddr_in  addr;
     memset(&addr,0, sizeof(addr));
@@ -69,3 +64,31 @@ struct sockaddr_in getLocalAddr(int port){
     return addr;
 }
 
+/**
+ * @details ls命令，不带路径参数
+ * */
+string ls(SOCKET sock,SOCKET DataSock)
+{
+    char* message=(char*)malloc(Dlength);
+    memset(message,0,Dlength);
+    SendCommand(sock,LISTCUR);
+    recv(DataSock,message,Dlength,0);
+    string p=message;
+    free(message);
+    //处理成string将每个文件、文件夹独立出
+    return p;
+}
+
+/**
+ * @details ls命令，带路径参数
+ * */
+string ls(SOCKET sock,SOCKET datasock,char* dir)
+{
+    char* message=(char*)malloc(Dlength);
+    memset(message,0,Dlength);
+    SendCommand(sock,LIST,dir);
+    recv(datasock,message,Dlength,0);
+    string p=message;
+    free(message);
+    return  p;
+}
