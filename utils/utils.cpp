@@ -144,7 +144,7 @@ File deal_file_item(string p)
             case 4:{
 
                 //stoi不是标准函数，慎用。
-                int size=stoi(p1,0,p1.size()-1);
+                int size=stoi(p1,0,10);
                 f.size= size;
                 //任何文件都计算大小，但是只有普通文件到时候才显示大小。
             };break;
