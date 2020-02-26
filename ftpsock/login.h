@@ -9,7 +9,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <iostream>
+#ifndef clength
 #define clength 400
+#endif
 #define dlength 1000
 SOCKET login(char* username,char*  password);
 #endif //WINFTP_LOGIN_H

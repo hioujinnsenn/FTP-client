@@ -1,4 +1,4 @@
-C:/Users/ye11/Documents/GitHub/FTP-lient/cmake-build-debug/CMakeFiles/WinFtp.dir
-C:/Users/ye11/Documents/GitHub/FTP-lient/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/ye11/Documents/GitHub/FTP-lient/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-C:/Users/ye11/Documents/GitHub/FTP-lient/cmake-build-debug/CMakeFiles/WinFtp_autogen.dir
+C:/Users/asus/CLionProjects/FTP-client/cmake-build-debug/CMakeFiles/WinFtp.dir
+C:/Users/asus/CLionProjects/FTP-client/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/asus/CLionProjects/FTP-client/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/Users/asus/CLionProjects/FTP-client/cmake-build-debug/CMakeFiles/WinFtp_autogen.dir

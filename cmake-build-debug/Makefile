@@ -38,19 +38,19 @@ cmake_force:
 SHELL = cmd.exe
 
 # The CMake executable.
-CMAKE_COMMAND = "C:\Program Files\JetBrains\CLion 2019.3.4\bin\cmake\win\bin\cmake.exe"
+CMAKE_COMMAND = "D:\Program_Files\CLion 2019.1.1\bin\cmake\win\bin\cmake.exe"
 
 # The command to remove a file.
-RM = "C:\Program Files\JetBrains\CLion 2019.3.4\bin\cmake\win\bin\cmake.exe" -E remove -f
+RM = "D:\Program_Files\CLion 2019.1.1\bin\cmake\win\bin\cmake.exe" -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\ye11\Documents\GitHub\FTP-lient
+CMAKE_SOURCE_DIR = C:\Users\asus\CLionProjects\FTP-client
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\ye11\Documents\GitHub\FTP-lient\cmake-build-debug
+CMAKE_BINARY_DIR = C:\Users\asus\CLionProjects\FTP-client\cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -58,7 +58,7 @@ CMAKE_BINARY_DIR = C:\Users\ye11\Documents\GitHub\FTP-lient\cmake-build-debug
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	"C:\Program Files\JetBrains\CLion 2019.3.4\bin\cmake\win\bin\cmake.exe" -E echo "No interactive CMake dialog available."
+	"D:\Program_Files\CLion 2019.1.1\bin\cmake\win\bin\cmake.exe" -E echo "No interactive CMake dialog available."
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -69,7 +69,7 @@ edit_cache/fast: edit_cache
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	"C:\Program Files\JetBrains\CLion 2019.3.4\bin\cmake\win\bin\cmake.exe" -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	"D:\Program_Files\CLion 2019.1.1\bin\cmake\win\bin\cmake.exe" -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -79,9 +79,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\ye11\Documents\GitHub\FTP-lient\cmake-build-debug\CMakeFiles C:\Users\ye11\Documents\GitHub\FTP-lient\cmake-build-debug\CMakeFiles\progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\asus\CLionProjects\FTP-client\cmake-build-debug\CMakeFiles C:\Users\asus\CLionProjects\FTP-client\cmake-build-debug\CMakeFiles\progress.marks
 	$(MAKE) -f CMakeFiles\Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\ye11\Documents\GitHub\FTP-lient\cmake-build-debug\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\asus\CLionProjects\FTP-client\cmake-build-debug\CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -216,6 +216,33 @@ ftpsock/login.cpp.s:
 	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/ftpsock/login.cpp.s
 .PHONY : ftpsock/login.cpp.s
 
+ftpsock/upload.obj: ftpsock/upload.cpp.obj
+
+.PHONY : ftpsock/upload.obj
+
+# target to build an object file
+ftpsock/upload.cpp.obj:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/ftpsock/upload.cpp.obj
+.PHONY : ftpsock/upload.cpp.obj
+
+ftpsock/upload.i: ftpsock/upload.cpp.i
+
+.PHONY : ftpsock/upload.i
+
+# target to preprocess a source file
+ftpsock/upload.cpp.i:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/ftpsock/upload.cpp.i
+.PHONY : ftpsock/upload.cpp.i
+
+ftpsock/upload.s: ftpsock/upload.cpp.s
+
+.PHONY : ftpsock/upload.s
+
+# target to generate assembly for a file
+ftpsock/upload.cpp.s:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/ftpsock/upload.cpp.s
+.PHONY : ftpsock/upload.cpp.s
+
 main.obj: main.cpp.obj
 
 .PHONY : main.obj
@@ -316,6 +343,9 @@ help:
 	@echo ... ftpsock/login.obj
 	@echo ... ftpsock/login.i
 	@echo ... ftpsock/login.s
+	@echo ... ftpsock/upload.obj
+	@echo ... ftpsock/upload.i
+	@echo ... ftpsock/upload.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s

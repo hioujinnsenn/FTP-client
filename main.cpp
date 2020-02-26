@@ -3,10 +3,11 @@
 #include <winsock.h>
 #include <iostream>
 #include <cstring>
-#include <stdio.h>
+#include <cstdio>
 #include <ftpsock/login.h>
 #include <ftpsock/ftpdata.h>
 #include <utils/utils.h>
+#include "ftpsock/upload.h"
 #define clength 400
 #define dlength 1000
 using namespace std;
@@ -71,7 +72,7 @@ int Connect_to_Server(){
      Message=message;
      cout<<Message;
 
-     
+
 
 
 
@@ -79,7 +80,6 @@ int Connect_to_Server(){
 }
 int main(int argc, char *argv[])
 {
-
     char *username=(char*)malloc(clength);
     char *password=(char*)malloc(clength);
     char *command=(char*)malloc(clength);
@@ -106,6 +106,9 @@ int main(int argc, char *argv[])
     memset(command,0,clength);
     memset(message,0,clength);
     SOCKET  DataSock=getNewSocket("127.0.0.1",newport);
-    vector<File> files=ls(sock,DataSock);
-    
+//    vector<File> files=ls(sock,DataSock);
+//    for(auto it=files.begin(); it<files.end(); it++){
+//        cout<<"name: "<<it->name<<"  type: "<<it->type<<"  path: "<<it->path<<endl;
+//    }
+    upload(sock, DataSock, "hioujinnsenn", "d:\\Desktop\\")
 }

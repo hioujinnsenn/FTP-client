@@ -33,19 +33,19 @@ cmake_force:
 SHELL = cmd.exe
 
 # The CMake executable.
-CMAKE_COMMAND = "C:\Program Files\JetBrains\CLion 2019.3.4\bin\cmake\win\bin\cmake.exe"
+CMAKE_COMMAND = "D:\Program_Files\CLion 2019.1.1\bin\cmake\win\bin\cmake.exe"
 
 # The command to remove a file.
-RM = "C:\Program Files\JetBrains\CLion 2019.3.4\bin\cmake\win\bin\cmake.exe" -E remove -f
+RM = "D:\Program_Files\CLion 2019.1.1\bin\cmake\win\bin\cmake.exe" -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\ye11\Documents\GitHub\FTP-lient
+CMAKE_SOURCE_DIR = C:\Users\asus\CLionProjects\FTP-client
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\ye11\Documents\GitHub\FTP-lient\cmake-build-debug
+CMAKE_BINARY_DIR = C:\Users\asus\CLionProjects\FTP-client\cmake-build-debug
 
 # Utility rule file for WinFtp_autogen.
 
@@ -53,8 +53,8 @@ CMAKE_BINARY_DIR = C:\Users\ye11\Documents\GitHub\FTP-lient\cmake-build-debug
 include CMakeFiles/WinFtp_autogen.dir/progress.make
 
 CMakeFiles/WinFtp_autogen:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=C:\Users\ye11\Documents\GitHub\FTP-lient\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Automatic MOC and UIC for target WinFtp"
-	"C:\Program Files\JetBrains\CLion 2019.3.4\bin\cmake\win\bin\cmake.exe" -E cmake_autogen C:/Users/ye11/Documents/GitHub/FTP-lient/cmake-build-debug/CMakeFiles/WinFtp_autogen.dir/AutogenInfo.cmake Debug
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=C:\Users\asus\CLionProjects\FTP-client\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Automatic MOC and UIC for target WinFtp"
+	"D:\Program_Files\CLion 2019.1.1\bin\cmake\win\bin\cmake.exe" -E cmake_autogen C:/Users/asus/CLionProjects/FTP-client/cmake-build-debug/CMakeFiles/WinFtp_autogen.dir/AutogenInfo.cmake Debug
 
 WinFtp_autogen: CMakeFiles/WinFtp_autogen
 WinFtp_autogen: CMakeFiles/WinFtp_autogen.dir/build.make
@@ -71,6 +71,6 @@ CMakeFiles/WinFtp_autogen.dir/clean:
 .PHONY : CMakeFiles/WinFtp_autogen.dir/clean
 
 CMakeFiles/WinFtp_autogen.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\ye11\Documents\GitHub\FTP-lient C:\Users\ye11\Documents\GitHub\FTP-lient C:\Users\ye11\Documents\GitHub\FTP-lient\cmake-build-debug C:\Users\ye11\Documents\GitHub\FTP-lient\cmake-build-debug C:\Users\ye11\Documents\GitHub\FTP-lient\cmake-build-debug\CMakeFiles\WinFtp_autogen.dir\DependInfo.cmake --color=$(COLOR)
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\asus\CLionProjects\FTP-client C:\Users\asus\CLionProjects\FTP-client C:\Users\asus\CLionProjects\FTP-client\cmake-build-debug C:\Users\asus\CLionProjects\FTP-client\cmake-build-debug C:\Users\asus\CLionProjects\FTP-client\cmake-build-debug\CMakeFiles\WinFtp_autogen.dir\DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/WinFtp_autogen.dir/depend
 

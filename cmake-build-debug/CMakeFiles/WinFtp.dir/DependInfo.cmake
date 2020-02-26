@@ -4,12 +4,13 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "C:/Users/ye11/Documents/GitHub/FTP-lient/cmake-build-debug/WinFtp_autogen/mocs_compilation.cpp" "C:/Users/ye11/Documents/GitHub/FTP-lient/cmake-build-debug/CMakeFiles/WinFtp.dir/WinFtp_autogen/mocs_compilation.cpp.obj"
-  "C:/Users/ye11/Documents/GitHub/FTP-lient/ftpsock/ftpdata.cpp" "C:/Users/ye11/Documents/GitHub/FTP-lient/cmake-build-debug/CMakeFiles/WinFtp.dir/ftpsock/ftpdata.cpp.obj"
-  "C:/Users/ye11/Documents/GitHub/FTP-lient/ftpsock/login.cpp" "C:/Users/ye11/Documents/GitHub/FTP-lient/cmake-build-debug/CMakeFiles/WinFtp.dir/ftpsock/login.cpp.obj"
-  "C:/Users/ye11/Documents/GitHub/FTP-lient/main.cpp" "C:/Users/ye11/Documents/GitHub/FTP-lient/cmake-build-debug/CMakeFiles/WinFtp.dir/main.cpp.obj"
-  "C:/Users/ye11/Documents/GitHub/FTP-lient/mainwindow.cpp" "C:/Users/ye11/Documents/GitHub/FTP-lient/cmake-build-debug/CMakeFiles/WinFtp.dir/mainwindow.cpp.obj"
-  "C:/Users/ye11/Documents/GitHub/FTP-lient/utils/utils.cpp" "C:/Users/ye11/Documents/GitHub/FTP-lient/cmake-build-debug/CMakeFiles/WinFtp.dir/utils/utils.cpp.obj"
+  "C:/Users/asus/CLionProjects/FTP-client/cmake-build-debug/WinFtp_autogen/mocs_compilation.cpp" "C:/Users/asus/CLionProjects/FTP-client/cmake-build-debug/CMakeFiles/WinFtp.dir/WinFtp_autogen/mocs_compilation.cpp.obj"
+  "C:/Users/asus/CLionProjects/FTP-client/ftpsock/ftpdata.cpp" "C:/Users/asus/CLionProjects/FTP-client/cmake-build-debug/CMakeFiles/WinFtp.dir/ftpsock/ftpdata.cpp.obj"
+  "C:/Users/asus/CLionProjects/FTP-client/ftpsock/login.cpp" "C:/Users/asus/CLionProjects/FTP-client/cmake-build-debug/CMakeFiles/WinFtp.dir/ftpsock/login.cpp.obj"
+  "C:/Users/asus/CLionProjects/FTP-client/ftpsock/upload.cpp" "C:/Users/asus/CLionProjects/FTP-client/cmake-build-debug/CMakeFiles/WinFtp.dir/ftpsock/upload.cpp.obj"
+  "C:/Users/asus/CLionProjects/FTP-client/main.cpp" "C:/Users/asus/CLionProjects/FTP-client/cmake-build-debug/CMakeFiles/WinFtp.dir/main.cpp.obj"
+  "C:/Users/asus/CLionProjects/FTP-client/mainwindow.cpp" "C:/Users/asus/CLionProjects/FTP-client/cmake-build-debug/CMakeFiles/WinFtp.dir/mainwindow.cpp.obj"
+  "C:/Users/asus/CLionProjects/FTP-client/utils/utils.cpp" "C:/Users/asus/CLionProjects/FTP-client/cmake-build-debug/CMakeFiles/WinFtp.dir/utils/utils.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -25,12 +26,12 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "."
   "../"
   "WinFtp_autogen/include"
-  "C:/Qt/Qt5.13.0/5.13.0/mingw73_64/include"
-  "C:/Qt/Qt5.13.0/5.13.0/mingw73_64/include/QtCore"
-  "C:/Qt/Qt5.13.0/5.13.0/mingw73_64/./mkspecs/win32-g++"
-  "C:/Qt/Qt5.13.0/5.13.0/mingw73_64/include/QtWidgets"
-  "C:/Qt/Qt5.13.0/5.13.0/mingw73_64/include/QtGui"
-  "C:/Qt/Qt5.13.0/5.13.0/mingw73_64/include/QtANGLE"
+  "D:/Program_Files/Qt/5.13.0/mingw73_64/include"
+  "D:/Program_Files/Qt/5.13.0/mingw73_64/include/QtCore"
+  "D:/Program_Files/Qt/5.13.0/mingw73_64/./mkspecs/win32-g++"
+  "D:/Program_Files/Qt/5.13.0/mingw73_64/include/QtWidgets"
+  "D:/Program_Files/Qt/5.13.0/mingw73_64/include/QtGui"
+  "D:/Program_Files/Qt/5.13.0/mingw73_64/include/QtANGLE"
   )
 
 # Targets to which this target links.

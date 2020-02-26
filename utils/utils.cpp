@@ -23,14 +23,14 @@ using namespace std;
 
 string SendCommand(SOCKET sock,const char*s,char* parameter)
 {
-    char*command=(char*)malloc(length);
-    memset(command,0,length);
-    char*message=(char*)malloc(length);
-    memset(message,0,length);
+    char*command=(char*)malloc(clength);
+    memset(command,0,clength);
+    char*message=(char*)malloc(clength);
+    memset(message,0,clength);
     string Message;
     sprintf(command,s,parameter);
-    send(sock,command, length,0);
-    recv(sock,message, length,0);
+    send(sock,command, clength,0);
+    recv(sock,message, clength,0);
     Message=message;
     cout<<Message;
     free(command);
@@ -41,14 +41,14 @@ string SendCommand(SOCKET sock,const char*s,char* parameter)
 /*不需要多余参数的就用这个*/
 string SendCommand(SOCKET sock,const char*s)
 {
-    char*command=(char*)malloc(length);
-    memset(command,0,length);
-    char*message=(char*)malloc(length);
-    memset(message,0,length);
+    char*command=(char*)malloc(clength);
+    memset(command,0,clength);
+    char*message=(char*)malloc(clength);
+    memset(message,0,clength);
     string Message;
     sprintf(command,s);
-    send(sock,command, length,0);
-    recv(sock,message, length,0);
+    send(sock,command, clength,0);
+    recv(sock,message, clength,0);
     Message=message;
     cout<<Message;
     free(command);
@@ -144,7 +144,10 @@ File deal_file_item(string p)
             case 4:{
 
                 //stoi不是标准函数，慎用。
-                int size=stoi(p1,0,p1.size()-1);
+//                int size=stoi(p1,0,10);
+                long size;
+                istringstream is(p1);
+                is>>size;
                 f.size= size;
                 //任何文件都计算大小，但是只有普通文件到时候才显示大小。
             };break;
@@ -170,4 +173,10 @@ string pwd(SOCKET sock)
     int j=p.find_last_of('\"');
     //注意substr的参数问题
     return p.substr(i+1,(j-i-1));
+}
+
+void cwd(SOCKET sock, SOCKET dataSock, char* dir)
+{
+    string r=SendCommand(sock, CWD, dir);
+    cout<<r;
 }

@@ -5,6 +5,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/WinFtp.dir/WinFtp_autogen/mocs_compilation.cpp.obj"
   "CMakeFiles/WinFtp.dir/ftpsock/ftpdata.cpp.obj"
   "CMakeFiles/WinFtp.dir/ftpsock/login.cpp.obj"
+  "CMakeFiles/WinFtp.dir/ftpsock/upload.cpp.obj"
   "CMakeFiles/WinFtp.dir/main.cpp.obj"
   "CMakeFiles/WinFtp.dir/mainwindow.cpp.obj"
   "CMakeFiles/WinFtp.dir/utils/utils.cpp.obj"

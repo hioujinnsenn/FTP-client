@@ -10,6 +10,7 @@
 #include <cstring>
 #include <iostream>
 #include  <vector>
+#include <sstream>
 using  namespace  std;
 #define PASV  "PASV\r\n"
 #define CWD   "CWD %s\r\n"
@@ -25,7 +26,7 @@ using  namespace  std;
 //注意List命令需要走数据接口
 #define LIST  "LIST %s\r\n"
 #define LISTCUR  "LIST\r\n"
-#define length 400
+#define clength 400
 #define Dlength 4000
 /*file：类似于linux的操作，将文件和目录都视为File*/
 
@@ -33,7 +34,7 @@ typedef struct File{
     int     type;/*1:目录，2：文件*/
     string  name;/*文件、目录名称*/
     string  path;/*完整的文件路径*/
-    int     size;/*以字节为单位，目录大小设置为0，文件目录根据实际大小确定*/
+    long     size;/*以字节为单位，目录大小设置为0，文件目录根据实际大小确定*/
 }File;
 
 typedef struct sockaddr_in sockaddr_in;
@@ -69,4 +70,6 @@ string pwd(SOCKET sock);
 vector<File> split_dir(string dirs);
 
 File deal_file_item(string p);
+
+void cwd(SOCKET sock, SOCKET dataSock, char* dir);
 #endif //WINFTP_UTILS_H
