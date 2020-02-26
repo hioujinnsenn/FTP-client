@@ -40,7 +40,7 @@ int  getNewPort(string port)
     int m=ip_rest.find_last_of(',');
     string port2=port.substr(j+1,(k-j-1));
     string port1=ip_rest.substr(m+1);
-    int numh=stoi(port1);
-    int numl=stoi(port2);
+    int numh=stoi(port1,0,10);
+    int numl=stoi(port2,0,10);
     return numh*256+numl;
 }

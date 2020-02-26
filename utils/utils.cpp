@@ -76,30 +76,39 @@ vector<File> ls(SOCKET sock,SOCKET DataSock)
     recv(DataSock,message,Dlength,0);
     string p;
     p=message;
+    //测试输出
+    cout<<p;
     free(message);
-    return split_dir(p);
+    string parent=pwd(sock);
+    return split_dir(p,parent);
 }
 
 /**
  * @details ls命令，带路径参数
  * */
-string ls(SOCKET sock,SOCKET datasock,char* dir)
+vector<File> ls(SOCKET sock,SOCKET datasock,string dir)
 {
     char* message=(char*)malloc(Dlength);
     memset(message,0,Dlength);
-    SendCommand(sock,LIST,dir);
+    char* path=(char*)malloc(Dlength);
+    memset(path,0,Dlength);
+    sprintf(path,dir.data());
+    SendCommand(sock,LIST,path);
     recv(datasock,message,Dlength,0);
     string p=message;
-    cout<<p;
+    //测试输出
+
     free(message);
-    return  p;
+    free(path);
+    string parent=pwd(sock);
+    return  split_dir(p,parent);
 }
 
 /**
  * @details 为了不复杂化接口的设计，此处的设计中，文件路径不加上绝对路径
  *           否则还得加上一个pwd命令，需要对应的sock参数。
  * */
-vector<File> split_dir(string dirs){
+vector<File> split_dir(string dirs,string parent){
     vector<File> files;
     int i=0;
     while(( i=dirs.find_first_of("\r\n"))!=-1)
@@ -107,7 +116,7 @@ vector<File> split_dir(string dirs){
         //此处正好是从0，开始前i-1个，碰巧没遇上问题
         //如果pos不是0，就需要注意第二个参数是截取的长度。
        string p=dirs.substr(0,i);
-       File f=deal_file_item(p);
+       File f=deal_file_item(p,parent);
        files.push_back(f);
        dirs=dirs.substr(i+2);
     }
@@ -119,7 +128,7 @@ vector<File> split_dir(string dirs){
  * 因此需要由前向后处理，不可从后面直接用空格截取，会只取到一小部分的文件名
  * //TODO 此处暂时只提取三个信息，目录或者文件的类别信息，，文件大小，文件名信息
  * */
-File deal_file_item(string p)
+File deal_file_item(string p,string parent)
 {
     File f;
     if(p[0]=='d')
@@ -143,13 +152,23 @@ File deal_file_item(string p)
         {
             case 4:{
 
-                //stoi不是标准函数，慎用。
-                int size=stoi(p1,0,10);
-                f.size= size;
+                //stoi不是标准函数，慎用，用流的转化就可以了
+                istringstream is(p1);
+                is>>f.size;
                 //任何文件都计算大小，但是只有普通文件到时候才显示大小。
             };break;
             case 7:{
                 //第八次分割时，文件名在最后剩下的这一部分，但这一部分可能含有空格
+                stringstream path("");
+                path<<parent;
+
+                //只有根路径时才以/结尾，其余目录均不会以/结尾，拼接路径时需要加上去
+                if(parent.size()>0&&parent[parent.size()-1]!='/')
+                {
+                    path<<'/';
+                }
+                path<<p;
+                f.path=path.str();
                 f.name=p;
             };break;
         }
@@ -165,9 +184,33 @@ File deal_file_item(string p)
 string pwd(SOCKET sock)
 {
     string p=SendCommand(sock,PWD);
-    cout<< p;
     int i=p.find_first_of('\"');
     int j=p.find_last_of('\"');
     //注意substr的参数问题
     return p.substr(i+1,(j-i-1));
+}
+
+string cwd(SOCKET sock,string path)
+{
+    char* p=(char*)malloc(Dlength);
+    memset(p,0,Dlength);
+    sprintf(p,path.data());
+    string message=  SendCommand(sock,CWD,p);
+    free(p);
+    return message;
+}
+
+long size(SOCKET sock,string filepath){
+
+    char*  path=(char*)malloc(Dlength);
+    memset(path,0,Dlength);
+    sprintf(path,filepath.data());
+    string p=SendCommand(sock,SIZE,path);
+    int i=p.find_last_of(' ');
+    string size=p.substr(i+1,(p.size()-i-3));  //p.size()-2 -(i+1)
+    istringstream  is(size);
+    long sizel;
+    is>>sizel;
+    free(path);
+    return sizel;
 }

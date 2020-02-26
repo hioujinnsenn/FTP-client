@@ -11,6 +11,7 @@
 #define dlength 1000
 using namespace std;
 /**
+ * @deprecated 弃用，仅作为一开始摸索使用，已弃用
  * @brief 连接到本地ftp服务器
  * @author 叶茂鑫
  * @details 连接到本机的127.0.0.1的21端口的ftp
@@ -77,6 +78,8 @@ int Connect_to_Server(){
 
 
 }
+
+
 int main(int argc, char *argv[])
 {
 
@@ -107,5 +110,16 @@ int main(int argc, char *argv[])
     memset(message,0,clength);
     SOCKET  DataSock=getNewSocket("127.0.0.1",newport);
     vector<File> files=ls(sock,DataSock);
-    
+    char * dir=(char*)malloc(400);
+    SendCommand(sock,PASV);
+    memset(dir,0,400);
+    sprintf(dir,"ftp");
+    ls(sock,DataSock,dir);
+    string p="ftp";
+    long sizel=size(sock,"AppleBcInstaller.log");
+    cout<<"\n";
+    cwd(sock,p);
+    memset(message,0,clength);
+    return 0;
+
 }
