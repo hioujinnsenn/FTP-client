@@ -26,7 +26,7 @@ using  namespace  std;
 //注意List命令需要走数据接口
 #define LIST  "LIST %s\r\n"
 #define LISTCUR  "LIST\r\n"
-#define length 400
+#define clength 400
 #define Dlength 4000
 /*file：类似于linux的操作，将文件和目录都视为File*/
 
