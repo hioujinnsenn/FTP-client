@@ -121,5 +121,4 @@ int main(int argc, char *argv[])
     cwd(sock,p);
     memset(message,0,clength);
     return 0;
-
 }
