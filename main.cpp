@@ -124,7 +124,7 @@ int main(int argc, char *argv[])
 //    for(auto it=files.begin(); it<files.end();it++){
 //        cout<<"name: "<<it->name<<"   type: "<<it->type<<"   path: "<<it->path<<"   size: "<<it->size<<endl;
 //    }
-    upload(sock, "hioujinnsenn", "d:\\Desktop\\convlab\\convlab.pdf");
+    upload(sock, "", "d:\\Desktop\\media.zip");
     return 0;
 
 }

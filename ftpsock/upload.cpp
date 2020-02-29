@@ -13,7 +13,7 @@ using namespace std;
  */
 string upload(SOCKET sock, string dirName, string filePath)     //上传文件到服务器
 {
-    ifstream file(filePath);  //需要上传的文件流
+    ifstream file(filePath, ios::binary);  //需要上传的文件流
     if(! file.is_open()){
         cout<<"文件打开失败！"<<endl;
         return 0;
