@@ -7,6 +7,7 @@
 #include <ftpsock/login.h>
 #include <ftpsock/ftpdata.h>
 #include <utils/utils.h>
+#include "ftpsock/upload.h"
 #define clength 400
 #define dlength 1000
 using namespace std;
@@ -98,27 +99,31 @@ int main(int argc, char *argv[])
     //登录ftp服务器的同时，获取socket
     SOCKET sock=login(username,password);
     //进入被动模式,同时获取服务器端的端口信息   被动模式下的服务器打开一个新的数据端口，服务器将数据放到自己的端口处，客户端自己来取
-    sprintf(command,"PASV\r\n");
-    send(sock,command,clength,0);
-    recv(sock,message,clength,0);
-    Message=message;
-    cout<<Message;
-    string port=message;
-    int newport=getNewPort(port);
-    cout<<newport<<endl;
-    memset(command,0,clength);
-    memset(message,0,clength);
-    SOCKET  DataSock=getNewSocket("127.0.0.1",newport);
-    vector<File> files=ls(sock,DataSock);
-    char * dir=(char*)malloc(400);
-    SendCommand(sock,PASV);
-    memset(dir,0,400);
-    sprintf(dir,"ftp");
-    ls(sock,DataSock,dir);
-    string p="ftp";
-    long sizel=size(sock,"AppleBcInstaller.log");
-    cout<<"\n";
-    cwd(sock,p);
-    memset(message,0,clength);
+//    sprintf(command,"PASV\r\n");
+//    send(sock,command,clength,0);
+//    recv(sock,message,clength,0);
+//    Message=message;
+//    cout<<Message;
+//    string port=message;
+//    int newport=getNewPort(port);
+//    cout<<newport<<endl;
+//    memset(command,0,clength);
+//    memset(message,0,clength);
+//    SOCKET  DataSock=getNewSocket("127.0.0.1",newport);
+//    vector<File> files=ls(sock,DataSock);
+//    char * dir=(char*)malloc(400);
+//    SendCommand(sock,PASV);
+//    memset(dir,0,400);
+//    sprintf(dir,"ftp");
+//    ls(sock,DataSock,dir);
+//    string p="ftp";
+//    long sizel=size(sock,"AppleBcInstaller.log");
+//    cout<<"\n";
+//    cwd(sock,p);
+//    memset(message,0,clength);
+//    for(auto it=files.begin(); it<files.end();it++){
+//        cout<<"name: "<<it->name<<"   type: "<<it->type<<"   path: "<<it->path<<"   size: "<<it->size<<endl;
+//    }
+    upload(sock, "", "d:\\Desktop\\media.zip");
     return 0;
 }

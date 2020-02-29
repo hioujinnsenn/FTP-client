@@ -23,14 +23,14 @@ using namespace std;
 
 string SendCommand(SOCKET sock,const char*s,char* parameter)
 {
-    char*command=(char*)malloc(length);
-    memset(command,0,length);
-    char*message=(char*)malloc(length);
-    memset(message,0,length);
+    char*command=(char*)malloc(clength);
+    memset(command,0,clength);
+    char*message=(char*)malloc(clength);
+    memset(message,0,clength);
     string Message;
     sprintf(command,s,parameter);
-    send(sock,command, length,0);
-    recv(sock,message, length,0);
+    send(sock,command, clength,0);
+    recv(sock,message, clength,0);
     Message=message;
     cout<<Message;
     free(command);
@@ -41,14 +41,14 @@ string SendCommand(SOCKET sock,const char*s,char* parameter)
 /*不需要多余参数的就用这个*/
 string SendCommand(SOCKET sock,const char*s)
 {
-    char*command=(char*)malloc(length);
-    memset(command,0,length);
-    char*message=(char*)malloc(length);
-    memset(message,0,length);
+    char*command=(char*)malloc(clength);
+    memset(command,0,clength);
+    char*message=(char*)malloc(clength);
+    memset(message,0,clength);
     string Message;
     sprintf(command,s);
-    send(sock,command, length,0);
-    recv(sock,message, length,0);
+    send(sock,command, clength,0);
+    recv(sock,message, clength,0);
     Message=message;
     cout<<Message;
     free(command);
