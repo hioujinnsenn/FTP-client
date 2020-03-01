@@ -8,6 +8,7 @@
 #include <ftpsock/ftpdata.h>
 #include <utils/utils.h>
 #include "ftpsock/upload.h"
+#include "ftpsock/download.h"
 #define clength 400
 #define dlength 1000
 using namespace std;
@@ -124,6 +125,9 @@ int main(int argc, char *argv[])
 //    for(auto it=files.begin(); it<files.end();it++){
 //        cout<<"name: "<<it->name<<"   type: "<<it->type<<"   path: "<<it->path<<"   size: "<<it->size<<endl;
 //    }
-    upload(sock, "", "d:\\Desktop\\media.zip");
+    long si=download(sock,"/ftp/d/12.xlsx","C:\\Users\\ye11\\Downloads\\testDownload\\12.xlsx");
+
+    cout<<"Size: "<<si;
+    cout<<"\n";
     return 0;
 }

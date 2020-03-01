@@ -37,7 +37,22 @@ string SendCommand(SOCKET sock,const char*s,char* parameter)
     free(message);
     return Message;
 }
-
+string SendCommand(SOCKET sock,const char*s,long size)
+{
+    char*command=(char*)malloc(clength);
+    memset(command,0,clength);
+    char*message=(char*)malloc(clength);
+    memset(message,0,clength);
+    string Message;
+    sprintf(command,s,size);
+    send(sock,command, clength,0);
+    recv(sock,message, clength,0);
+    Message=message;
+    cout<<Message;
+    free(command);
+    free(message);
+    return Message;
+}
 /*不需要多余参数的就用这个*/
 string SendCommand(SOCKET sock,const char*s)
 {
