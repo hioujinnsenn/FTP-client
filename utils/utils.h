@@ -17,7 +17,7 @@ using  namespace  std;
 #define RETR  "RETR %s\r\n"
 #define STOR  "STOR %s\r\n"
 //rest指令是实现断点续传的关键
-#define REST  "REST %s\r\n"
+#define REST  "REST %ld\r\n"
 #define QUIT  "QUIT\r\n"
 #define SIZE  "SIZE %s\r\n"
 #define PASS  "PASS %s\r\n"
@@ -42,6 +42,7 @@ typedef struct sockaddr_in sockaddr_in;
 /*function：发送一条指令，同时收到一条响应回复*/
 string SendCommand(SOCKET sock,const char*s, char* parameter);
 string SendCommand(SOCKET sock,const char*s);
+string SendCommand(SOCKET sock, const char*s,long size);
 
 /**
  * @details 返回本地地址，简单设置
