@@ -34,3 +34,18 @@ string closeDataSock(SOCKET sock, SOCKET dataSock)
     recv(sock, message, clength, 0);
     return message;
 }
+
+size_t getFileSize(string filePath)    //得到本地文件的大小
+{
+    ifstream file(filePath);
+    file.seekg(0, ios::end);
+    size_t size=file.tellg();
+    file.close();
+    return size;
+}
+
+size_t stringToSize_t(string s)
+{
+    size_t temp;
+    return stoul(s, &temp);     //将string转换为size_t类型，最后的参数为设置进制，默认为10。temp存储的是字符串内第一个非数字字符的序号。（序号从0始）
+}
