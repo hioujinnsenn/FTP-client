@@ -109,10 +109,14 @@ vector<File> ls(SOCKET sock,SOCKET datasock,string dir)
     memset(path,0,Dlength);
     sprintf(path,dir.data());
     SendCommand(sock,LIST,path);
+    //ls后台会产生两句返回信息，应读取完毕
+    //SendCommand只默认读取一次
     recv(datasock,message,Dlength,0);
+    char*  command_successBack=(char*)malloc(Dlength);
+    //处理返回信息
+    recv(sock,command_successBack,Dlength,0);
     string p=message;
     //测试输出
-
     free(message);
     free(path);
     string parent=pwd(sock);
@@ -228,4 +232,13 @@ long size(SOCKET sock,string filepath){
     is>>sizel;
     free(path);
     return sizel;
+}
+
+int mkdir_local(string dir)
+{
+    if(!PathIsDirectory(dir.data()))  //如果目录不存在
+    {
+        CreateDirectory(dir.data(),NULL);
+    }
+    return 0;
 }

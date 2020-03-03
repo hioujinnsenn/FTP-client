@@ -99,6 +99,9 @@ int main(int argc, char *argv[])
     sprintf(password,"123456");
     //登录ftp服务器的同时，获取socket
     SOCKET sock=login(username,password);
+    string newport=SendCommand(sock,PASV);
+    int port=getNewPort(newport);
+    SOCKET dataSocket=getNewSocket("127.0.0.1",port);
     //进入被动模式,同时获取服务器端的端口信息   被动模式下的服务器打开一个新的数据端口，服务器将数据放到自己的端口处，客户端自己来取
 //    sprintf(command,"PASV\r\n");
 //    send(sock,command,clength,0);
@@ -125,9 +128,9 @@ int main(int argc, char *argv[])
 //    for(auto it=files.begin(); it<files.end();it++){
 //        cout<<"name: "<<it->name<<"   type: "<<it->type<<"   path: "<<it->path<<"   size: "<<it->size<<endl;
 //    }
-    long si=download(sock,"/ftp/d/12.xlsx","C:\\Users\\ye11\\Downloads\\testDownload\\12.xlsx");
-
-    cout<<"Size: "<<si;
-    cout<<"\n";
+//    long si=downloadDir(sock,"/ftp/d","C:\\Users\\ye11\\Downloads\\testDownload\\jh");
+//    cout<<"Size: "<<si;
+//    cout<<"\n";
     return 0;
 }
+

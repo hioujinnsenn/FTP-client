@@ -8,5 +8,7 @@
 #include <ftpsock/ftpdata.h>
 #include <utils/utils.h>
 #include <fstream>
-int download(SOCKET socket,string Path,string storePath);
+
+long download(SOCKET socket,string Path,string storePath);
+long downloadDir(SOCKET socket,string DirPath,string storePath);
 #endif //WINFTP_DOWNLOAD_H
