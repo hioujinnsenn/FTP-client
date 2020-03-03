@@ -11,9 +11,13 @@
 #include <iostream>
 #include  <vector>
 #include <sstream>
+//引入windows的文件夹API
+#include <shlwapi.h>
+#include <queue>
 using  namespace  std;
 #define PASV  "PASV\r\n"
 #define CWD   "CWD %s\r\n"
+#define MKD    "MKD %s\r\n"
 #define RETR  "RETR %s\r\n"
 #define STOR  "STOR %s\r\n"
 //rest指令是实现断点续传的关键
@@ -75,4 +79,6 @@ File deal_file_item(string p,string parent);
 string cwd(SOCKET  sock,string path);
 
 long size(SOCKET sock,string filepath);
+
+int mkdir_local(string dir);
 #endif //WINFTP_UTILS_H
