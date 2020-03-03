@@ -125,9 +125,11 @@ int main(int argc, char *argv[])
 //    for(auto it=files.begin(); it<files.end();it++){
 //        cout<<"name: "<<it->name<<"   type: "<<it->type<<"   path: "<<it->path<<"   size: "<<it->size<<endl;
 //    }
-    long si=download(sock,"/ftp/d/12.xlsx","C:\\Users\\ye11\\Downloads\\testDownload\\12.xlsx");
-
-    cout<<"Size: "<<si;
-    cout<<"\n";
+//    long si=download(sock,"/ftp/d/12.xlsx","C:\\Users\\ye11\\Downloads\\testDownload\\12.xlsx");
+//
+//    cout<<"Size: "<<si;
+//    cout<<"\n";
+    upload(sock, "", "d:\\Desktop\\composition.md");
+    upload(sock, "", "d:\\Desktop\\test.txt");
     return 0;
 }
