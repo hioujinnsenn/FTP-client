@@ -9,11 +9,16 @@
 #include <cstdio>
 #include <string>
 #include<fstream>
+#include <io.h>
+#include <windows.h>
+//#include <sys/stat.h>
 using namespace std;
 
-string uploadFile(SOCKET sock, string uploadPath, string filePath);
+string upload(SOCKET sock, string uploadPath, string filePath);
 
-string uploadDir(SOCKET sock, string uploadPath, string dirPath);
+bool uploadFile(SOCKET sock, SOCKET dataSock, string filePath);
+
+bool uploadDir(SOCKET sock, SOCKET dataSock, string dirPath);
 
 
 #endif //WINFTP_UPLOAD_H

@@ -35,6 +35,11 @@ string closeDataSock(SOCKET sock, SOCKET dataSock)
     return message;
 }
 
+/***
+ * 输入本地文件路径，得到该本地文件的大小。返回类型为size_t（无符号64位整数），单位B
+ * @param filePath 文件路径
+ * @return 文件大小，单位B，类型size_t
+ */
 size_t getFileSize(string filePath)    //得到本地文件的大小
 {
     ifstream file(filePath);
@@ -44,6 +49,11 @@ size_t getFileSize(string filePath)    //得到本地文件的大小
     return size;
 }
 
+/***
+ * 将size返回的文件大小数据由字符串转为size_t类型
+ * @param s 字符串类型的文件大小，单位B
+ * @return size_t类型的文件大小，单位B，十进制
+ */
 size_t stringToSize_t(string s)
 {
     size_t temp;
