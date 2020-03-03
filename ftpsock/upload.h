@@ -9,7 +9,11 @@
 #include <cstdio>
 #include <string>
 #include<fstream>
+using namespace std;
 
-string upload(SOCKET socket, string dirName, string fileName);
+string uploadFile(SOCKET sock, string uploadPath, string filePath);
+
+string uploadDir(SOCKET sock, string uploadPath, string dirPath);
+
 
 #endif //WINFTP_UPLOAD_H
