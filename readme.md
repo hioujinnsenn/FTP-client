@@ -57,6 +57,9 @@ https://www.ibm.com/developerworks/cn/linux/l-cn-socketftp/
 ### 6.第四步，通过对命令端口发送命令，在数据端口接受数据
 
 ### 上传和下载
+### 7.第五步，断点续传
+下载断点续传用的REST
+上传断点续传用的APPE ＋ 文件名
 
 
 

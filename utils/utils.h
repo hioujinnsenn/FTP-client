@@ -38,14 +38,17 @@ typedef struct File{
     int     type;/*1:目录，2：文件*/
     string  name;/*文件、目录名称*/
     string  path;/*完整的文件路径*/
+    string  parent;
     long     size;/*以字节为单位，目录大小设置为0，文件目录根据实际大小确定*/
 }File;
 
 typedef struct sockaddr_in sockaddr_in;
 
 /*function：发送一条指令，同时收到一条响应回复*/
-string SendCommand(SOCKET sock,const char*s, char* parameter);
 string SendCommand(SOCKET sock,const char*s);
+
+string SendCommand(SOCKET sock,const char*s, char* parameter);
+
 string SendCommand(SOCKET sock, const char*s,long size);
 
 /**

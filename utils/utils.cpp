@@ -119,8 +119,7 @@ vector<File> ls(SOCKET sock,SOCKET datasock,string dir)
     //测试输出
     free(message);
     free(path);
-    string parent=pwd(sock);
-    return  split_dir(p,parent);
+    return  split_dir(p,dir);
 }
 
 /**
@@ -150,6 +149,7 @@ vector<File> split_dir(string dirs,string parent){
 File deal_file_item(string p,string parent)
 {
     File f;
+    f.parent=parent;
     if(p[0]=='d')
     {
         f.type=1;//目录文件

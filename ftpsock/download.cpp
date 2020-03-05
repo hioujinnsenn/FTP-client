@@ -54,13 +54,20 @@ long download(SOCKET socket,string Path,string storePath)
         }
         file.flush();
         file.close();
+        recv(socket,message,Dlength,0);
+
     }
+    free(message);
     return count;
 }
-
+/**
+ * @details 整个文件夹的下载，拷贝文件夹结构
+ * @fixed 已修复下载时的未能拷贝整个文件夹结构的问题
+ * */
 long downloadDir(SOCKET socket,string DirPath ,string storePath)
 {
     int filecount=0;
+    //创建本地文件夹
     mkdir_local(storePath);
     //进入被动模式，获取端口SOCKET
     string newport=SendCommand(socket,PASV);
@@ -82,23 +89,33 @@ long downloadDir(SOCKET socket,string DirPath ,string storePath)
             if(file.type==1)
             {
                 //目录文件。
+                //本地同步创建一个文件夹
+                //不对   已修复此处的错误。
+                string newDir=storePath;
+                string DirTail=file.path.substr(DirPath.size());
+                newDir.append(DirTail);
+                if(!PathIsDirectory(newDir.data()))
+                {
+                    //实际上并不在乎是左斜杠还是右斜杠，因此不需要修改代码
+                    CreateDirectory(newDir.data(),NULL);
+                }
                 newport=SendCommand(socket,PASV);
                 port=getNewPort(newport);
                 dataSocket=getNewSocket("127.0.0.1",port);
                 vector<File> subFileList=ls(socket,dataSocket,file.path);
                 for(int i=0;i<subFileList.size();i++)
                 {
-                    fileQueue.push(files[i]);
+                    fileQueue.push(subFileList[i]);
                 }
             } else{
                 //普通文件,下载进入被动模式，调用即可
-                stringstream storefP;
-                storefP<<storePath;
+                //路径做了对应的修正，不只是简单的使用文件名，还应该复制整个文件夹的结构
+                //还是不对路径还是错误的。
 
-                //TODO 此处具体还需要根据文件系统再定，看qt返回的文件路径的情况而定
-                storefP<<"\\";
-                storefP<<file.name;
-                download(socket,file.path,storefP.str());
+                string storefpath=storePath;
+                string DirTail=file.path.substr(DirPath.size());
+                storefpath.append(DirTail);
+                download(socket,file.path,storefpath);
                 filecount++;
             }
         }
