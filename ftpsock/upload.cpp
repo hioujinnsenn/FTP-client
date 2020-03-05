@@ -7,6 +7,7 @@
 string upload(SOCKET sock, string uploadPath, string filePath)
 {
     bool result;
+    
     SOCKET dataSock=pasv(sock);   //开启被动模式，返回数据端口socket
     SendCommand(sock, "TYPE i\r\n");
     if(! uploadPath.empty()){    //若没有指定目录，则不需要change directory
@@ -21,11 +22,12 @@ string upload(SOCKET sock, string uploadPath, string filePath)
     else{   //是文件路径
         result=uploadFile(sock, dataSock, filePath);
     }
-    string s=closeDataSock(sock, dataSock);     //关闭数据端口
-    cout<<s;
     if(result){
+        string s=closeDataSock(sock, dataSock);     //关闭数据端口
+        cout<<s;
         return "文件成功上传！";
     }
+    closesocket(dataSock);
     return "文件上传出错！";
 }
 
@@ -95,5 +97,5 @@ bool uploadFile(SOCKET sock, SOCKET dataSock, string filePath)     //上传文�
 
 bool uploadDir(SOCKET sock, SOCKET dataSock, string dirPath)    //上传文件夹到服务器指定目录下
 {
-
+    cout<<"testxixixi"<<endl;
 }
