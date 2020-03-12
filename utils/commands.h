@@ -8,6 +8,7 @@
 #include "utils.h"
 #include <ftpsock/ftpdata.h>
 #include <fstream>
+#include <shlwapi.h>
 
 #define APPE  "APPE %s\r\n"
 
@@ -18,5 +19,9 @@ string closeDataSock(SOCKET sock, SOCKET dataSock);
 size_t getFileSize(string filePath);
 
 size_t stringToSize_t(string s);
+
+void getAllFiles(string dirPath, vector<string> &files, vector<string> &names);
+
+string mkd(SOCKET sock, string path );
 
 #endif //FTP_CLIENT_COMMANDS_H

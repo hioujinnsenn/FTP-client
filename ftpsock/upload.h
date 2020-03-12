@@ -10,15 +10,14 @@
 #include <string>
 #include<fstream>
 #include <io.h>
-#include <windows.h>
-//#include <sys/stat.h>
+#include <shlwapi.h>
 using namespace std;
 
 string upload(SOCKET sock, string uploadPath, string filePath);
 
-bool uploadFile(SOCKET sock, SOCKET dataSock, string filePath);
+bool uploadFile(SOCKET sock, string uploadPath, string filePath);
 
-bool uploadDir(SOCKET sock, SOCKET dataSock, string dirPath);
+bool uploadDir(SOCKET sock, string uploadPath, string dirPath);
 
 
 #endif //WINFTP_UPLOAD_H
