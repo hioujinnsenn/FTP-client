@@ -11,5 +11,7 @@
 #include <iostream>
 #define clength 400
 #define dlength 1000
+
 SOCKET login(char* username,char*  password);
+SOCKET login(char* username,char* password,char* ip);
 #endif //WINFTP_LOGIN_H
