@@ -11,12 +11,14 @@
 #include "ftpsock/download.h"
 #include "UI/login.h"
 #include "UI/mainwindow.h"
+#include "utils/ErrorCode.h"
 #define clength 400
 #define dlength 1000
 using namespace std;
 
 
 SOCKET CommandSocket;  //全局的socket对象
+ErrorCode code;
 /**
  * @deprecated 弃用，仅作为一开始摸索使用，已弃用
  * @brief 连接到本地ftp服务器
@@ -88,7 +90,7 @@ int main(int argc, char *argv[])
    //开始编写界面逻辑测试
    //一个应用程序似乎只可以有一个MainWindow
    QApplication app(argc,argv);
-   Login login1;
-   login1.show();
+   MainWindow  mainWindow;
+   mainWindow.show();
    return app.exec();
 }

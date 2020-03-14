@@ -103,6 +103,7 @@ SOCKET login(char* username,char* password,char* ip){
         std::cout<<sm;
     } else{
         std::cout<<"连接失败";
+        code.setCode(-2);
         return -2;  //-2是网络错误
     }
     std::cout.flush();
@@ -129,6 +130,7 @@ SOCKET login(char* username,char* password,char* ip){
         free(command);
         free(message);
         //"530是密码错误码"
+        code.setCode(-1);
         return -1;
         //设计 -1 为密码错误
     }
