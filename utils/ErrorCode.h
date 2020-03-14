@@ -10,7 +10,7 @@ using namespace std;
 class ErrorCode {
 
  private:queue<int> codeQueue;
-public:
+ public:
     int getCode();
     void setCode(int code);
 };
