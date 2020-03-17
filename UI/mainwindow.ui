@@ -6,164 +6,896 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>739</width>
-    <height>639</height>
+    <width>1650</width>
+    <height>1080</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>FTP</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(201, 255, 252);</string>
+   <string notr="true">background-color: rgb(255, 255, 255);</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QLineEdit" name="lineEdit">
+   <widget class="QTabWidget" name="tabWidget">
     <property name="geometry">
      <rect>
-      <x>190</x>
-      <y>70</y>
-      <width>431</width>
-      <height>61</height>
+      <x>0</x>
+      <y>0</y>
+      <width>800</width>
+      <height>790</height>
      </rect>
     </property>
-    <property name="styleSheet">
-     <string notr="true">border-radius:10px;
-background-color: rgb(255, 255, 255);</string>
+    <property name="currentIndex">
+     <number>0</number>
     </property>
-    <property name="placeholderText">
-     <string>输入FTP服务器地址</string>
+    <property name="tabsClosable">
+     <bool>false</bool>
     </property>
+    <widget class="QWidget" name="tab">
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 255, 255);</string>
+     </property>
+     <attribute name="title">
+      <string>桌面</string>
+     </attribute>
+     <widget class="QListWidget" name="listWidget1_1">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>105</y>
+        <width>400</width>
+        <height>660</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255);
+border:5px
+</string>
+      </property>
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="editTriggers">
+       <set>QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed|QAbstractItemView::SelectedClicked</set>
+      </property>
+      <property name="selectionMode">
+       <enum>QAbstractItemView::ExtendedSelection</enum>
+      </property>
+      <property name="gridSize">
+       <size>
+        <width>400</width>
+        <height>40</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QListWidget" name="listWidget1_2">
+      <property name="geometry">
+       <rect>
+        <x>400</x>
+        <y>105</y>
+        <width>200</width>
+        <height>660</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255);
+border:5px;</string>
+      </property>
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="gridSize">
+       <size>
+        <width>200</width>
+        <height>40</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QListWidget" name="listWidget1_3">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>105</y>
+        <width>190</width>
+        <height>660</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255);
+border:5px;</string>
+      </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="gridSize">
+       <size>
+        <width>200</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="sortingEnabled">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>10</y>
+        <width>471</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:10px;
+border:1px solid;
+border-color: rgb(31, 0, 47);</string>
+      </property>
+      <property name="placeholderText">
+       <string>输入地址</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton">
+      <property name="geometry">
+       <rect>
+        <x>540</x>
+        <y>10</y>
+        <width>81</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255);
+border-radius:10px;
+border:1px solid</string>
+      </property>
+      <property name="text">
+       <string>刷新</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>65</y>
+        <width>400</width>
+        <height>40</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>文件名</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_2">
+      <property name="geometry">
+       <rect>
+        <x>400</x>
+        <y>65</y>
+        <width>200</width>
+        <height>40</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>大小</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_3">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>65</y>
+        <width>200</width>
+        <height>40</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>类型</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_2">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <attribute name="title">
+      <string>Tab 2</string>
+     </attribute>
+    </widget>
    </widget>
-   <widget class="QLabel" name="label_5">
+   <widget class="QTabWidget" name="tabWidget_2">
     <property name="geometry">
      <rect>
-      <x>150</x>
-      <y>510</y>
-      <width>451</width>
-      <height>31</height>
+      <x>850</x>
+      <y>0</y>
+      <width>800</width>
+      <height>790</height>
      </rect>
     </property>
-    <property name="contextMenuPolicy">
-     <enum>Qt::PreventContextMenu</enum>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <property name="tabsClosable">
+     <bool>false</bool>
+    </property>
+    <widget class="QWidget" name="tab_3">
+     <attribute name="title">
+      <string>远程服务器</string>
+     </attribute>
+     <widget class="QListWidget" name="listWidget2_2">
+      <property name="geometry">
+       <rect>
+        <x>400</x>
+        <y>105</y>
+        <width>200</width>
+        <height>660</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255);
+border:5px;</string>
+      </property>
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="gridSize">
+       <size>
+        <width>200</width>
+        <height>40</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QListWidget" name="listWidget2_3">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>105</y>
+        <width>190</width>
+        <height>660</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255);
+border:5px;</string>
+      </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="gridSize">
+       <size>
+        <width>200</width>
+        <height>40</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QListWidget" name="listWidget2_1">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>105</y>
+        <width>400</width>
+        <height>660</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255);
+border:5px;</string>
+      </property>
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="selectionMode">
+       <enum>QAbstractItemView::ExtendedSelection</enum>
+      </property>
+      <property name="gridSize">
+       <size>
+        <width>400</width>
+        <height>40</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_2">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>10</y>
+        <width>471</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:10px;
+border:1px solid;
+border-color: rgb(31, 0, 47);</string>
+      </property>
+      <property name="placeholderText">
+       <string>输入地址</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_2">
+      <property name="geometry">
+       <rect>
+        <x>540</x>
+        <y>10</y>
+        <width>81</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255);
+border-radius:10px;
+border:1px solid</string>
+      </property>
+      <property name="text">
+       <string>刷新</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_4">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>65</y>
+        <width>400</width>
+        <height>40</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>文件名</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_5">
+      <property name="geometry">
+       <rect>
+        <x>400</x>
+        <y>65</y>
+        <width>200</width>
+        <height>40</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>大小</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_6">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>65</y>
+        <width>200</width>
+        <height>40</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>类型</string>
+      </property>
+     </widget>
+     <zorder>listWidget2_2</zorder>
+     <zorder>listWidget2_3</zorder>
+     <zorder>listWidget2_1</zorder>
+     <zorder>pushButton_2</zorder>
+     <zorder>lineEdit_2</zorder>
+     <zorder>label_4</zorder>
+     <zorder>label_5</zorder>
+     <zorder>label_6</zorder>
+    </widget>
+    <widget class="QWidget" name="tab_4">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <attribute name="title">
+      <string>Tab 2</string>
+     </attribute>
+    </widget>
+   </widget>
+   <widget class="QPushButton" name="pushButton_upload">
+    <property name="geometry">
+     <rect>
+      <x>800</x>
+      <y>70</y>
+      <width>50</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="whatsThis">
+     <string>上传按钮</string>
     </property>
     <property name="styleSheet">
-     <string notr="true">color:rgb(255, 0, 0)；</string>
+     <string notr="true">background-color: rgb(255, 255, 255);
+border-radius:3px;</string>
     </property>
     <property name="text">
      <string/>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
+   <widget class="QPushButton" name="pushButton_download">
     <property name="geometry">
      <rect>
-      <x>70</x>
-      <y>90</y>
-      <width>91</width>
-      <height>21</height>
+      <x>800</x>
+      <y>150</y>
+      <width>50</width>
+      <height>50</height>
      </rect>
     </property>
-    <property name="text">
-     <string>FTP地址</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_3">
-    <property name="geometry">
-     <rect>
-      <x>90</x>
-      <y>280</y>
-      <width>61</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>密码</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton">
-    <property name="geometry">
-     <rect>
-      <x>230</x>
-      <y>360</y>
-      <width>141</width>
-      <height>61</height>
-     </rect>
+    <property name="whatsThis">
+     <string>下载按钮</string>
     </property>
     <property name="styleSheet">
-     <string notr="true">border-radius:10px;
-background-color: rgb(255, 255, 255);</string>
+     <string notr="true">background-color: rgb(255, 255, 255);
+border-radius:3px;</string>
     </property>
     <property name="text">
-     <string>登录</string>
+     <string/>
     </property>
    </widget>
-   <widget class="QLabel" name="label_2">
+   <widget class="QPushButton" name="pushButton_stop">
     <property name="geometry">
      <rect>
-      <x>90</x>
-      <y>190</y>
-      <width>51</width>
-      <height>21</height>
+      <x>800</x>
+      <y>250</y>
+      <width>50</width>
+      <height>50</height>
      </rect>
+    </property>
+    <property name="whatsThis">
+     <string>暂停按钮</string>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 255);
+border-radius:3px;</string>
     </property>
     <property name="text">
-     <string>用户名</string>
+     <string/>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_3">
+   <widget class="QPushButton" name="pushButton_cancel">
     <property name="geometry">
      <rect>
-      <x>190</x>
-      <y>260</y>
-      <width>431</width>
-      <height>61</height>
+      <x>800</x>
+      <y>350</y>
+      <width>50</width>
+      <height>50</height>
      </rect>
     </property>
-    <property name="styleSheet">
-     <string notr="true">border-radius:10px;
-background-color: rgb(255, 255, 255);</string>
-    </property>
-    <property name="inputMethodHints">
-     <set>Qt::ImhHiddenText|Qt::ImhNoAutoUppercase|Qt::ImhNoPredictiveText|Qt::ImhSensitiveData</set>
-    </property>
-    <property name="echoMode">
-     <enum>QLineEdit::Password</enum>
-    </property>
-    <property name="placeholderText">
-     <string>输入密码</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="lineEdit_2">
-    <property name="geometry">
-     <rect>
-      <x>190</x>
-      <y>170</y>
-      <width>431</width>
-      <height>61</height>
-     </rect>
+    <property name="whatsThis">
+     <string>取消按钮</string>
     </property>
     <property name="styleSheet">
-     <string notr="true">border-radius:10px;
-background-color: rgb(255, 255, 255);</string>
-    </property>
-    <property name="placeholderText">
-     <string>输入用户名</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_4">
-    <property name="geometry">
-     <rect>
-      <x>190</x>
-      <y>460</y>
-      <width>271</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">font: 9pt &quot;等线&quot;;</string>
+     <string notr="true">background-color: rgb(255, 255, 255);
+border-radius:3px;</string>
     </property>
     <property name="text">
-     <string>@ Created by jh、ye11</string>
+     <string/>
     </property>
+   </widget>
+   <widget class="QTabWidget" name="tabWidget_3">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>790</y>
+      <width>1650</width>
+      <height>241</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <widget class="QWidget" name="tab_transporting">
+     <attribute name="title">
+      <string>传输中</string>
+     </attribute>
+     <widget class="QListWidget" name="listWidget_name">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>31</y>
+        <width>361</width>
+        <height>161</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border:0px;</string>
+      </property>
+      <property name="gridSize">
+       <size>
+        <width>361</width>
+        <height>30</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_name">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>361</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(85, 255, 255);</string>
+      </property>
+      <property name="text">
+       <string>   名称</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_status">
+      <property name="geometry">
+       <rect>
+        <x>361</x>
+        <y>0</y>
+        <width>100</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(85, 255, 255);</string>
+      </property>
+      <property name="text">
+       <string>状态</string>
+      </property>
+     </widget>
+     <widget class="QListWidget" name="listWidget_status">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>31</y>
+        <width>100</width>
+        <height>161</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border:0px;</string>
+      </property>
+      <property name="gridSize">
+       <size>
+        <width>100</width>
+        <height>30</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_process">
+      <property name="geometry">
+       <rect>
+        <x>461</x>
+        <y>0</y>
+        <width>241</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(85, 255, 255);</string>
+      </property>
+      <property name="text">
+       <string> 进度</string>
+      </property>
+     </widget>
+     <widget class="QWidget" name="widget_2" native="true">
+      <property name="geometry">
+       <rect>
+        <x>460</x>
+        <y>31</y>
+        <width>241</width>
+        <height>161</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border:0px;</string>
+      </property>
+      <widget class="QProgressBar" name="progressBar">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>5</y>
+         <width>221</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="value">
+        <number>24</number>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QLabel" name="label_size">
+      <property name="geometry">
+       <rect>
+        <x>700</x>
+        <y>0</y>
+        <width>200</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(85, 255, 255);</string>
+      </property>
+      <property name="text">
+       <string>大小</string>
+      </property>
+     </widget>
+     <widget class="QListWidget" name="listWidget_size">
+      <property name="geometry">
+       <rect>
+        <x>701</x>
+        <y>30</y>
+        <width>200</width>
+        <height>161</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border:0px;</string>
+      </property>
+      <property name="gridSize">
+       <size>
+        <width>200</width>
+        <height>30</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_localPath">
+      <property name="geometry">
+       <rect>
+        <x>900</x>
+        <y>0</y>
+        <width>361</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(85, 255, 255);</string>
+      </property>
+      <property name="text">
+       <string>本地路径</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_remotePath">
+      <property name="geometry">
+       <rect>
+        <x>1260</x>
+        <y>0</y>
+        <width>391</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(85, 255, 255);</string>
+      </property>
+      <property name="text">
+       <string>远程路径</string>
+      </property>
+     </widget>
+     <widget class="QListWidget" name="listWidget_localPath">
+      <property name="geometry">
+       <rect>
+        <x>900</x>
+        <y>30</y>
+        <width>361</width>
+        <height>161</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border:0px;</string>
+      </property>
+      <property name="gridSize">
+       <size>
+        <width>361</width>
+        <height>30</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QListWidget" name="listWidget_remotwPath">
+      <property name="geometry">
+       <rect>
+        <x>1260</x>
+        <y>30</y>
+        <width>381</width>
+        <height>161</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border:0px;</string>
+      </property>
+      <property name="gridSize">
+       <size>
+        <width>0</width>
+        <height>30</height>
+       </size>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_finnished">
+     <attribute name="title">
+      <string>已完成</string>
+     </attribute>
+     <widget class="QLabel" name="label_fname">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>361</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(85, 255, 255);</string>
+      </property>
+      <property name="text">
+       <string>   名称</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_fstatus">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>0</y>
+        <width>100</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(85, 255, 255);</string>
+      </property>
+      <property name="text">
+       <string>状态</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_flocalPath">
+      <property name="geometry">
+       <rect>
+        <x>610</x>
+        <y>0</y>
+        <width>511</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(85, 255, 255);</string>
+      </property>
+      <property name="text">
+       <string>本地路径</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_fremotePath">
+      <property name="geometry">
+       <rect>
+        <x>1122</x>
+        <y>0</y>
+        <width>531</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(85, 255, 255);</string>
+      </property>
+      <property name="text">
+       <string>远程路径</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_fsize">
+      <property name="geometry">
+       <rect>
+        <x>460</x>
+        <y>0</y>
+        <width>151</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(85, 255, 255);</string>
+      </property>
+      <property name="text">
+       <string>大小</string>
+      </property>
+     </widget>
+     <widget class="QListWidget" name="listWidget_fname">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>31</y>
+        <width>361</width>
+        <height>161</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border:0px;</string>
+      </property>
+      <property name="gridSize">
+       <size>
+        <width>0</width>
+        <height>30</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QListWidget" name="listWidget_fstatus">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>31</y>
+        <width>100</width>
+        <height>161</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border:0px;</string>
+      </property>
+      <property name="gridSize">
+       <size>
+        <width>0</width>
+        <height>30</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QListWidget" name="listWidget_fsize">
+      <property name="geometry">
+       <rect>
+        <x>460</x>
+        <y>31</y>
+        <width>151</width>
+        <height>161</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border:0px;</string>
+      </property>
+      <property name="gridSize">
+       <size>
+        <width>0</width>
+        <height>30</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QListWidget" name="listWidget_floaclPath">
+      <property name="geometry">
+       <rect>
+        <x>611</x>
+        <y>31</y>
+        <width>511</width>
+        <height>161</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border:0px;</string>
+      </property>
+      <property name="gridSize">
+       <size>
+        <width>0</width>
+        <height>30</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QListWidget" name="listWidget_fremotePath">
+      <property name="geometry">
+       <rect>
+        <x>1130</x>
+        <y>40</y>
+        <width>511</width>
+        <height>161</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border:0px;</string>
+      </property>
+      <property name="gridSize">
+       <size>
+        <width>0</width>
+        <height>30</height>
+       </size>
+      </property>
+     </widget>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -171,8 +903,8 @@ background-color: rgb(255, 255, 255);</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>739</width>
-     <height>37</height>
+     <width>1650</width>
+     <height>34</height>
     </rect>
    </property>
   </widget>
