@@ -15,7 +15,7 @@ add_executable(WinFtp main.cpp
         ftpsock/login.h ftpsock/ftpdata.cpp ftpsock/ftpdata.h
         utils/utils.cpp utils/utils.h ftpsock/download.cpp ftpsock/download.h
         utils/commands.cpp  utils/commands.h ftpsock/upload.cpp  UI/login.h  UI/login.cpp
-        ftpsock/upload.h utils/ErrorCode.cpp utils/ErrorCode.h)
+        ftpsock/upload.h utils/ErrorCode.cpp utils/ErrorCode.h )
 target_link_libraries(WinFtp Qt5::Core)
 target_link_libraries(WinFtp Qt5::Widgets)
 target_link_libraries(WinFtp wsock32 shlwapi)

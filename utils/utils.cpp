@@ -214,7 +214,7 @@ string cwd(SOCKET sock,string path)
     char* p=(char*)malloc(Dlength);
     memset(p,0,Dlength);
     sprintf(p,path.data());
-    string message=  SendCommand(sock,CWD,p);
+    string message=  SendCommand(sock,CWD,p);  //只处理掉一条信息
     free(p);
     return message;
 }
@@ -241,4 +241,18 @@ int mkdir_local(string dir)
         CreateDirectory(dir.data(),NULL);
     }
     return 0;
+}
+
+int rename(SOCKET  sock,string oldname,string newname){
+    char* old=(char*)malloc(Dlength);
+    char* newName=(char*)malloc(Dlength);
+    memset(old,0,Dlength);
+    memset(old,0,Dlength);
+    sprintf(old,oldname.data());
+    sprintf(newName,newname.data());
+    SendCommand(sock,RNFR,old);
+    SendCommand(sock,RNTO,newName);
+    free(old);
+    free(newName);
+
 }

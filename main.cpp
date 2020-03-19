@@ -35,29 +35,30 @@ int main(int argc, char *argv[])
    QDir dir("c:/");
 
    QFileInfoList list=dir.entryInfoList();
-   for(int i=0;i<list.size();i++)
-   {
-       File file;
-       if(list[i].isFile())
-       {
-           file.size=list[i].size();
-           file.name=list[i].fileName().toStdString();
-           file.path=list[i].path().toStdString();
-           file.type=2; //普通文件
-       }
-       else{
-           file.path=list[i].path().toStdString();
-           file.name=list[i].fileName().toStdString();
-           file.type=1; //目录文件
-       }
-       localFiles.push_back(file);
-   }
+    for(int i=0;i<list.size();i++)
+    {
+        File file;
+        if(list[i].isFile())
+        {
+            file.size=list[i].size();
+            file.name=list[i].fileName().toStdString();
+            file.path=list[i].path().toStdString();
+            file.type=2; //普通文件
+        }
+        else{
+            file.path=list[i].path().toStdString();
+            file.name=list[i].fileName().toStdString();
+            file.type=1; //目录文件
+        }
+        localFiles.push_back(file);
+    }
    Login login1;
    login1.show();
    app.exec();
    if(login_status==1)    //登录成功
    {
        MainWindow mainWindow;
+       mainWindow.local_pwd="c:/";
        mainWindow.show();
        app.exec(); //可以再次使用app.exec进行重新执行
    }

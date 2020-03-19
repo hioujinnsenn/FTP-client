@@ -32,6 +32,8 @@ using  namespace  std;
 #define LISTCUR  "LIST\r\n"
 #define clength 400
 #define Dlength 4000
+#define RNFR   "RNFR %s\r\n"
+#define RNTO   "RNTO %s\r\n"
 /*file：类似于linux的操作，将文件和目录都视为File*/
 
 typedef struct File{
@@ -84,4 +86,5 @@ string cwd(SOCKET  sock,string path);
 long size(SOCKET sock,string filepath);
 
 int mkdir_local(string dir);
+int rename(SOCKET  sock,string oldname,string newname);
 #endif //WINFTP_UTILS_H
