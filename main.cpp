@@ -38,16 +38,16 @@ int main(int argc, char *argv[])
     for(int i=0;i<list.size();i++)
     {
         File file;
-        if(list[i].isFile())
+        if(list.operator[](i).isFile())
         {
-            file.size=list[i].size();
-            file.name=list[i].fileName().toStdString();
-            file.path=list[i].path().toStdString();
+            file.size=list.operator[](i).size();
+            file.name=list.operator[](i).fileName().toStdString();
+            file.path=list.operator[](i).absoluteFilePath().toStdString();
             file.type=2; //普通文件
         }
         else{
-            file.path=list[i].path().toStdString();
-            file.name=list[i].fileName().toStdString();
+            file.path=list.operator[](i).absoluteFilePath().toStdString();
+            file.name=list.operator[](i).fileName().toStdString();
             file.type=1; //目录文件
         }
         localFiles.push_back(file);

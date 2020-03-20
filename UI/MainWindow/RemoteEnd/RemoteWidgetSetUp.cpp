@@ -66,8 +66,18 @@ void MainWindow::on_listWidget2_1_itemClicked(QListWidgetItem *item)
 //远程端的item修改名称
 void MainWindow::on_remote_list_edited(QWidget *editor) {
 
+
     string newName=((QLineEdit*)editor)->text().toStdString();
-    rename(CommandSocket,remote_lastItemName,newName);
+    QListWidgetItem * item=ui->listWidget2_1->currentItem();
+    if(item->data(Qt::UserRole+1).toInt()==1)
+    {
+        // 新建的项
+        cwd(CommandSocket,remote_pwd);
+        mkd(CommandSocket,newName);
+
+    } else {
+        rename(CommandSocket, remote_lastItemName, newName);
+    }
 
     char*  message=(char*)malloc(Dlength);
     memset(message,0,Dlength);
@@ -99,7 +109,7 @@ void MainWindow::on_lineEdit_2_returnPressed()
     SOCKET datasock=pasv(CommandSocket);
     vector<File> list=ls(CommandSocket,datasock);
     setupList(ui->listWidget2_1,ui->listWidget2_2,ui->listWidget2_3,list);
-
+    remote_pwd=pwd(CommandSocket);
 }
 
 

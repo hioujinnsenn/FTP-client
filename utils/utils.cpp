@@ -256,3 +256,20 @@ int rename(SOCKET  sock,string oldname,string newname){
     free(newName);
 
 }
+
+int del(SOCKET sock,string name){
+    char* message=(char*)malloc(Dlength);
+    memset(message,0,Dlength);
+    sprintf(message,name.data());
+    SendCommand(sock,DELE,message);
+    free(message);
+    return 0;
+}
+int rmd(SOCKET sock,string path){
+    char* message=(char*)malloc(Dlength);
+    memset(message,0,Dlength);
+    sprintf(message,path.data());
+    SendCommand(sock,RMD,message);
+    free(message);
+    return 0;
+}

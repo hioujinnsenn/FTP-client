@@ -27,3 +27,21 @@ void MainWindow::on_localMenu_addDir_triggered() {
     ui->listWidget1_1->editItem(item);
 }
 
+//点击右键菜单中的删除
+void  MainWindow::on_localMenu_delItem_triggered() {
+
+  QListWidgetItem *item=ui->listWidget1_1->currentItem();
+  QDir dir(local_pwd.data());
+  //直接删除对应的文件或者文件夹即可
+  QString  path=item->text();
+  if(item->data(Qt::UserRole+2)==1)
+  {  //是一个文件夹
+      dir.rmdir(path);
+  } else{
+      //移除文件
+      dir.remove(path);
+  }
+
+  LocalRefresh();
+}
+

@@ -20,6 +20,8 @@ using  namespace  std;
 #define MKD    "MKD %s\r\n"
 #define RETR  "RETR %s\r\n"
 #define STOR  "STOR %s\r\n"
+#define DELE   "DELE %s\r\n"
+#define RMD   "RMD %s\r\n"
 //rest指令是实现断点续传的关键
 #define REST  "REST %ld\r\n"
 #define QUIT  "QUIT\r\n"
@@ -87,4 +89,6 @@ long size(SOCKET sock,string filepath);
 
 int mkdir_local(string dir);
 int rename(SOCKET  sock,string oldname,string newname);
+int del(SOCKET sock,string name);
+int rmd(SOCKET sock,string dir);
 #endif //WINFTP_UTILS_H

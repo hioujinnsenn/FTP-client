@@ -41,16 +41,26 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(delegate,SIGNAL(commitData(QWidget*)),this,SLOT(on_local_list_edited(QWidget*)));
     ui->listWidget1_1->setItemDelegate(delegate);
 
+    //远程端代理，处理编辑事件
     QItemDelegate* remoteDelegate=new QItemDelegate(ui->listWidget2_1);
     connect(remoteDelegate,SIGNAL(commitData(QWidget*)),this,SLOT(on_remote_list_edited(QWidget*)));
     ui->listWidget2_1->setItemDelegate(remoteDelegate);
 
-
+    //本地右键菜单设置
     QAction *addDir=new QAction("新建文件夹",ui->listWidget1_1);
     QAction *delItem=new QAction("删除",ui->listWidget1_1);
     connect(addDir,SIGNAL(triggered()),this,SLOT(on_localMenu_addDir_triggered()));
+    connect(delItem,SIGNAL(triggered()),this,SLOT(on_localMenu_delItem_triggered()));
     ui->listWidget1_1->addAction(addDir);
     ui->listWidget1_1->addAction(delItem);
+
+    //远程右键菜单设置
+    QAction *remoteAddDir=new QAction("新建文件夹",ui->listWidget2_1);
+    QAction *remoteDelItem=new QAction("删除",ui->listWidget2_1);
+    connect(remoteAddDir,SIGNAL(triggered()),this,SLOT(on_remoteMenu_addDir_triggered()));
+    connect(remoteDelItem,SIGNAL(triggered()),this,SLOT(on_remoteMenu_delItem_triggered()));
+    ui->listWidget2_1->addAction(remoteAddDir);
+    ui->listWidget2_1->addAction(remoteDelItem);
 
 }
 
@@ -96,17 +106,6 @@ void MainWindow::setupList(QListWidget* w1,QListWidget *w2,QListWidget*w3,vector
     {
         if(lists[i].type==1)
         {
-            //目录文件
-            //以下代码错误的原因在于是栈内的局部变量，被销毁
-//            QListWidgetItem item1,item2,item3;
-//            item1.setText(lists[i].name.data());
-//            item3.setText("系统文件夹");
-//            item2.setText("");
-//            QIcon icon("UI/resoucre/icon/48/dir.png");
-//            item1.setIcon(icon);
-//            w1->addItem(&item1);
-//            w2->addItem(&item2);
-//            w3->addItem(&item3);
              if(lists[i].name==".")
                 continue;
               QListWidgetItem*i1=new QListWidgetItem(w1);
@@ -114,6 +113,8 @@ void MainWindow::setupList(QListWidget* w1,QListWidget *w2,QListWidget*w3,vector
               i1->setData(Qt::UserRole,path);
               QVariant isNew=0;
               i1->setData(Qt::UserRole+1,isNew);
+              QVariant isDir=1;
+              i1->setData(Qt::UserRole+2,isDir);
               QListWidgetItem*i2=new QListWidgetItem(w2);
               QListWidgetItem*i3=new QListWidgetItem(w3);
               //去掉当前目录的项
@@ -130,6 +131,8 @@ void MainWindow::setupList(QListWidget* w1,QListWidget *w2,QListWidget*w3,vector
             i1->setData(Qt::UserRole,path);
             QVariant isNew=0;
             i1->setData(Qt::UserRole+1,isNew);
+            QVariant isDir=0;
+            i1->setData(Qt::UserRole+2,isDir);
             QListWidgetItem*i2=new QListWidgetItem(w2);
             QListWidgetItem*i3=new QListWidgetItem(w3);
             i1->setText(lists[i].name.data());
@@ -182,11 +185,11 @@ void MainWindow::QFileInfoListToVector(QFileInfoList *qlist, vector<File> *list)
         {
             file.size=qlist->operator[](i).size();
             file.name=qlist->operator[](i).fileName().toStdString();
-            file.path=qlist->operator[](i).path().toStdString();
+            file.path=qlist->operator[](i).absoluteFilePath().toStdString();
             file.type=2; //普通文件
         }
         else{
-            file.path=qlist->operator[](i).path().toStdString();
+            file.path=qlist->operator[](i).absoluteFilePath().toStdString();
             file.name=qlist->operator[](i).fileName().toStdString();
             file.type=1; //目录文件
         }

@@ -81,6 +81,12 @@ private slots:
 
      void on_localMenu_addDir_triggered();
 
+     void on_localMenu_delItem_triggered();
+
+     void on_remoteMenu_addDir_triggered();
+
+    void on_remoteMenu_delItem_triggered();
+
 
 
 private:
