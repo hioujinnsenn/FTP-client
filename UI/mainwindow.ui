@@ -48,6 +48,9 @@
         <height>660</height>
        </rect>
       </property>
+      <property name="contextMenuPolicy">
+       <enum>Qt::ActionsContextMenu</enum>
+      </property>
       <property name="styleSheet">
        <string notr="true">background-color: rgb(255, 255, 255);
 border:5px
@@ -294,6 +297,9 @@ border:5px;</string>
         <width>400</width>
         <height>660</height>
        </rect>
+      </property>
+      <property name="contextMenuPolicy">
+       <enum>Qt::ActionsContextMenu</enum>
       </property>
       <property name="styleSheet">
        <string notr="true">background-color: rgb(255, 255, 255);

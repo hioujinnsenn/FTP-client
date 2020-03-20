@@ -11,6 +11,15 @@
 #include <QListWidgetItem>
 #include <vector>
 #include <QItemDelegate>
+#include <QMenu>
+#include "utils/resource.h"
+#include "utils/utils.h"
+#include "ftpsock/login.h"
+#include "UI/login.h"
+#include <QTableView>
+#include <QScrollBar>
+#include <QListWidget>
+#include <QAction>
 extern  vector<File> localFiles;
 namespace Ui {
 class MainWindow;
@@ -69,6 +78,10 @@ private slots:
      void on_listWidget2_1_itemDoubleClicked(QListWidgetItem *item);
 
      void on_listWidget2_1_itemClicked(QListWidgetItem *item);
+
+     void on_localMenu_addDir_triggered();
+
+
 
 private:
     Ui::MainWindow *ui;

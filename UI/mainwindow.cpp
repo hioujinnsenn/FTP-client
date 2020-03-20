@@ -1,12 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "utils/utils.h"
-#include "ftpsock/login.h"
-#include "UI/login.h"
-#include <QTableView>
-#include <QScrollBar>
-#include <QListWidgetItem>
-#include <QListWidget>
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -50,6 +44,14 @@ MainWindow::MainWindow(QWidget *parent) :
     QItemDelegate* remoteDelegate=new QItemDelegate(ui->listWidget2_1);
     connect(remoteDelegate,SIGNAL(commitData(QWidget*)),this,SLOT(on_remote_list_edited(QWidget*)));
     ui->listWidget2_1->setItemDelegate(remoteDelegate);
+
+
+    QAction *addDir=new QAction("新建文件夹",ui->listWidget1_1);
+    QAction *delItem=new QAction("删除",ui->listWidget1_1);
+    connect(addDir,SIGNAL(triggered()),this,SLOT(on_localMenu_addDir_triggered()));
+    ui->listWidget1_1->addAction(addDir);
+    ui->listWidget1_1->addAction(delItem);
+
 }
 
 //   两个辅助函数，应设计进类中
@@ -108,7 +110,10 @@ void MainWindow::setupList(QListWidget* w1,QListWidget *w2,QListWidget*w3,vector
              if(lists[i].name==".")
                 continue;
               QListWidgetItem*i1=new QListWidgetItem(w1);
-
+              QVariant path=QString(lists[i].path.data());
+              i1->setData(Qt::UserRole,path);
+              QVariant isNew=0;
+              i1->setData(Qt::UserRole+1,isNew);
               QListWidgetItem*i2=new QListWidgetItem(w2);
               QListWidgetItem*i3=new QListWidgetItem(w3);
               //去掉当前目录的项
@@ -121,6 +126,10 @@ void MainWindow::setupList(QListWidget* w1,QListWidget *w2,QListWidget*w3,vector
 
         } else{
             QListWidgetItem*i1=new QListWidgetItem(w1);
+            QVariant path=QString(lists[i].path.data());
+            i1->setData(Qt::UserRole,path);
+            QVariant isNew=0;
+            i1->setData(Qt::UserRole+1,isNew);
             QListWidgetItem*i2=new QListWidgetItem(w2);
             QListWidgetItem*i3=new QListWidgetItem(w3);
             i1->setText(lists[i].name.data());
@@ -143,43 +152,6 @@ void MainWindow::setupList(QListWidget* w1,QListWidget *w2,QListWidget*w3,vector
 
 
 }
-// NOTE :list2_3是服务器端widget的第三个，也就是最后一个
-void MainWindow::on_list2_3_scrollBar_value_changed(int action) {
-     ui->listWidget2_1->verticalScrollBar()->setValue(action);
-     ui->listWidget2_2->verticalScrollBar()->setValue(action);
-}
-
-// note :本地端
-void MainWindow::on_list1_3_scrollBar_value_changed(int action) {
-    ui->listWidget1_1->verticalScrollBar()->setValue(action);
-    ui->listWidget1_2->verticalScrollBar()->setValue(action);
-}
-
-//对文件列表进行选择时的回调函数
-void MainWindow::on_listWidget1_1_itemSelectionChanged()
-{
-   QList<QListWidgetItem*> list=this->ui->listWidget1_1->selectedItems();
-   for(int  i=0;i<list.size();i++)
-   {
-       cout<<list[i]->text().toStdString()<<endl;
-   }
-}
-
-void MainWindow::on_listWidget1_1_itemDoubleClicked(QListWidgetItem *item) {
-    string text=item->text().toStdString();
-    QDir dir(local_pwd.data());
-    int p=dir.cd(text.data());
-    if(p==1)
-    {
-        //是一个目录的话并且切换成功的话
-        QFileInfoList qlist=dir.entryInfoList();
-        QFileInfoListToVector(&qlist,&localList);
-        setupList(ui->listWidget1_1,ui->listWidget1_2,ui->listWidget1_3,localList);
-        this->update();
-        // IMPORTANT ： 要再次写回
-        local_pwd=dir.path().toStdString();
-    }
-}
 void MainWindow::on_pushButton_upload_clicked()
 {
 
@@ -198,27 +170,6 @@ void MainWindow::on_pushButton_stop_clicked()
 void MainWindow::on_pushButton_cancel_clicked()
 {
 
-}
-
-
-// NOTE ：本地地址栏，跳转是按return
-void MainWindow::on_lineEdit_returnPressed()
-{
-    QDir dir(local_pwd.data());
-    string newAddress=ui->lineEdit->text().toStdString();
-    int p=dir.cd(newAddress.data());   //如果是一个目录无论是一个相对目录还是绝对目录，cd成功返回1. 失败则返回0
-    if(p==1)
-    {
-            QFileInfoList qlist = dir.entryInfoList();
-            QFileInfoListToVector(&qlist, &localList);
-            setupList(ui->listWidget1_1, ui->listWidget1_2, ui->listWidget1_3, localList);
-            this->update();
-            // IMPORTANT ： 要再次写回
-            local_pwd = dir.path().toStdString();
-    } else{
-        ui->lineEdit->setText("");
-        ui->lineEdit->setPlaceholderText("请检查地址是否正确");
-    }
 }
 
 void MainWindow::QFileInfoListToVector(QFileInfoList *qlist, vector<File> *list) {
@@ -241,136 +192,4 @@ void MainWindow::QFileInfoListToVector(QFileInfoList *qlist, vector<File> *list)
         }
         list->push_back(file);
     }
-}
-
-// NOTE 文件列表单击事件处理,设置可以被编辑
-void MainWindow::on_listWidget1_1_itemClicked(QListWidgetItem *item)
-{
-     item->setFlags(item->flags() | Qt::ItemIsEditable);
-     //设置可编辑
-     local_lastItemName=item->text().toStdString();
-}
-
-
-void MainWindow::on_local_list_edited(QWidget *editor) {
-    string NewText=((QLineEdit*)editor)->text().toStdString();
-    if(NewText.size()>0)
-    {
-        //重命名文件
-        QDir dir(local_pwd.data());
-        dir.rename(local_lastItemName.data(),NewText.data());
-        LocalRefresh();
-    }
-}
-
-/**
- * @details 刷新本地文件窗口的函数
- *          使用时机：点击刷新按钮、重命名文件、下载文件完成
- * */
-void MainWindow::LocalRefresh() {
-    QDir dir(local_pwd.data());
-    QFileInfoList qlist=dir.entryInfoList();
-    QFileInfoListToVector(&qlist,&localList);
-    setupList(ui->listWidget1_1,ui->listWidget1_2,ui->listWidget1_3,localList);
-    this->update();
-}
-
-
-//  本地刷新按钮
-void MainWindow::on_pushButton_clicked()
-{
-    LocalRefresh();
-}
-
-//   远程地址栏
-void MainWindow::on_lineEdit_2_returnPressed()
-{
-   string newAddress=ui->lineEdit_2->text().toStdString();
-
-   //切换地址,cwd会产生比较多的返回信息，需要进行处理。
-   cwd(CommandSocket,newAddress);
-   char*  message=(char*)malloc(Dlength);
-   memset(message,0,Dlength);
-   recv(CommandSocket,message,Dlength,0);
-   cout<<message;
-   free(message);   //清理残余信息
-   cout.flush();
-   SOCKET datasock=pasv(CommandSocket);
-   vector<File> list=ls(CommandSocket,datasock);
-   setupList(ui->listWidget2_1,ui->listWidget2_2,ui->listWidget2_3,list);
-
-}
-
-
-//   远程刷新按钮
-void MainWindow::on_pushButton_2_clicked()
-{
-    char*  message=(char*)malloc(Dlength);
-    memset(message,0,Dlength);
-    recv(CommandSocket,message,Dlength,0);
-    cout<<message;
-    free(message);   //清理残余信息
-
-    SOCKET datasock=pasv(CommandSocket);
-    vector<File> serverList=ls(CommandSocket,datasock);
-    File parent;
-    parent.type=1;
-    parent.name="..";
-    parent.path="..";
-    serverList.insert(serverList.begin(),parent);
-    setupList(ui->listWidget2_1,ui->listWidget2_2,ui->listWidget2_3,serverList);
-}
-
-
-void MainWindow::on_listWidget2_1_itemSelectionChanged()
-{
-
-}
-
-//  远程窗口的列表项双击
-void MainWindow::on_listWidget2_1_itemDoubleClicked(QListWidgetItem *item) {
-    char*  message=(char*)malloc(Dlength);
-    memset(message,0,Dlength);
-    recv(CommandSocket,message,Dlength,0);
-    cout<<message;
-    free(message);   //清理残余信息
-    string name=item->text().toStdString();
-    string returnInfo =cwd(CommandSocket,name);
-    SOCKET datasock=pasv(CommandSocket);
-    vector<File> serverList=ls(CommandSocket,datasock);
-    File parent;
-    parent.type=1;
-    parent.name="..";
-    parent.path="..";
-    serverList.insert(serverList.begin(),parent);
-    setupList(ui->listWidget2_1,ui->listWidget2_2,ui->listWidget2_3,serverList);
-    remote_pwd=pwd(CommandSocket);   //更新远程目录
-}
-
-
-void MainWindow::on_listWidget2_1_itemClicked(QListWidgetItem *item)
-{
-    item->setFlags(item->flags()|Qt::ItemIsEditable);
-    remote_lastItemName=item->text().toStdString();      //远程当前选中名称
-}
-
-//远程端的item修改名称
-void MainWindow::on_remote_list_edited(QWidget *editor) {
-
-    string newName=((QLineEdit*)editor)->text().toStdString();
-    rename(CommandSocket,remote_lastItemName,newName);
-
-    char*  message=(char*)malloc(Dlength);
-    memset(message,0,Dlength);
-    recv(CommandSocket,message,Dlength,0);
-    cout<<message;
-    free(message);   //清理残余信息
-    SOCKET datasock=pasv(CommandSocket);
-    vector<File> serverList=ls(CommandSocket,datasock);
-    File parent;
-    parent.type=1;
-    parent.name="..";
-    parent.path="..";
-    serverList.insert(serverList.begin(),parent);
-    setupList(ui->listWidget2_1,ui->listWidget2_2,ui->listWidget2_3,serverList);
 }
