@@ -87,9 +87,7 @@ vector<File> ls(SOCKET sock,SOCKET DataSock)
 {
     char* message=(char*)malloc(Dlength);
     memset(message,0,Dlength);
-    char* resmessage=(char*)malloc(Dlength);
     SendCommand(sock,LISTCUR);
-    recv(sock,resmessage,Dlength,0);
     recv(DataSock,message,Dlength,0);
     string p;
     p=message;

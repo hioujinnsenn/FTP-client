@@ -60,7 +60,6 @@ string uploadThread::upload(SOCKET sock, string filePath)
 bool uploadThread::uploadFile(SOCKET sock, string filePath)     //上传文件到服务器
 {
     SendCommand(sock, "TYPE i\r\n");
-
     SOCKET dataSock=pasv(sock);   //开启被动模式，返回数据端口socket
 //    if(! uploadPath.empty()){    //若没有指定目录，则不需要change directory
 //        string r=cwd(sock, uploadPath);   //改变服务器工作目录
