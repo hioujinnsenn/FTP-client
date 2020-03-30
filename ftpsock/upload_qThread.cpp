@@ -151,6 +151,7 @@ bool uploadThread::uploadFile(SOCKET sock, string filePath)     //上传文件�
     free(fileName);
     string s=closeDataSock(sock, dataSock);     //关闭数据端口
     cout<<s;
+    flush(cout);
     return true;
 }
 

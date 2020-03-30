@@ -1,3 +1,4 @@
+#include <QtWidgets/QProgressBar>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
@@ -172,14 +173,21 @@ void MainWindow::on_pushButton_upload_clicked() //点击上传
         QListWidgetItem* i_progress=new QListWidgetItem(ui->listWidget_progress);   //文件上传进度
         QWidget* w=new QWidget(ui->listWidget_progress);
         QProgressBar* progressBar=new QProgressBar(w);  //item内插入进度条
+        progressBar->setGeometry(QRect(470, 31+161*i, 171, 31));
+        progressBar->setValue(0);
         QPushButton* pushButton_pause=new QPushButton(w);   //item插入暂停/继续按钮
+        pushButton_pause->setGeometry(QRect(670, 31+161*i, 31, 31));
         QIcon pause("../UI/resoucre/icon/48/stop.png");
         pushButton_pause->setIcon(pause);
         QPushButton* pushButton_terminate=new QPushButton(w);   //item插入终止按钮
+        pushButton_terminate->setGeometry(QRect(720, 31+161*i, 31, 31));
         QIcon terminate("../UI/resoucre/icon/48/cancel.png");
         pushButton_terminate->setIcon(terminate);
+//        progressBar->raise();
+//        pushButton_pause->raise();
+//        pushButton_terminate->raise();
         QListWidgetItem* i_size=new QListWidgetItem(ui->listWidget_size);   //文件大小
-        i_size->setText(files[i]->data(Qt::UserRole+3).toString());
+        i_size->setText(files[i]->data(Qt::UserRole+3).toString()+"B");
     }
     uploadThread* thread=new uploadThread(CommandSocket, paths);  //创建一个线程，用于完成后台的上传任务，防止页面卡死
     thread->start();

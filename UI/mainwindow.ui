@@ -718,7 +718,7 @@ border-radius:3px;</string>
       <property name="geometry">
        <rect>
         <x>470</x>
-        <y>50</y>
+        <y>31</y>
         <width>171</width>
         <height>31</height>
        </rect>
@@ -731,7 +731,7 @@ border-radius:3px;</string>
       <property name="geometry">
        <rect>
         <x>670</x>
-        <y>49</y>
+        <y>31</y>
         <width>31</width>
         <height>31</height>
        </rect>
@@ -744,7 +744,7 @@ border-radius:3px;</string>
       <property name="geometry">
        <rect>
         <x>720</x>
-        <y>50</y>
+        <y>31</y>
         <width>31</width>
         <height>31</height>
        </rect>
@@ -753,6 +753,21 @@ border-radius:3px;</string>
        <string>PushButton</string>
       </property>
      </widget>
+     <zorder>listWidget_progress</zorder>
+     <zorder>listWidget_name</zorder>
+     <zorder>label_name</zorder>
+     <zorder>label_status</zorder>
+     <zorder>listWidget_status</zorder>
+     <zorder>label_process</zorder>
+     <zorder>label_size</zorder>
+     <zorder>listWidget_size</zorder>
+     <zorder>label_localPath</zorder>
+     <zorder>label_remotePath</zorder>
+     <zorder>listWidget_localPath</zorder>
+     <zorder>listWidget_remotwPath</zorder>
+     <zorder>pushButton_pause</zorder>
+     <zorder>progressBar</zorder>
+     <zorder>pushButton_terminate</zorder>
     </widget>
     <widget class="QWidget" name="tab_finnished">
      <attribute name="title">
