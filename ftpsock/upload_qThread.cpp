@@ -1,7 +1,29 @@
 //
-// Created by asus on 2020/2/24.
+// Created by asus on 2020/3/20.
 //
-#include "upload.h"
+
+#include "upload_qThread.h"
+#include <QDebug>
+#include "ftpsock/upload.h"
+
+uploadThread::uploadThread(SOCKET sock, vector<string> filePath) //构造器
+{
+    this->sock=sock;
+    this->filePath.assign(filePath.begin(), filePath.end());
+}
+
+uploadThread::~uploadThread()   //析构器
+{
+    qDebug()<<"uploadThread::~uploadThread";
+}
+
+void uploadThread::run()
+{
+    for(int i=0; i<filePath.size(); i++){
+        string path=filePath.at(i);
+        upload(sock, path);
+    }
+}
 
 /***
  * 上传的主函数
@@ -10,13 +32,15 @@
  * @param filePath 所需上传的文件所在本地路径
  * @return 返回参数可修改，目前为string
  */
-string upload(SOCKET sock, string filePath)
+string uploadThread::upload(SOCKET sock, string filePath)
 {
     bool result;
     if(PathIsDirectory(filePath.data())){   //是目录路径
+        isDir=true;
         result=uploadDir(sock, filePath);
     }
     else{   //是文件路径
+        isDir=false;
         result=uploadFile(sock, filePath);
     }
     if(result){
@@ -33,7 +57,7 @@ string upload(SOCKET sock, string filePath)
  * @return 执行的结果以字符串形式返回并打印
  * offset参数可作为上传进度的参考值，与sizeLocal的比值即可判断上传进度
  */
-bool uploadFile(SOCKET sock, string filePath)     //上传文件到服务器
+bool uploadThread::uploadFile(SOCKET sock, string filePath)     //上传文件到服务器
 {
     SendCommand(sock, "TYPE i\r\n");
     SOCKET dataSock=pasv(sock);   //开启被动模式，返回数据端口socket
@@ -49,6 +73,7 @@ bool uploadFile(SOCKET sock, string filePath)     //上传文件到服务器
     int i=(filePath.find_last_of('\\')!=string::npos) ? filePath.find_last_of('\\') : filePath.find_last_of('/');  //找到文件名前的分隔符
     sprintf(fileName, filePath.substr(i+1, string::npos).c_str());  //得到所需上传的文件名
     size_t offset=0;  //文件写偏移量，用于断点续传。文件内容格式：一个断点文件一行，【文件路径 上传偏移量】中间空格隔开
+    int progress=0;     //通过offset/
 
     fstream logFile("upload.log");  //用于记录上传断点情况，例如手动停止、断网等情况
     size_t logPosition=0; //日志中文件所在的位置
@@ -101,6 +126,8 @@ bool uploadFile(SOCKET sock, string filePath)     //上传文件到服务器
         closesocket(dataSock);
         return false;   //失败返回
     }
+    if( ! isDir)
+        emit sendProgress((float)offset/(float)sizeLocal*100);  //初始化上传进度
     while(! file.eof()){    //在到达文件末尾前持续读文件，将文件内容通过数据端口上传到服务器
         char* message=(char*)malloc(Dlength);   //dataBuffer
         memset(message, 0, Dlength);
@@ -116,6 +143,8 @@ bool uploadFile(SOCKET sock, string filePath)     //上传文件到服务器
             offset+=Dlength;
         }
         free(message);
+        if(!isDir)
+            emit sendProgress((float)offset/(float)sizeLocal*100);    //将文件发送进度
     }
     file.close();   //清理现场
     free(fileName);
@@ -132,7 +161,7 @@ bool uploadFile(SOCKET sock, string filePath)     //上传文件到服务器
  * @return
  * 下面的i和files.size()比值可得当前文件夹上传的进度（以文件夹中上传的文件数为计量单位）
  */
-bool uploadDir(SOCKET sock, string dirPath)    //上传文件夹到服务器指定目录下
+bool uploadThread::uploadDir(SOCKET sock, string dirPath)    //上传文件夹到服务器指定目录下
 {
     string uploadPath=pwd(sock);    //得到需要上传到的目录
     vector<string> files, names;
@@ -152,6 +181,7 @@ bool uploadDir(SOCKET sock, string dirPath)    //上传文件夹到服务器指�
         string name(names.at(i));   //当前文件名
         int pos=dirPath.find_last_of("\\");
         string wd=uploadPath+"\\"+path.substr(pos+1, path.size()-name.size()-pos-2);   //得到文件所在路径
+        emit sendProgress((float)(i+1)/(float)files.size()*100);    //上传目录的进度
         cwd(sock, wd);
         if(! uploadFile(sock, path))
             return false;

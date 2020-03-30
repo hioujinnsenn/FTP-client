@@ -115,6 +115,8 @@ void MainWindow::setupList(QListWidget* w1,QListWidget *w2,QListWidget*w3,vector
               i1->setData(Qt::UserRole+1,isNew);
               QVariant isDir=1;
               i1->setData(Qt::UserRole+2,isDir);
+              QVariant size=qlonglong(lists[i].size);
+              i1->setData(Qt::UserRole+3, size);
               QListWidgetItem*i2=new QListWidgetItem(w2);
               QListWidgetItem*i3=new QListWidgetItem(w3);
               //去掉当前目录的项
@@ -133,6 +135,8 @@ void MainWindow::setupList(QListWidget* w1,QListWidget *w2,QListWidget*w3,vector
             i1->setData(Qt::UserRole+1,isNew);
             QVariant isDir=0;
             i1->setData(Qt::UserRole+2,isDir);
+            QVariant fsize=qlonglong(lists[i].size);
+            i1->setData(Qt::UserRole+3, fsize);
             QListWidgetItem*i2=new QListWidgetItem(w2);
             QListWidgetItem*i3=new QListWidgetItem(w3);
             i1->setText(lists[i].name.data());
@@ -148,16 +152,37 @@ void MainWindow::setupList(QListWidget* w1,QListWidget *w2,QListWidget*w3,vector
             i2->setText(size.data());
             free(m);
 
-
-
         }
     }
 
 
 }
-void MainWindow::on_pushButton_upload_clicked()
+void MainWindow::on_pushButton_upload_clicked() //点击上传
 {
-
+    QList<QListWidgetItem*> files= this->ui->listWidget1_1->selectedItems();
+    vector<string> paths;
+    vector<QListWidgetItem*> uploadItems;   //记录上传产生的目录item
+    for(int i=0; i<files.size(); i++){
+        string filePath=files.at(i)->data(Qt::UserRole).toString().toStdString();
+        paths.push_back(filePath);  //得到string类型的vector，存储所有选中需要上传的文件或目录
+        QListWidgetItem* i_name=new QListWidgetItem(ui->listWidget_name);   //一项文件的名字
+        i_name->setText(files.at(i)->text());
+        QListWidgetItem* i_status=new QListWidgetItem(ui->listWidget_status);   //文件状态（上传中、暂停）
+        i_status->setText("上传中");
+        QListWidgetItem* i_progress=new QListWidgetItem(ui->listWidget_progress);   //文件上传进度
+        QWidget* w=new QWidget(ui->listWidget_progress);
+        QProgressBar* progressBar=new QProgressBar(w);  //item内插入进度条
+        QPushButton* pushButton_pause=new QPushButton(w);   //item插入暂停/继续按钮
+        QIcon pause("../UI/resoucre/icon/48/stop.png");
+        pushButton_pause->setIcon(pause);
+        QPushButton* pushButton_terminate=new QPushButton(w);   //item插入终止按钮
+        QIcon terminate("../UI/resoucre/icon/48/cancel.png");
+        pushButton_terminate->setIcon(terminate);
+        QListWidgetItem* i_size=new QListWidgetItem(ui->listWidget_size);   //文件大小
+        i_size->setText(files[i]->data(Qt::UserRole+3).toString());
+    }
+    uploadThread* thread=new uploadThread(CommandSocket, paths);  //创建一个线程，用于完成后台的上传任务，防止页面卡死
+    thread->start();
 }
 
 void MainWindow::on_pushButton_download_clicked()
@@ -195,4 +220,23 @@ void MainWindow::QFileInfoListToVector(QFileInfoList *qlist, vector<File> *list)
         }
         list->push_back(file);
     }
+}
+void MainWindow::on_progressBar_valueChanged(int value)
+{
+
+}
+
+void MainWindow::on_pushButton_pause_clicked()
+{
+
+}
+
+void MainWindow::on_pushButton_terminate_clicked()
+{
+
+}
+
+void MainWindow::on_listWidget_progress_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous)
+{
+    cout<<"啊啊啊啊啊食屎啦！"<<ui->listWidget_progress->currentIndex().row()<<endl;
 }

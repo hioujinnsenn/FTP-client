@@ -599,58 +599,6 @@ border-radius:3px;</string>
        <string> 进度</string>
       </property>
      </widget>
-     <widget class="QWidget" name="widget_2" native="true">
-      <property name="geometry">
-       <rect>
-        <x>460</x>
-        <y>31</y>
-        <width>300</width>
-        <height>161</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">border:0px;</string>
-      </property>
-      <widget class="QProgressBar" name="progressBar">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>5</y>
-         <width>210</width>
-         <height>25</height>
-        </rect>
-       </property>
-       <property name="value">
-        <number>24</number>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButton_singlestop">
-       <property name="geometry">
-        <rect>
-         <x>230</x>
-         <y>5</y>
-         <width>25</width>
-         <height>25</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButton_singlecancel">
-       <property name="geometry">
-        <rect>
-         <x>270</x>
-         <y>5</y>
-         <width>25</width>
-         <height>25</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </widget>
      <widget class="QLabel" name="label_size">
       <property name="geometry">
        <rect>
@@ -754,6 +702,55 @@ border-radius:3px;</string>
         <width>0</width>
         <height>30</height>
        </size>
+      </property>
+     </widget>
+     <widget class="QListWidget" name="listWidget_progress">
+      <property name="geometry">
+       <rect>
+        <x>460</x>
+        <y>31</y>
+        <width>300</width>
+        <height>161</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QProgressBar" name="progressBar">
+      <property name="geometry">
+       <rect>
+        <x>470</x>
+        <y>50</y>
+        <width>171</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="value">
+       <number>24</number>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_pause">
+      <property name="geometry">
+       <rect>
+        <x>670</x>
+        <y>49</y>
+        <width>31</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>PushButton</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_terminate">
+      <property name="geometry">
+       <rect>
+        <x>720</x>
+        <y>50</y>
+        <width>31</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>PushButton</string>
       </property>
      </widget>
     </widget>
@@ -945,7 +942,7 @@ border-radius:3px;</string>
      <x>0</x>
      <y>0</y>
      <width>1650</width>
-     <height>34</height>
+     <height>17</height>
     </rect>
    </property>
   </widget>

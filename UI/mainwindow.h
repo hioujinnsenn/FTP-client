@@ -20,6 +20,7 @@
 #include <QScrollBar>
 #include <QListWidget>
 #include <QAction>
+#include "ftpsock/upload_qThread.h"
 extern  vector<File> localFiles;
 namespace Ui {
 class MainWindow;
@@ -88,6 +89,14 @@ private slots:
     void on_remoteMenu_delItem_triggered();
 
 
+
+    void on_progressBar_valueChanged(int value);
+
+    void on_pushButton_pause_clicked();
+
+    void on_pushButton_terminate_clicked();
+
+    void on_listWidget_progress_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
 
 private:
     Ui::MainWindow *ui;

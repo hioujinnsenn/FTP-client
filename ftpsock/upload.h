@@ -13,11 +13,11 @@
 #include <shlwapi.h>
 using namespace std;
 
-string upload(SOCKET sock, string uploadPath, string filePath);
+string upload(SOCKET sock, string filePath);
 
-bool uploadFile(SOCKET sock, string uploadPath, string filePath);
+bool uploadFile(SOCKET sock, string filePath);
 
-bool uploadDir(SOCKET sock, string uploadPath, string dirPath);
+bool uploadDir(SOCKET sock, string dirPath);
 
 
 #endif //WINFTP_UPLOAD_H
