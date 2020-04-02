@@ -166,36 +166,41 @@ void MainWindow::on_pushButton_upload_clicked() //点击上传
     vector<QListWidgetItem*> uploadItems;   //记录上传产生的目录item
     for(int i=0; i<files.size(); i++){
         string filePath=files.at(i)->data(Qt::UserRole).toString().toStdString();
+
         paths.push_back(filePath);  //得到string类型的vector，存储所有选中需要上传的文件或目录
+
         QListWidgetItem* i_name=new QListWidgetItem(ui->listWidget_name);   //一项文件的名字
         i_name->setText(files.at(i)->text());
+
         QListWidgetItem* i_status=new QListWidgetItem(ui->listWidget_status);   //文件状态（上传中、暂停）
         i_status->setText("上传中");
 
         QListWidgetItem* i_progress=new QListWidgetItem(ui->listWidget_progress);   //文件上传进度
         i_progress->setSizeHint(QSize(300,30));
+
         QWidget* w=new QWidget(ui->listWidget_progress);
-        w->setGeometry(0,30*i,300,30);
+        w->setGeometry(0,30*i+10,300,30);
         QHBoxLayout* layout=new QHBoxLayout(w);
+        layout->setMargin(0);                          //重点,清除留白
         QProgressBar* progressBar=new QProgressBar(w);  //item内插入进度条
-        progressBar->setGeometry(QRect(0, 0, 220, 25));
+        progressBar->setFormat(QString("当前的进度为:%p%")); //自定义文字，其中%p代表百分比，后一个%单纯是%而已
+        progressBar->setAlignment(Qt::AlignHCenter);                    //水平方向上居中进度文字
+        progressBar->setAlignment(Qt::AlignVCenter);                    //垂直方向上居中文字
+        progressBar->setGeometry(QRect(0, 5, 220, 30));
         progressBar->setValue(0);
         QPushButton* pushButton_pause=new QPushButton(w);   //item插入暂停/继续按钮
-        pushButton_pause->setGeometry(QRect(230, 0, 30, 25));
+        pushButton_pause->setGeometry(QRect(230, 5, 30, 25));
         QIcon pause("../UI/resoucre/icon/48/stop.png");
         pushButton_pause->setIcon(pause);
         QPushButton* pushButton_terminate=new QPushButton(w);   //item插入终止按钮
-        pushButton_terminate->setGeometry(QRect(270, 0, 30, 25));
+        pushButton_terminate->setGeometry(QRect(270, 5, 30, 25));
         QIcon terminate("../UI/resoucre/icon/48/cancel.png");
         pushButton_terminate->setIcon(terminate);
         layout->addWidget(progressBar);
         layout->addWidget(pushButton_pause);
         layout->addWidget(pushButton_terminate);
         w->setLayout(layout);
-        w->show();
-//        ui->listWidget_progress->setItemWidget(i_progress, w);
-        ui->listWidget_progress->show();
-
+        ui->listWidget_progress->setItemWidget(i_progress, w);
         QListWidgetItem* i_size=new QListWidgetItem(ui->listWidget_size);   //文件大小
         i_size->setText(files[i]->data(Qt::UserRole+3).toString()+"B");
     }

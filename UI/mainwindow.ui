@@ -525,6 +525,9 @@ border-radius:3px;</string>
       <property name="styleSheet">
        <string notr="true">border:0px;</string>
       </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
       <property name="gridSize">
        <size>
         <width>361</width>
@@ -575,6 +578,9 @@ border-radius:3px;</string>
       </property>
       <property name="styleSheet">
        <string notr="true">border:0px;</string>
+      </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
       </property>
       <property name="gridSize">
        <size>
@@ -627,6 +633,9 @@ border-radius:3px;</string>
       <property name="styleSheet">
        <string notr="true">border:0px;</string>
       </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
       <property name="gridSize">
        <size>
         <width>200</width>
@@ -678,6 +687,9 @@ border-radius:3px;</string>
       <property name="styleSheet">
        <string notr="true">border:0px;</string>
       </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
       <property name="gridSize">
        <size>
         <width>361</width>
@@ -697,6 +709,9 @@ border-radius:3px;</string>
       <property name="styleSheet">
        <string notr="true">border:0px;</string>
       </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
       <property name="gridSize">
        <size>
         <width>0</width>
@@ -715,6 +730,15 @@ border-radius:3px;</string>
       </property>
       <property name="styleSheet">
        <string notr="true">border-radius:0px</string>
+      </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="gridSize">
+       <size>
+        <width>300</width>
+        <height>30</height>
+       </size>
       </property>
      </widget>
      <zorder>listWidget_progress</zorder>
@@ -918,7 +942,7 @@ border-radius:3px;</string>
      <x>0</x>
      <y>0</y>
      <width>1650</width>
-     <height>17</height>
+     <height>34</height>
     </rect>
    </property>
   </widget>
