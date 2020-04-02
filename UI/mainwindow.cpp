@@ -173,6 +173,7 @@ void MainWindow::on_pushButton_upload_clicked() //点击上传
         i_status->setText("上传中");
 
         QListWidgetItem* i_progress=new QListWidgetItem(ui->listWidget_progress);   //文件上传进度
+        i_progress->setSizeHint(QSize(300,161));
         QWidget* w=new QWidget(ui->listWidget_progress);
         QHBoxLayout* layout=new QHBoxLayout(w);
         QProgressBar* progressBar=new QProgressBar(w);  //item内插入进度条
@@ -191,7 +192,7 @@ void MainWindow::on_pushButton_upload_clicked() //点击上传
         layout->addWidget(pushButton_terminate);
         w->setLayout(layout);
         w->show();
-        ui->listWidget_progress->setItemWidget(i_progress, w);
+//        ui->listWidget_progress->setItemWidget(i_progress, w);
         ui->listWidget_progress->show();
 
         QListWidgetItem* i_size=new QListWidgetItem(ui->listWidget_size);   //文件大小
