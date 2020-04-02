@@ -714,45 +714,6 @@ border-radius:3px;</string>
        </rect>
       </property>
      </widget>
-     <widget class="QProgressBar" name="progressBar">
-      <property name="geometry">
-       <rect>
-        <x>470</x>
-        <y>31</y>
-        <width>171</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="value">
-       <number>24</number>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="pushButton_pause">
-      <property name="geometry">
-       <rect>
-        <x>670</x>
-        <y>31</y>
-        <width>31</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>PushButton</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="pushButton_terminate">
-      <property name="geometry">
-       <rect>
-        <x>720</x>
-        <y>31</y>
-        <width>31</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>PushButton</string>
-      </property>
-     </widget>
      <zorder>listWidget_progress</zorder>
      <zorder>listWidget_name</zorder>
      <zorder>label_name</zorder>
@@ -765,9 +726,6 @@ border-radius:3px;</string>
      <zorder>label_remotePath</zorder>
      <zorder>listWidget_localPath</zorder>
      <zorder>listWidget_remotwPath</zorder>
-     <zorder>pushButton_pause</zorder>
-     <zorder>progressBar</zorder>
-     <zorder>pushButton_terminate</zorder>
     </widget>
     <widget class="QWidget" name="tab_finnished">
      <attribute name="title">

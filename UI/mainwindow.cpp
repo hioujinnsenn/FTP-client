@@ -1,4 +1,5 @@
 #include <QtWidgets/QProgressBar>
+#include <QtWidgets/QHBoxLayout>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
@@ -170,8 +171,10 @@ void MainWindow::on_pushButton_upload_clicked() //点击上传
         i_name->setText(files.at(i)->text());
         QListWidgetItem* i_status=new QListWidgetItem(ui->listWidget_status);   //文件状态（上传中、暂停）
         i_status->setText("上传中");
+
         QListWidgetItem* i_progress=new QListWidgetItem(ui->listWidget_progress);   //文件上传进度
         QWidget* w=new QWidget(ui->listWidget_progress);
+        QHBoxLayout* layout=new QHBoxLayout(w);
         QProgressBar* progressBar=new QProgressBar(w);  //item内插入进度条
         progressBar->setGeometry(QRect(470, 31+161*i, 171, 31));
         progressBar->setValue(0);
@@ -183,9 +186,14 @@ void MainWindow::on_pushButton_upload_clicked() //点击上传
         pushButton_terminate->setGeometry(QRect(720, 31+161*i, 31, 31));
         QIcon terminate("../UI/resoucre/icon/48/cancel.png");
         pushButton_terminate->setIcon(terminate);
-//        progressBar->raise();
-//        pushButton_pause->raise();
-//        pushButton_terminate->raise();
+        layout->addWidget(progressBar);
+        layout->addWidget(pushButton_pause);
+        layout->addWidget(pushButton_terminate);
+        w->setLayout(layout);
+        w->show();
+        ui->listWidget_progress->setItemWidget(i_progress, w);
+        ui->listWidget_progress->show();
+
         QListWidgetItem* i_size=new QListWidgetItem(ui->listWidget_size);   //文件大小
         i_size->setText(files[i]->data(Qt::UserRole+3).toString()+"B");
     }
