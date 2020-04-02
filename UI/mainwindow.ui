@@ -713,6 +713,9 @@ border-radius:3px;</string>
         <height>161</height>
        </rect>
       </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:0px</string>
+      </property>
      </widget>
      <zorder>listWidget_progress</zorder>
      <zorder>listWidget_name</zorder>

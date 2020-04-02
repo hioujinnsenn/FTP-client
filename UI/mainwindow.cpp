@@ -173,18 +173,19 @@ void MainWindow::on_pushButton_upload_clicked() //点击上传
         i_status->setText("上传中");
 
         QListWidgetItem* i_progress=new QListWidgetItem(ui->listWidget_progress);   //文件上传进度
-        i_progress->setSizeHint(QSize(300,161));
+        i_progress->setSizeHint(QSize(300,30));
         QWidget* w=new QWidget(ui->listWidget_progress);
+        w->setGeometry(0,30*i,300,30);
         QHBoxLayout* layout=new QHBoxLayout(w);
         QProgressBar* progressBar=new QProgressBar(w);  //item内插入进度条
-        progressBar->setGeometry(QRect(470, 31+161*i, 171, 31));
+        progressBar->setGeometry(QRect(0, 0, 220, 25));
         progressBar->setValue(0);
         QPushButton* pushButton_pause=new QPushButton(w);   //item插入暂停/继续按钮
-        pushButton_pause->setGeometry(QRect(670, 31+161*i, 31, 31));
+        pushButton_pause->setGeometry(QRect(230, 0, 30, 25));
         QIcon pause("../UI/resoucre/icon/48/stop.png");
         pushButton_pause->setIcon(pause);
         QPushButton* pushButton_terminate=new QPushButton(w);   //item插入终止按钮
-        pushButton_terminate->setGeometry(QRect(720, 31+161*i, 31, 31));
+        pushButton_terminate->setGeometry(QRect(270, 0, 30, 25));
         QIcon terminate("../UI/resoucre/icon/48/cancel.png");
         pushButton_terminate->setIcon(terminate);
         layout->addWidget(progressBar);
