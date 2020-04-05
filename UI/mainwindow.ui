@@ -697,7 +697,7 @@ border-radius:3px;</string>
        </size>
       </property>
      </widget>
-     <widget class="QListWidget" name="listWidget_remotwPath">
+     <widget class="QListWidget" name="listWidget_remotePath">
       <property name="geometry">
        <rect>
         <x>1290</x>
@@ -752,7 +752,7 @@ border-radius:3px;</string>
      <zorder>label_localPath</zorder>
      <zorder>label_remotePath</zorder>
      <zorder>listWidget_localPath</zorder>
-     <zorder>listWidget_remotwPath</zorder>
+     <zorder>listWidget_remotePath</zorder>
     </widget>
     <widget class="QWidget" name="tab_finnished">
      <attribute name="title">
@@ -942,7 +942,7 @@ border-radius:3px;</string>
      <x>0</x>
      <y>0</y>
      <width>1650</width>
-     <height>34</height>
+     <height>17</height>
     </rect>
    </property>
   </widget>

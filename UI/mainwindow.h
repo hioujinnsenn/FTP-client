@@ -42,6 +42,7 @@ public:
     ~MainWindow();
      void setupList(QListWidget*w1,QListWidget*w2,QListWidget*w3,vector<File>list);
      void LocalRefresh();
+     int uploadState=0;
 private slots:
      void on_listWidget1_1_itemSelectionChanged();
 
@@ -60,7 +61,6 @@ private slots:
      void on_lineEdit_returnPressed();
 
      void QFileInfoListToVector(QFileInfoList* qlist,vector<File>* list);
-
 
      void on_listWidget1_1_itemDoubleClicked(QListWidgetItem *item);
 
@@ -88,8 +88,6 @@ private slots:
 
     void on_remoteMenu_delItem_triggered();
 
-
-
     void on_progressBar_valueChanged(int value);
 
     void on_pushButton_pause_clicked();
@@ -98,8 +96,11 @@ private slots:
 
     void on_listWidget_progress_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
 
-private:
+public:
     Ui::MainWindow *ui;
+
+//signals:
+//    void stopButton();
 };
 
 

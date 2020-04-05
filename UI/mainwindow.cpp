@@ -165,9 +165,8 @@ void MainWindow::on_pushButton_upload_clicked() //点击上传
     vector<string> paths;
     vector<QListWidgetItem*> uploadItems;   //记录上传产生的目录item
     for(int i=0; i<files.size(); i++){
-        string filePath=files.at(i)->data(Qt::UserRole).toString().toStdString();
-
-        paths.push_back(filePath);  //得到string类型的vector，存储所有选中需要上传的文件或目录
+        QString filePath=files.at(i)->data(Qt::UserRole).toString();
+        paths.push_back(filePath.toStdString());  //得到string类型的vector，存储所有选中需要上传的文件或目录
 
         QListWidgetItem* i_name=new QListWidgetItem(ui->listWidget_name);   //一项文件的名字
         i_name->setText(files.at(i)->text());
@@ -188,23 +187,40 @@ void MainWindow::on_pushButton_upload_clicked() //点击上传
         progressBar->setAlignment(Qt::AlignVCenter);                    //垂直方向上居中文字
         progressBar->setGeometry(QRect(0, 5, 220, 30));
         progressBar->setValue(0);
+//        cout<<"当前在第几行进度："<<i_progress-><<endl;
         QPushButton* pushButton_pause=new QPushButton(w);   //item插入暂停/继续按钮
+        pushButton_pause->setObjectName("pauseButton");
         pushButton_pause->setGeometry(QRect(230, 5, 30, 25));
         QIcon pause("../UI/resoucre/icon/48/stop.png");
         pushButton_pause->setIcon(pause);
+        if (i) pushButton_pause->hide();    //由于一次只跑一个，所以初始化只显示第一个暂停按钮，一次只显示当前正在跑的项目的暂停键
         QPushButton* pushButton_terminate=new QPushButton(w);   //item插入终止按钮
+        pushButton_terminate->setObjectName("terminateButton");
         pushButton_terminate->setGeometry(QRect(270, 5, 30, 25));
         QIcon terminate("../UI/resoucre/icon/48/cancel.png");
         pushButton_terminate->setIcon(terminate);
+        
         layout->addWidget(progressBar);
         layout->addWidget(pushButton_pause);
         layout->addWidget(pushButton_terminate);
         w->setLayout(layout);
         ui->listWidget_progress->setItemWidget(i_progress, w);
+
         QListWidgetItem* i_size=new QListWidgetItem(ui->listWidget_size);   //文件大小
         i_size->setText(files[i]->data(Qt::UserRole+3).toString()+"B");
+
+        QListWidgetItem* i_localPath=new QListWidgetItem(ui->listWidget_localPath);    //文件本地路径
+        i_localPath->setText(filePath);
+
+        QListWidgetItem* i_remotePath=new QListWidgetItem(ui->listWidget_remotePath);   //文件上传到服务器路径
+        i_remotePath->setText(QString::fromStdString(pwd(CommandSocket)));
     }
     uploadThread* thread=new uploadThread(CommandSocket, paths);  //创建一个线程，用于完成后台的上传任务，防止页面卡死
+    connect(thread, SIGNAL(sendProgress(int)), this, SLOT(on_progressBar_valueChanged(int)));   //进度条数据绑定槽函数
+    QListWidgetItem* item=ui->listWidget_progress->item(0);
+    QPushButton* pButton=ui->listWidget_progress->itemWidget(item)->findChild<QPushButton*>("pauseButton");
+    connect(pButton, SIGNAL(pButton->clicked()), thread, SLOT(uploadThread::setStop(int))); //第一个暂停按钮绑定对应线程槽
+    connect(pButton, SIGNAL(pButton->clicked()), this, SLOT(on_pushButton_pause_clicked()));    //暂停按钮和界面槽绑定
     thread->start();
 }
 
@@ -244,9 +260,12 @@ void MainWindow::QFileInfoListToVector(QFileInfoList *qlist, vector<File> *list)
         list->push_back(file);
     }
 }
-void MainWindow::on_progressBar_valueChanged(int value)
-{
 
+void MainWindow::on_progressBar_valueChanged(int value)     //修改进度条数据
+{
+    QListWidgetItem* item=ui->listWidget_progress->item(0);
+    QProgressBar* progressBar=ui->listWidget_progress->itemWidget(item)->findChild<QProgressBar*>();
+    progressBar->setValue(value);
 }
 
 void MainWindow::on_pushButton_pause_clicked()

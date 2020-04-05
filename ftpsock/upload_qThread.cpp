@@ -17,12 +17,24 @@ uploadThread::~uploadThread()   //析构器
     qDebug()<<"uploadThread::~uploadThread";
 }
 
+void uploadThread::setStop()
+{
+    if(state==0){
+        state=1;    //进度暂停
+    }
+    else if(state==1){
+        state=0;    //进度继续（开始）
+    }
+}
+
 void uploadThread::run()
 {
+//    mutex.lock();   //进入进程，给进程上锁
     for(int i=0; i<filePath.size(); i++){
         string path=filePath.at(i);
         upload(sock, path);
     }
+//    mutex.unlock();
 }
 
 /***
@@ -74,7 +86,7 @@ bool uploadThread::uploadFile(SOCKET sock, string filePath)     //上传文件�
     int i=(filePath.find_last_of('\\')!=string::npos) ? filePath.find_last_of('\\') : filePath.find_last_of('/');  //找到文件名前的分隔符
     sprintf(fileName, filePath.substr(i+1, string::npos).c_str());  //得到所需上传的文件名
     size_t offset=0;  //文件写偏移量，用于断点续传。文件内容格式：一个断点文件一行，【文件路径 上传偏移量】中间空格隔开
-    int progress=0;     //通过offset/
+//    int progress=0;     //通过offset/
 
     fstream logFile("upload.log");  //用于记录上传断点情况，例如手动停止、断网等情况
     size_t logPosition=0; //日志中文件所在的位置
@@ -130,6 +142,17 @@ bool uploadThread::uploadFile(SOCKET sock, string filePath)     //上传文件�
     if( ! isDir)
         emit sendProgress((float)offset/(float)sizeLocal*100);  //初始化上传进度
     while(! file.eof()){    //在到达文件末尾前持续读文件，将文件内容通过数据端口上传到服务器
+        if(state==1){   //被暂停的项目
+            /***
+             * 将方法getFilePath得到的没传完的文件路径返回到主窗口的槽函数中，将没写完的当前文件加入断点续传日志中。
+             * 余下内容同终止状态
+             */
+        }
+        if(state){   //该项目被终止或暂停，则需要销毁线程
+            /***
+             * 此处空出来后面再写，要完成的内容有终止线程、删除上传了一半的文件/文件夹
+             */
+        }
         char* message=(char*)malloc(Dlength);   //dataBuffer
         memset(message, 0, Dlength);
         if(offset+Dlength>sizeLocal){
