@@ -2,6 +2,8 @@
 #include <QtWidgets/QHBoxLayout>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "UI/Concurrent/JhProgressBar.h"
+#include "UI/Concurrent/JhButton.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -10,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     setupList(ui->listWidget1_1,ui->listWidget1_2,ui->listWidget1_3,localFiles);
 
-    //ls接口设计的不够简洁，造成过量的冗余
+    // ls接口设计的不够简洁，造成过量的冗余
     SOCKET datasock=pasv(CommandSocket);
     vector<File> serverList=ls(CommandSocket,datasock);
     setupList(ui->listWidget2_1,ui->listWidget2_2,ui->listWidget2_3,serverList);
@@ -19,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tabWidget_2->removeTab(1);
     ui->tabWidget->removeTab(1);
 
-    //增加四个主要工具按钮的icon路径
+    // 增加四个主要工具按钮的icon路径
     QIcon upload("../UI/resoucre/icon/48/upload.png");
     ui->pushButton_upload->setIcon(upload);
     QIcon download("../UI/resoucre/icon/48/download.png");
@@ -37,18 +39,18 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->listWidget2_3->verticalScrollBar(),SIGNAL(valueChanged(int)),this,SLOT(on_list2_3_scrollBar_value_changed(int)));
     connect(ui->listWidget1_3->verticalScrollBar(),SIGNAL(valueChanged(int)),this,SLOT(on_list1_3_scrollBar_value_changed(int)));
 
-    //避免重复多次定义同一个槽和连接，会爆炸。
+    // 避免重复多次定义同一个槽和连接，会爆炸。
     QItemDelegate* delegate=new QItemDelegate(ui->listWidget1_1);
     //只需要将commitData信号牵引出来就可以了
     connect(delegate,SIGNAL(commitData(QWidget*)),this,SLOT(on_local_list_edited(QWidget*)));
     ui->listWidget1_1->setItemDelegate(delegate);
 
-    //远程端代理，处理编辑事件
+    // 远程端代理，处理编辑事件
     QItemDelegate* remoteDelegate=new QItemDelegate(ui->listWidget2_1);
     connect(remoteDelegate,SIGNAL(commitData(QWidget*)),this,SLOT(on_remote_list_edited(QWidget*)));
     ui->listWidget2_1->setItemDelegate(remoteDelegate);
 
-    //本地右键菜单设置
+    // 本地右键菜单设置
     QAction *addDir=new QAction("新建文件夹",ui->listWidget1_1);
     QAction *delItem=new QAction("删除",ui->listWidget1_1);
     connect(addDir,SIGNAL(triggered()),this,SLOT(on_localMenu_addDir_triggered()));
@@ -56,7 +58,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->listWidget1_1->addAction(addDir);
     ui->listWidget1_1->addAction(delItem);
 
-    //远程右键菜单设置
+    // 远程右键菜单设置
     QAction *remoteAddDir=new QAction("新建文件夹",ui->listWidget2_1);
     QAction *remoteDelItem=new QAction("删除",ui->listWidget2_1);
     connect(remoteAddDir,SIGNAL(triggered()),this,SLOT(on_remoteMenu_addDir_triggered()));
@@ -159,68 +161,78 @@ void MainWindow::setupList(QListWidget* w1,QListWidget *w2,QListWidget*w3,vector
 
 
 }
-void MainWindow::on_pushButton_upload_clicked() //点击上传
+
+void MainWindow::on_pushButton_upload_clicked()                                //点击上传
 {
     QList<QListWidgetItem*> files= this->ui->listWidget1_1->selectedItems();
     vector<string> paths;
-    vector<QListWidgetItem*> uploadItems;   //记录上传产生的目录item
-    for(int i=0; i<files.size(); i++){
-        QString filePath=files.at(i)->data(Qt::UserRole).toString();
-        paths.push_back(filePath.toStdString());  //得到string类型的vector，存储所有选中需要上传的文件或目录
+    vector<int> ids;
 
-        QListWidgetItem* i_name=new QListWidgetItem(ui->listWidget_name);   //一项文件的名字
+    for(int i=0; i<files.size(); i++){
+
+        // 每次id累加器进行递加
+        if(this->itemId==INT32_MAX)
+            this->itemId=0;
+        else
+            this->itemId++;
+        ids.push_back(this->itemId);
+
+        QString filePath=files.at(i)->data(Qt::UserRole).toString();
+        paths.push_back(filePath.toStdString());                                 //得到string类型的vector，存储所有选中需要上传的文件或目录
+
+        QListWidgetItem* i_name=new QListWidgetItem(ui->listWidget_name);        //一项文件的名字
         i_name->setText(files.at(i)->text());
 
-        QListWidgetItem* i_status=new QListWidgetItem(ui->listWidget_status);   //文件状态（上传中、暂停）
+        QListWidgetItem* i_status=new QListWidgetItem(ui->listWidget_status);    //文件状态（上传中、暂停）
         i_status->setText("上传中");
 
         QListWidgetItem* i_progress=new QListWidgetItem(ui->listWidget_progress);   //文件上传进度
         i_progress->setSizeHint(QSize(300,30));
-
+        QVariant itemId=this->itemId;
+        i_progress->setData(Qt::UserRole,itemId);
         QWidget* w=new QWidget(ui->listWidget_progress);
         w->setGeometry(0,30*i+10,300,30);
         QHBoxLayout* layout=new QHBoxLayout(w);
-        layout->setMargin(0);                          //重点,清除留白
-        QProgressBar* progressBar=new QProgressBar(w);  //item内插入进度条
-        progressBar->setFormat(QString("当前的进度为:%p%")); //自定义文字，其中%p代表百分比，后一个%单纯是%而已
-        progressBar->setAlignment(Qt::AlignHCenter);                    //水平方向上居中进度文字
-        progressBar->setAlignment(Qt::AlignVCenter);                    //垂直方向上居中文字
+        layout->setMargin(0);                                                       //重点,清除留白
+        JhProgressBar *progressBar=new JhProgressBar(w);                            //item内插入进度条
+        progressBar->setId(this->itemId);
+        progressBar->setFormat(QString("当前的进度为:%p%"));             //自定义文字，其中%p代表百分比，后一个%单纯是%而已
+        progressBar->setAlignment(Qt::AlignHCenter);                                //水平方向上居中进度文字
+        progressBar->setAlignment(Qt::AlignVCenter);                                //垂直方向上居中文字
         progressBar->setGeometry(QRect(0, 5, 220, 30));
         progressBar->setValue(0);
-//        cout<<"当前在第几行进度："<<i_progress-><<endl;
-        QPushButton* pushButton_pause=new QPushButton(w);   //item插入暂停/继续按钮
+                                                                                    //        cout<<"当前在第几行进度："<<i_progress-><<endl;
+        JhButton* pushButton_pause=new JhButton(w);                                 //item插入暂停/继续按钮
+        pushButton_pause->setId(this->itemId);
         pushButton_pause->setObjectName("pauseButton");
         pushButton_pause->setGeometry(QRect(230, 5, 30, 25));
         QIcon pause("../UI/resoucre/icon/48/stop.png");
         pushButton_pause->setIcon(pause);
-        if (i) pushButton_pause->hide();    //由于一次只跑一个，所以初始化只显示第一个暂停按钮，一次只显示当前正在跑的项目的暂停键
-        QPushButton* pushButton_terminate=new QPushButton(w);   //item插入终止按钮
+        if (i) pushButton_pause->hide();                                            //由于一次只跑一个，所以初始化只显示第一个暂停按钮，一次只显示当前正在跑的项目的暂停键
+        JhButton* pushButton_terminate=new JhButton(w);                             //item插入终止按钮
+        pushButton_terminate->setId(this->itemId);
         pushButton_terminate->setObjectName("terminateButton");
         pushButton_terminate->setGeometry(QRect(270, 5, 30, 25));
         QIcon terminate("../UI/resoucre/icon/48/cancel.png");
         pushButton_terminate->setIcon(terminate);
-        
         layout->addWidget(progressBar);
         layout->addWidget(pushButton_pause);
         layout->addWidget(pushButton_terminate);
         w->setLayout(layout);
         ui->listWidget_progress->setItemWidget(i_progress, w);
-
-        QListWidgetItem* i_size=new QListWidgetItem(ui->listWidget_size);   //文件大小
+        QListWidgetItem* i_size=new QListWidgetItem(ui->listWidget_size);                //文件大小
         i_size->setText(files[i]->data(Qt::UserRole+3).toString()+"B");
 
-        QListWidgetItem* i_localPath=new QListWidgetItem(ui->listWidget_localPath);    //文件本地路径
+        QListWidgetItem* i_localPath=new QListWidgetItem(ui->listWidget_localPath);      //文件本地路径
         i_localPath->setText(filePath);
 
         QListWidgetItem* i_remotePath=new QListWidgetItem(ui->listWidget_remotePath);   //文件上传到服务器路径
         i_remotePath->setText(QString::fromStdString(pwd(CommandSocket)));
     }
-    uploadThread* thread=new uploadThread(CommandSocket, paths);  //创建一个线程，用于完成后台的上传任务，防止页面卡死
-    connect(thread, SIGNAL(sendProgress(int)), this, SLOT(on_progressBar_valueChanged(int)));   //进度条数据绑定槽函数
-    QListWidgetItem* item=ui->listWidget_progress->item(0);
-    QPushButton* pButton=ui->listWidget_progress->itemWidget(item)->findChild<QPushButton*>("pauseButton");
-    connect(pButton, SIGNAL(pButton->clicked()), thread, SLOT(uploadThread::setStop(int))); //第一个暂停按钮绑定对应线程槽
-    connect(pButton, SIGNAL(pButton->clicked()), this, SLOT(on_pushButton_pause_clicked()));    //暂停按钮和界面槽绑定
+    uploadThread* thread=new uploadThread(CommandSocket, paths,ids);               //创建一个线程，用于完成后台的上传任务，防止页面卡死
+    vector<QListWidgetItem*> uploadItems;                                        //记录上传产生的目录item
+
+    connect(thread, SIGNAL(sendProgress(int,int)), this, SLOT(on_progressBar_valueChanged(int,int)));   //进度条数据绑定槽函数
     thread->start();
 }
 
@@ -239,6 +251,8 @@ void MainWindow::on_pushButton_cancel_clicked()
 
 }
 
+
+// 文件信息列表转为vector
 void MainWindow::QFileInfoListToVector(QFileInfoList *qlist, vector<File> *list) {
 
     list->clear();    //清空原有的list
@@ -261,11 +275,21 @@ void MainWindow::QFileInfoListToVector(QFileInfoList *qlist, vector<File> *list)
     }
 }
 
-void MainWindow::on_progressBar_valueChanged(int value)     //修改进度条数据
+void MainWindow::on_progressBar_valueChanged(int value,int id)     //修改进度条数据
 {
-    QListWidgetItem* item=ui->listWidget_progress->item(0);
-    QProgressBar* progressBar=ui->listWidget_progress->itemWidget(item)->findChild<QProgressBar*>();
-    progressBar->setValue(value);
+
+    int count=this->ui->listWidget_progress->count();
+    for (int i=0;i<count;i++)
+    {
+        QListWidgetItem* item=this->ui->listWidget_progress->item(i);
+
+        if(item->data(Qt::UserRole).toInt()==id)                // 通过匹配id值找到对应的进度条进行修改
+        {
+            JhProgressBar* progressBar=ui->listWidget_progress->itemWidget(item)->findChild<JhProgressBar*>();
+            progressBar->setValue(value);
+            return ;
+        }
+    }
 }
 
 void MainWindow::on_pushButton_pause_clicked()

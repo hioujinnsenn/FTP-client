@@ -15,11 +15,6 @@ void MainWindow::on_list2_3_scrollBar_value_changed(int action) {
 //   远程刷新按钮
 void MainWindow::on_pushButton_2_clicked()
 {
-    char*  message=(char*)malloc(Dlength);
-    memset(message,0,Dlength);
-    recv(CommandSocket,message,Dlength,0);
-    cout<<message;
-    free(message);   //清理残余信息
 
     SOCKET datasock=pasv(CommandSocket);
     vector<File> serverList=ls(CommandSocket,datasock);

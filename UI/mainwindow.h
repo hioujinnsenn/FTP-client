@@ -34,15 +34,17 @@ class MainWindow : public QMainWindow
 public:
     string local_pwd;
     string remote_pwd;
-    string local_lastItemName;
-    string remote_lastItemName;
+    string local_lastItemName;         // 此刻本地处理的item
+    string remote_lastItemName;        // 此刻远程处理的item
     vector<File> localList;
     vector<File> remoteList;
+    int itemId=0;                      // 下载项的唯一item值，每次打开的时候从零开始
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
      void setupList(QListWidget*w1,QListWidget*w2,QListWidget*w3,vector<File>list);
      void LocalRefresh();
      int uploadState=0;
+
 private slots:
      void on_listWidget1_1_itemSelectionChanged();
 
@@ -88,7 +90,7 @@ private slots:
 
     void on_remoteMenu_delItem_triggered();
 
-    void on_progressBar_valueChanged(int value);
+    void on_progressBar_valueChanged(int value,int id);
 
     void on_pushButton_pause_clicked();
 
