@@ -11,6 +11,7 @@ void MainWindow::on_list2_3_scrollBar_value_changed(int action) {
     ui->listWidget2_1->verticalScrollBar()->setValue(action);
     ui->listWidget2_2->verticalScrollBar()->setValue(action);
 }
+
 //   远程刷新按钮
 void MainWindow::on_pushButton_2_clicked()
 {
@@ -40,7 +41,6 @@ void MainWindow::on_listWidget2_1_itemSelectionChanged()
 void MainWindow::on_listWidget2_1_itemDoubleClicked(QListWidgetItem *item) {
     char*  message=(char*)malloc(Dlength);
     memset(message,0,Dlength);
-    recv(CommandSocket,message,Dlength,0);
     cout<<message;
     free(message);   //清理残余信息
     string name=item->text().toStdString();
