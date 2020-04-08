@@ -12,7 +12,6 @@
 SOCKET pasv(SOCKET sock)
 {
     string message=SendCommand(sock, PASV);    //开启被动
-    cout<<message;
     string port=message;
     int newport=getNewPort(port);
     cout<<newport<<endl;
