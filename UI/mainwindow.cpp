@@ -345,7 +345,7 @@ void MainWindow::on_finishOneTask(int id, int nextId)
                 JhButton *pauseButton = ui->listWidget_progress->itemWidget(nextItem)->findChild<JhButton *>("pauseButton");
                 pauseButton->show();
             }
-            RemoteRefresh();
+//            RemoteRefresh();
             break;
         }
     }

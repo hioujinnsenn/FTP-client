@@ -37,6 +37,7 @@ void uploadThread::run()
         else nextId=-1;
         string path=filePath.at(i);
         upload(sock, path,id);
+        emit(finishOne(id,nextId));  //任务为一个文件则发送一个任务完成
     }
 
 }
@@ -144,8 +145,6 @@ bool uploadThread::uploadFile(SOCKET sock, string filePath,int id)     //上传�
         closesocket(dataSock);
         return false;   //失败返回
     }
-    if( ! isDir)
-        emit sendProgress(100*offset/sizeLocal, id);  //初始化上传进度
     while(! file.atEnd()){    //在到达文件末尾前持续读文件，将文件内容通过数据端口上传到服务器
         if(state==1){   //被暂停的项目
             /***
@@ -164,6 +163,7 @@ bool uploadThread::uploadFile(SOCKET sock, string filePath,int id)     //上传�
         memset(message, 0, Dlength);
         size_t rlength=file.read(message, Dlength); //read返回当前读到的字节数
         send(dataSock, message, rlength, 0);
+        offset+=rlength;
 //        if(offset+Dlength>sizeLocal){
 //            size_t rlength=sizeLocal-offset;
 //            file.read(message, rlength+1);  //多读一个字节，判断已不能读，使得eof为true，从而避免死循环问题。否则永远无法多读一位，使eof为true
@@ -179,8 +179,6 @@ bool uploadThread::uploadFile(SOCKET sock, string filePath,int id)     //上传�
         if(!isDir)
             emit sendProgress(100*offset/sizeLocal, id);    //将文件发送进度
     }
-    if(! isDir)
-        emit(finishOne(id, nextId));  //任务为一个文件则发送一个任务完成
     file.close();   //清理现场
     free(fileName);
     string s=closeDataSock(sock, dataSock);     //关闭数据端口
@@ -230,6 +228,5 @@ bool uploadThread::uploadDir(SOCKET sock, string dirPath,int id)    //上传文�
             return false;
         emit sendProgress(100*(i+1)/files.size(), id);    //上传目录的进度
     }
-    emit(finishOne(id,nextId));  //任务为一个文件则发送一个任务完成
     return true;
 }
