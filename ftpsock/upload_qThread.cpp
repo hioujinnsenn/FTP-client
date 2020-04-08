@@ -179,8 +179,6 @@ bool uploadThread::uploadFile(SOCKET sock, string filePath,int id)     //上传�
         if(!isDir)
             emit sendProgress(100*offset/sizeLocal, id);    //将文件发送进度
     }
-    if(! isDir)
-        emit(finishOne(id, nextId));  //任务为一个文件则发送一个任务完成
     file.close();   //清理现场
     free(fileName);
     string s=closeDataSock(sock, dataSock);     //关闭数据端口
@@ -230,6 +228,5 @@ bool uploadThread::uploadDir(SOCKET sock, string dirPath,int id)    //上传文�
             return false;
         emit sendProgress(100*(i+1)/files.size(), id);    //上传目录的进度
     }
-    emit(finishOne(id,nextId));  //任务为一个文件则发送一个任务完成
     return true;
 }
