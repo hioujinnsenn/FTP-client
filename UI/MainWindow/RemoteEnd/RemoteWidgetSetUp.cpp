@@ -74,11 +74,11 @@ void MainWindow::on_remote_list_edited(QWidget *editor) {
         rename(CommandSocket, remote_lastItemName, newName);
     }
 
-    char*  message=(char*)malloc(Dlength);
-    memset(message,0,Dlength);
-    recv(CommandSocket,message,Dlength,0);
-    cout<<message;
-    free(message);   //清理残余信息
+//    char*  message=(char*)malloc(Dlength);
+//    memset(message,0,Dlength);
+//    recv(CommandSocket,message,Dlength,0);
+//    cout<<message;
+//    free(message);   //清理残余信息
     SOCKET datasock=pasv(CommandSocket);
     vector<File> serverList=ls(CommandSocket,datasock);
     File parent;
@@ -107,4 +107,15 @@ void MainWindow::on_lineEdit_2_returnPressed()
     remote_pwd=pwd(CommandSocket);
 }
 
-
+//封装远端刷新
+void MainWindow::RemoteRefresh()
+{
+    SOCKET datasock=pasv(CommandSocket);
+    vector<File> serverList=ls(CommandSocket,datasock);
+    File parent;
+    parent.type=1;
+    parent.name="..";
+    parent.path="..";
+    serverList.insert(serverList.begin(),parent);
+    setupList(ui->listWidget2_1,ui->listWidget2_2,ui->listWidget2_3,serverList);
+}

@@ -38,12 +38,12 @@ public:
     string remote_lastItemName;        // 此刻远程处理的item
     vector<File> localList;
     vector<File> remoteList;
-    int itemId=0;                      // 下载项的唯一item值，每次打开的时候从零开始
+    int itemId=-1;                      // 下载项的唯一item值，每次打开的时候从零开始(每次在新建任务的开始+1)
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
      void setupList(QListWidget*w1,QListWidget*w2,QListWidget*w3,vector<File>list);
      void LocalRefresh();
-     int uploadState=0;
+    void RemoteRefresh();
 
 private slots:
      void on_listWidget1_1_itemSelectionChanged();
@@ -92,12 +92,13 @@ private slots:
 
     void on_progressBar_valueChanged(int value,int id);
 
-    void on_pushButton_pause_clicked();
+    void on_pushButton_pause_clicked(int id);
 
-    void on_pushButton_terminate_clicked();
+    void on_pushButton_terminate_clicked(int id);
 
     void on_listWidget_progress_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
 
+    void on_finishOneTask(int id, int nextId);
 public:
     Ui::MainWindow *ui;
 

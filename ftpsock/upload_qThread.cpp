@@ -6,10 +6,11 @@
 #include <QDebug>
 #include "ftpsock/upload.h"
 
-uploadThread::uploadThread(SOCKET sock, vector<string> filePath) //构造器
+uploadThread::uploadThread(SOCKET sock, vector<string> filePath, vector<int> ids) //构造器
 {
     this->sock=sock;
     this->filePath.assign(filePath.begin(), filePath.end());
+    this->ids=ids;
 }
 
 uploadThread::~uploadThread()   //析构器
@@ -29,12 +30,15 @@ void uploadThread::setStop()
 
 void uploadThread::run()
 {
-//    mutex.lock();   //进入进程，给进程上锁
     for(int i=0; i<filePath.size(); i++){
+        id=ids.at(i);
+        if(i<filePath.size()-1)
+            nextId=ids.at(i+1);
+        else nextId=-1;
         string path=filePath.at(i);
         upload(sock, path);
     }
-//    mutex.unlock();
+
 }
 
 /***
@@ -44,7 +48,7 @@ void uploadThread::run()
  * @param filePath 所需上传的文件所在本地路径
  * @return 返回参数可修改，目前为string
  */
-string uploadThread::upload(SOCKET sock, string filePath)
+bool uploadThread::upload(SOCKET sock, string filePath)
 {
     bool result;
     if(PathIsDirectory(filePath.data())){   //是目录路径
@@ -55,10 +59,11 @@ string uploadThread::upload(SOCKET sock, string filePath)
         isDir=false;
         result=uploadFile(sock, filePath);
     }
-    if(result){
-        return "文件成功上传！";
-    }
-    return "文件上传出错！";
+    return result;
+//    if(result){
+//        return "文件成功上传！";
+//    }
+//    return "文件上传出错！";
 }
 
 /***
@@ -88,48 +93,52 @@ bool uploadThread::uploadFile(SOCKET sock, string filePath)     //上传文件�
     size_t offset=0;  //文件写偏移量，用于断点续传。文件内容格式：一个断点文件一行，【文件路径 上传偏移量】中间空格隔开
 //    int progress=0;     //通过offset/
 
-    fstream logFile("upload.log");  //用于记录上传断点情况，例如手动停止、断网等情况
-    size_t logPosition=0; //日志中文件所在的位置
-    if(! logFile.is_open()){    //若该文件记录不存在，offset=0
-        string size=SendCommand(sock,SIZE, fileName);   //用size命令判断要上传的文件是否已经在目录中
-        if(size.substr(0, 3)=="213") {   //有重名文件eg："213 7900000\r\n"否则505
-            string r = "文件已存在或重名！是否覆盖？（0取消上传，1覆盖当前文件）";
-            cout << r << endl;
-            int operation;
-            cin >> operation;
-            if (!operation) {
-                free(fileName);
-                closesocket(dataSock);
-                return false;
-            }
-        }
-        logFile.open("upload.log", ios::out);   //文件不存在则创建
-    }
-    else{   //存在日志文件则查找该文件是否需要续传
-        while(!logFile.eof()){
-//            logPosition=logFile.tellg();
-            char* buffer=(char*)malloc(Dlength);
-            logFile.getline(buffer, Dlength);
-            string line=buffer;
-            int p=line.find(filePath.c_str());
-            if(p!=-1){
-                offset=stoul(line.substr(p+filePath.size()+1) );
-                logPosition=logFile.tellg();
-                logPosition-=line.size();
-                break;
-            }
-        }
-    }
+//    ifstream logFile_i("upload.log");  //用于记录上传断点情况，例如手动停止、断网等情况
+//    size_t logPosition=0; //日志中文件所在的位置
+//    if(! logFile_i.is_open()){    //若该文件记录不存在，offset=0
+//        string size=SendCommand(sock,SIZE, fileName);   //用size命令判断要上传的文件是否已经在目录中
+//        if(size.substr(0, 3)=="213") {   //有重名文件eg："213 7900000\r\n"否则505
+//            string r = "文件已存在或重名！是否覆盖？（0取消上传，1覆盖当前文件）";
+//            cout << r << endl;
+//            int operation;
+//            cin >> operation;
+//            if (!operation) {
+//                free(fileName);
+//                closesocket(dataSock);
+//                return false;
+//            }
+//            else{
+//                del(sock, fileName);    //覆盖文件则先删掉该文件
+//            }
+//        }
+//    }
+//    else{   //存在日志文件则查找该文件是否需要续传
+//        while(!logFile_i.eof()){
+////            logPosition=logFile.tellg();
+//            char* buffer=(char*)malloc(Dlength);
+//            logFile_i.getline(buffer, Dlength);
+//            string line=buffer;
+//            int p=line.find(filePath.c_str());
+//            if(p!=-1){
+//                offset=stoul(line.substr(p+filePath.size()+1) );
+//                logPosition=logFile_i.tellg();
+//                logPosition-=line.size();
+//                break;
+//            }
+//        }
+//    }
     size_t sizeLocal=getFileSize(filePath);     //得到本地需要上传的文件的大小
-
-    ifstream file(filePath, ios::binary);  //需要上传的文件流
-    if(! file.is_open()){
+//    ofstream logFile_o("upload.log");
+//    ifstream file(filePath, ios::binary);  //需要上传的文件流
+    QFile file(QString::fromStdString(filePath));
+    if(! file.open(QIODevice::ReadOnly)){
         string r("文件打开失败！");
-        cout<<r<<endl;
+        cout<<filePath<<r<<endl;
         closesocket(dataSock);
         return false;
     }
-    file.seekg(offset, ios::beg);   //将file流的读取指针移到上传的文件内容后面，继续上传
+    file.seek(offset);
+//    file.seek(offset, ios::beg);   //将file流的读取指针移到上传的文件内容后面，继续上传
     string mes=SendCommand(sock, APPE, fileName);  //请求上传文件，若不存在则新建，反之则在文件中接着上传
     string m=mes.substr(0,2);
     if(m>"300" || m.empty()){
@@ -140,36 +149,42 @@ bool uploadThread::uploadFile(SOCKET sock, string filePath)     //上传文件�
         return false;   //失败返回
     }
     if( ! isDir)
-        emit sendProgress((float)offset/(float)sizeLocal*100);  //初始化上传进度
-    while(! file.eof()){    //在到达文件末尾前持续读文件，将文件内容通过数据端口上传到服务器
+        emit sendProgress(100*offset/sizeLocal, id);  //初始化上传进度
+    while(! file.atEnd()){    //在到达文件末尾前持续读文件，将文件内容通过数据端口上传到服务器
         if(state==1){   //被暂停的项目
             /***
              * 将方法getFilePath得到的没传完的文件路径返回到主窗口的槽函数中，将没写完的当前文件加入断点续传日志中。
              * 余下内容同终止状态
              */
+             cout<<"项目被暂停！"<<endl;
         }
         if(state){   //该项目被终止或暂停，则需要销毁线程
             /***
              * 此处空出来后面再写，要完成的内容有终止线程、删除上传了一半的文件/文件夹
              */
+             cout<<"项目被终止！（暂停目前也会经过这句）"<<endl;
         }
         char* message=(char*)malloc(Dlength);   //dataBuffer
         memset(message, 0, Dlength);
-        if(offset+Dlength>sizeLocal){
-            size_t rlength=sizeLocal-offset;
-            file.read(message, rlength+1);  //多读一个字节，判断已不能读，使得eof为true，从而避免死循环问题。否则永远无法多读一位，使eof为true
-            send(dataSock, message, rlength, 0);
-            offset+=rlength;
-        }
-        else{
-            file.read(message, Dlength);
-            send(dataSock, message, Dlength, 0);
-            offset+=Dlength;
-        }
+        size_t rlength=file.read(message, Dlength); //read返回当前读到的字节数
+        send(dataSock, message, rlength, 0);
+//        if(offset+Dlength>sizeLocal){
+//            size_t rlength=sizeLocal-offset;
+//            file.read(message, rlength+1);  //多读一个字节，判断已不能读，使得eof为true，从而避免死循环问题。否则永远无法多读一位，使eof为true
+//            send(dataSock, message, rlength, 0);
+//            offset+=rlength;
+//        }
+//        else{
+//            file.read(message, Dlength);
+//            send(dataSock, message, Dlength, 0);
+//            offset+=Dlength;
+//        }
         free(message);
         if(!isDir)
-            emit sendProgress((float)offset/(float)sizeLocal*100);    //将文件发送进度
+            emit sendProgress(100*offset/sizeLocal, id);    //将文件发送进度
     }
+    if(! isDir)
+        emit(finishOne(id, nextId));  //任务为一个文件则发送一个任务完成
     file.close();   //清理现场
     free(fileName);
     string s=closeDataSock(sock, dataSock);     //关闭数据端口
@@ -204,12 +219,21 @@ bool uploadThread::uploadDir(SOCKET sock, string dirPath)    //上传文件夹�
     for(int i=0; i<files.size(); i++){
         string path(files.at(i));   //当前文件路径
         string name(names.at(i));   //当前文件名
-        int pos=dirPath.find_last_of("\\");
-        string wd=uploadPath+"\\"+path.substr(pos+1, path.size()-name.size()-pos-2);   //得到文件所在路径
-        emit sendProgress((float)(i+1)/(float)files.size()*100);    //上传目录的进度
-        cwd(sock, wd);
+        int pos=dirPath.find_last_of("/");
+        if(pos==-1) pos=dirPath.find_last_of("\\");
+        string wd;
+        if(uploadPath=="\\" || uploadPath=="/")
+            wd=uploadPath+path.substr(pos+1, path.size()-name.size()-pos-2);   //得到文件所在路径
+        else  wd=uploadPath+"/"+path.substr(pos+1, path.size()-name.size()-pos-2);
+        string r=cwd(sock, wd);   //改变服务器工作目录
+        if(r.substr(0,3)>"300"){    //该目录不存在
+            mkd(sock, wd);  //创建目录
+            cwd(sock, wd);  //进入目录
+        }
         if(! uploadFile(sock, path))
             return false;
+        emit sendProgress(100*(i+1)/files.size(), id);    //上传目录的进度
     }
+    emit(finishOne(id,nextId));  //任务为一个文件则发送一个任务完成
     return true;
 }

@@ -220,6 +220,7 @@ void MainWindow::on_pushButton_upload_clicked()                                /
         layout->addWidget(pushButton_terminate);
         w->setLayout(layout);
         ui->listWidget_progress->setItemWidget(i_progress, w);
+
         QListWidgetItem* i_size=new QListWidgetItem(ui->listWidget_size);                //文件大小
         i_size->setText(files[i]->data(Qt::UserRole+3).toString()+"B");
 
@@ -233,6 +234,7 @@ void MainWindow::on_pushButton_upload_clicked()                                /
     vector<QListWidgetItem*> uploadItems;                                        //记录上传产生的目录item
 
     connect(thread, SIGNAL(sendProgress(int,int)), this, SLOT(on_progressBar_valueChanged(int,int)));   //进度条数据绑定槽函数
+    connect(thread, SIGNAL(finishOne(int,int)), this, SLOT(on_finishOneTask(int, int))); //任务结束信号绑定界面槽函数
     thread->start();
 }
 
@@ -277,7 +279,6 @@ void MainWindow::QFileInfoListToVector(QFileInfoList *qlist, vector<File> *list)
 
 void MainWindow::on_progressBar_valueChanged(int value,int id)     //修改进度条数据
 {
-
     int count=this->ui->listWidget_progress->count();
     for (int i=0;i<count;i++)
     {
@@ -292,12 +293,26 @@ void MainWindow::on_progressBar_valueChanged(int value,int id)     //修改进�
     }
 }
 
-void MainWindow::on_pushButton_pause_clicked()
+void MainWindow::on_pushButton_pause_clicked(int id)
 {
-
+    int count=this->ui->listWidget_progress->count();
+    for(int i=0;i<count; i++){
+        QListWidgetItem* item=ui->listWidget_progress->item(i);
+        if(item->data(Qt::UserRole).toInt()==id){
+            JhButton* pauseButton=ui->listWidget_progress->itemWidget(item)->findChild<JhButton*>("pauseButton");
+            QIcon icon;
+            if(pauseButton->state==0)   //当前任务正在上传
+                icon=QIcon("../UI/resoucre/icon/48/continue.png");
+            else icon=QIcon("../UI/resoucre/icon/48/stop.png");
+            pauseButton->setIcon(icon); //改变按钮图标
+            cout<<"改变暂停键图标！"<<endl;
+            pauseButton->state^=1;
+            return;
+        }
+    }
 }
 
-void MainWindow::on_pushButton_terminate_clicked()
+void MainWindow::on_pushButton_terminate_clicked(int id)
 {
 
 }
@@ -305,4 +320,39 @@ void MainWindow::on_pushButton_terminate_clicked()
 void MainWindow::on_listWidget_progress_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous)
 {
     cout<<"啊啊啊啊啊食屎啦！"<<ui->listWidget_progress->currentIndex().row()<<endl;
+}
+
+void MainWindow::on_finishOneTask(int id, int nextId)
+{
+    cout<<"任务完成"<<id<<"，下一个任务："<<nextId<<endl;
+    int count=ui->listWidget_progress->count();
+    int i;
+    for(i=0;i<count;i++){
+        //删除本任务
+        QListWidgetItem* item=ui->listWidget_progress->item(i);
+        if(item->data(Qt::UserRole).toInt()==id){
+            ui->listWidget_progress->removeItemWidget(item);
+            ui->listWidget_progress->takeItem(i);
+//            delete item;
+            ui->listWidget_name->takeItem(i);
+            ui->listWidget_status->takeItem(i);
+            ui->listWidget_size->takeItem(i);
+            ui->listWidget_localPath->takeItem(i);
+            ui->listWidget_remotePath->takeItem(i);
+            //下一项任务的暂停按钮取消隐藏
+            if(nextId!=-1) {
+                QListWidgetItem *nextItem = ui->listWidget_progress->item(nextId);
+                JhButton *pauseButton = ui->listWidget_progress->itemWidget(nextItem)->findChild<JhButton *>("pauseButton");
+                pauseButton->show();
+            }
+            RemoteRefresh();
+            break;
+        }
+    }
+//    for( ;i<count;i++){ //改变被删除项后面item的widget位置，避免错位
+//        QListWidgetItem* item=ui->listWidget_progress->item(i);
+//        QWidget* w=ui->listWidget_progress->itemWidget(item);
+//        int y=w->geometry().y();
+//        w->setGeometry(0,y-30,300,30);
+//    }
 }

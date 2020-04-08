@@ -28,19 +28,21 @@ private:
     SOCKET sock;
     bool isDir; //标记当前上传的是文件还是文件夹
     int state=0; //标记当前进度状态，0为继续，1为暂停，2为终止
+    vector<int> ids; //当前线程所有任务id号列表
+    int id; //当前任务的id
+    int nextId; //下一个任务的id，
 public:
-//    QWaitCondition wait;    //用于进程阻塞和唤醒
-//    QMutex mutex;   //给进程加锁
-    uploadThread(SOCKET sock, vector<string> filePath);
+    uploadThread(SOCKET sock, vector<string> filePath, vector<int> ids);
     ~uploadThread() override;
-    string upload(SOCKET sock, string filePath);
+    bool upload(SOCKET sock, string filePath);
     bool uploadFile(SOCKET sock, string filePath);
     bool uploadDir(SOCKET sock, string dirPath);
-    vector<string> getFilePath();
+//    vector<string> getFilePath();
 protected:
     void run() override;
 signals:
-    void sendProgress(int progress);
+    void sendProgress(int progress, int id);
+    void finishOne(int id, int nextId);
 
 public slots:
      void setStop();

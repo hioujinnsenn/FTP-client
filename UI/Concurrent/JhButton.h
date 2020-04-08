@@ -19,6 +19,7 @@ public :
     int id;      //作为下载任务的唯一标识
     void setId(int id);
     int getId();
+    int state=0;  //标记按钮状态（暂停=1/继续=0）
 
 };
 

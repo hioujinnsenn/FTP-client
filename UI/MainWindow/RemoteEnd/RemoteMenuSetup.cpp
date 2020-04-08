@@ -33,11 +33,11 @@ void MainWindow::on_remoteMenu_delItem_triggered() {
    else{
        del(CommandSocket,path);
    }
-    char*  message=(char*)malloc(Dlength);
-    memset(message,0,Dlength);
-    recv(CommandSocket,message,Dlength,0);
-    cout<<message;
-    free(message);   //清理残余信息
+//    char*  message=(char*)malloc(Dlength);
+//    memset(message,0,Dlength);
+//    recv(CommandSocket,message,Dlength,0);
+//    cout<<message;
+//    free(message);   //清理残余信息
 
     SOCKET datasock=pasv(CommandSocket);
     vector<File> serverList=ls(CommandSocket,datasock);
