@@ -34,9 +34,10 @@ private:
 public:
     uploadThread(SOCKET sock, vector<string> filePath, vector<int> ids);
     ~uploadThread() override;
-    bool upload(SOCKET sock, string filePath);
-    bool uploadFile(SOCKET sock, string filePath);
-    bool uploadDir(SOCKET sock, string dirPath);
+
+    bool upload(SOCKET sock, string filePath,int id);
+    bool uploadFile(SOCKET sock, string filePath,int id);             //单个文件以文件的
+    bool uploadDir(SOCKET sock, string dirPath,int id);        // 文件夹的上传处理，以文件的个数作为进度的依据
 //    vector<string> getFilePath();
 protected:
     void run() override;

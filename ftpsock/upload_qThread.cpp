@@ -10,7 +10,7 @@ uploadThread::uploadThread(SOCKET sock, vector<string> filePath, vector<int> ids
 {
     this->sock=sock;
     this->filePath.assign(filePath.begin(), filePath.end());
-    this->ids=ids;
+    this->ids.assign(ids.begin(),ids.end());      //其一
 }
 
 uploadThread::~uploadThread()   //析构器
@@ -36,7 +36,7 @@ void uploadThread::run()
             nextId=ids.at(i+1);
         else nextId=-1;
         string path=filePath.at(i);
-        upload(sock, path);
+        upload(sock, path,id);
     }
 
 }
@@ -48,22 +48,18 @@ void uploadThread::run()
  * @param filePath 所需上传的文件所在本地路径
  * @return 返回参数可修改，目前为string
  */
-bool uploadThread::upload(SOCKET sock, string filePath)
+bool uploadThread::upload(SOCKET sock, string filePath,int id)
 {
     bool result;
     if(PathIsDirectory(filePath.data())){   //是目录路径
         isDir=true;
-        result=uploadDir(sock, filePath);
+        result=uploadDir(sock, filePath,id);
     }
     else{   //是文件路径
         isDir=false;
-        result=uploadFile(sock, filePath);
+        result=uploadFile(sock, filePath,id);
     }
     return result;
-//    if(result){
-//        return "文件成功上传！";
-//    }
-//    return "文件上传出错！";
 }
 
 /***
@@ -74,7 +70,7 @@ bool uploadThread::upload(SOCKET sock, string filePath)
  * @return 执行的结果以字符串形式返回并打印
  * offset参数可作为上传进度的参考值，与sizeLocal的比值即可判断上传进度
  */
-bool uploadThread::uploadFile(SOCKET sock, string filePath)     //上传文件到服务器
+bool uploadThread::uploadFile(SOCKET sock, string filePath,int id)     //上传文件到服务器
 {
     SendCommand(sock, "TYPE i\r\n");
 
@@ -201,7 +197,7 @@ bool uploadThread::uploadFile(SOCKET sock, string filePath)     //上传文件�
  * @return
  * 下面的i和files.size()比值可得当前文件夹上传的进度（以文件夹中上传的文件数为计量单位）
  */
-bool uploadThread::uploadDir(SOCKET sock, string dirPath)    //上传文件夹到服务器指定目录下
+bool uploadThread::uploadDir(SOCKET sock, string dirPath,int id)    //上传文件夹到服务器指定目录下
 {
     string uploadPath=pwd(sock);    //得到需要上传到的目录
     vector<string> files, names;
@@ -230,7 +226,7 @@ bool uploadThread::uploadDir(SOCKET sock, string dirPath)    //上传文件夹�
             mkd(sock, wd);  //创建目录
             cwd(sock, wd);  //进入目录
         }
-        if(! uploadFile(sock, path))
+        if(! uploadFile(sock, path,id))
             return false;
         emit sendProgress(100*(i+1)/files.size(), id);    //上传目录的进度
     }
