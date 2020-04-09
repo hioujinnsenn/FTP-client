@@ -19,7 +19,7 @@
 #include <QFile>
 using namespace std;
 /***
- * 需要
+ * 实际上下载和上传应该同一个了，没有区分了才对
  */
 class uploadThread: public QThread
 {
@@ -31,8 +31,7 @@ private:
     char* Ip;
     bool isDir;     //标记当前上传的是文件还是文件夹
     int state=0;    //标记当前进度状态，0为继续，1为暂停，2为终止
-    queue<string> filePath;
-    queue<int> ids; //当前线程所有任务id号列表
+    queue<FileMsg> msgs;
     int id;         //当前任务的id
     int nextId;     //下一个任务的id，
     bool thread_alive=true;

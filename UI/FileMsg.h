@@ -13,6 +13,7 @@ public:
     string filepath;     //完整路径
     string filesize;     //文件大小
     int id;              // 下载任务的唯一id值
+    int UpOrDown ;       //上传或者下载，0为上传，1为下载
 };
 
 

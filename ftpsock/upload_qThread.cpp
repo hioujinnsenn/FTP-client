@@ -36,28 +36,27 @@ void uploadThread::setStop()
 }
 void uploadThread::receive_filemsg(FileMsg msg)   //  接受UI界面传递过来的文件信息
 {
-    this->ids.push(msg.id);
-    this->filePath.push(msg.filepath);
+    this->msgs.push(msg);
 }
 void uploadThread::run()             // 此进程修改成和UI主界面共生存在
 {
    while(thread_alive)               // 应该设置成无限循环，不停止,通过设置thread_alive实现终止线程
    {
-       int size=filePath.size();
+       int size=this->msgs.size();
        for (int i = 0; i < size; i++) {
            // 每次取队列头，然后处理完再把头扔了
-           id=ids.front();
-           ids.pop();
+           FileMsg msg=msgs.front();
+           msgs.pop();
+           id=msg.id;
            cout<<"========================="<<endl;
            cout<<endl;
            cout<<id<<endl;
            cout<<endl;
            cout<<"========================="<<endl;
            if (i < size - 1)
-               nextId = ids.front();
+               nextId = msgs.front().id;
            else nextId = -1;
-           string path = filePath.front();
-           filePath.pop();
+           string path = msg.filepath;
            SOCKET  sock=login(this->Username,this->Password,this->Ip);
            cwd(sock,this->remote_path);
            upload(sock, path, id);
