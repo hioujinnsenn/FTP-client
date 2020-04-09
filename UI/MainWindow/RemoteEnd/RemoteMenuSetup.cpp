@@ -22,30 +22,26 @@ void MainWindow::on_remoteMenu_addDir_triggered() {
 }
 
 void MainWindow::on_remoteMenu_delItem_triggered() {
-   QListWidgetItem *item=ui->listWidget2_1->currentItem();
-   string path=item->text().toStdString();
-   cwd(CommandSocket,remote_pwd);
+    SOCKET sock=login(this->Username,this->Password,this->Ip);
+    QListWidgetItem *item=ui->listWidget2_1->currentItem();
+     string path=item->text().toStdString();
+     cwd(sock,remote_pwd);
    if(item->data(Qt::UserRole+2).toInt()==1)
    {
        //目录
-       rmd(CommandSocket,path);
+       rmd(sock,path);
    }
    else{
-       del(CommandSocket,path);
+       del(sock,path);
    }
-//    char*  message=(char*)malloc(Dlength);
-//    memset(message,0,Dlength);
-//    recv(CommandSocket,message,Dlength,0);
-//    cout<<message;
-//    free(message);   //清理残余信息
 
-    SOCKET datasock=pasv(CommandSocket);
-    vector<File> serverList=ls(CommandSocket,datasock);
+    SOCKET datasock=pasv(sock);
+    vector<File> serverList=ls(sock,datasock);
     File parent;
     parent.type=1;
     parent.name="..";
     parent.path="..";
     serverList.insert(serverList.begin(),parent);
     setupList(ui->listWidget2_1,ui->listWidget2_2,ui->listWidget2_3,serverList);
-
+    SendCommand(sock,QUIT);
 }

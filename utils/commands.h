@@ -9,10 +9,10 @@
 #include <ftpsock/ftpdata.h>
 #include <fstream>
 #include <shlwapi.h>
-
+#include "ftpsock/login.h"
 #define APPE  "APPE %s\r\n"
 
-SOCKET pasv(SOCKET sock);
+SOCKET pasv(SOCKET sock);                             //开启数据端口，开启命令端口的操作不在这里进行
 
 string closeDataSock(SOCKET sock, SOCKET dataSock);
 

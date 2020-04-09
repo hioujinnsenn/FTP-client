@@ -3,7 +3,7 @@
 //
 
 #include "commands.h"
-
+#include <QFileInfo>
 /***
  * 进入被动模式，返回数据端口socket。每次调用后记得手动关闭打开的数据端口
  * @param sock  控制端口
@@ -22,11 +22,12 @@ SOCKET pasv(SOCKET sock)
 
 /***
  * 关闭数据端口，返回控制端口收到的信息
+ * 弃用，应该使用quit命令
  * @param sock
  * @param dataSock
  * @return
  */
-string closeDataSock(SOCKET sock, SOCKET dataSock)
+string closeDataSock(SOCKET sock, SOCKET dataSock)   //说实话，直接用quit命令就好了
 {
     char* message=(char*)malloc(clength);
     memset(message, 0, clength);
@@ -42,11 +43,20 @@ string closeDataSock(SOCKET sock, SOCKET dataSock)
  */
 size_t getFileSize(string filePath)    //得到本地文件的大小
 {
-    ifstream file(filePath);
-    file.seekg(0, ios::end);
-    size_t size=file.tellg();
-    file.close();
-    return size;
+//    ifstream file(filePath);
+//    file.seekg(0, ios::end);
+//    size_t size=file.tellg();
+//    file.close();
+//    return size;
+    QString fileQstr=QString(filePath.data());
+    QFileInfo info=QFileInfo(fileQstr);
+    if( info.exists())         //如果文件存在才返回数据
+    {
+        size_t size= info.size();
+        return size;
+    } else{
+        return 1;
+    }
 }
 
 /***
@@ -92,7 +102,8 @@ void getAllFiles(string dirPath, vector<string> &files, vector<string> &names)  
  * @param path 所需创建的路径
  * @return 成功创建开头前三位返回250，否则数字 > 300
  */
-string mkd(SOCKET sock, string path ){  //在服务器创建目录
+string mkd(SOCKET sock,string path ){  //在服务器创建目录
+
     char* p=(char*)malloc(clength);
     memset(p, 0, clength);
     sprintf(p, path.c_str());

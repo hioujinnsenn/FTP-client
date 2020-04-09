@@ -1,6 +1,9 @@
 #include "login.h"
 #include "ui_login.h"
 #include "UI/mainwindow.h"
+extern string username;
+extern string password;
+extern string ip;
 Login::Login(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Login)
@@ -21,9 +24,10 @@ Login::~Login()
 
 void Login::on_pushButton_clicked()
 {
-    std::string url=ui->lineEdit->text().toStdString();//lineEdit::服务器地址
-       std::string username=ui->lineEdit_2->text().toStdString(); //用户名
-       std::string password=ui->lineEdit_3->text().toStdString(); //密码
+       std::string url=ui->lineEdit->text().toStdString();//lineEdit::服务器地址
+       username=ui->lineEdit_2->text().toStdString(); //用户名
+       password=ui->lineEdit_3->text().toStdString(); //密码
+       ip=url;
        char* username_char=(char*)malloc(Dlength);
        char* password_char=(char*)malloc(Dlength);
        char* ip_char=(char*)malloc(Dlength);

@@ -4,17 +4,32 @@
 #include "ui_mainwindow.h"
 #include "UI/Concurrent/JhProgressBar.h"
 #include "UI/Concurrent/JhButton.h"
-
+extern  string username;
+extern string password;
+extern string ip;
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     setupList(ui->listWidget1_1,ui->listWidget1_2,ui->listWidget1_3,localFiles);
+    qRegisterMetaType<FileMsg>("FileMsg");             // 注册FileMsg类为元信息
+    qRegisterMetaType<string>("string");
+    //赋值username和password
+    this->Username=(char*)malloc(400);
+    this->Password=(char*)malloc(400);
+    this->Ip=(char*)malloc(400);
+    memset(this->Username,0,400);
+    memset(this->Password,0,400);
+    memset(this->Ip,0,400);
+    sprintf(this->Username,username.data());
+    sprintf(this->Password,password.data());
+    sprintf(this->Ip,ip.data());
 
+    SOCKET sock=login(this->Username,this->Password,this->Ip);
     // ls接口设计的不够简洁，造成过量的冗余
-    SOCKET datasock=pasv(CommandSocket);
-    vector<File> serverList=ls(CommandSocket,datasock);
+    SOCKET datasock=pasv(sock);
+    vector<File> serverList=ls(sock,datasock);
     setupList(ui->listWidget2_1,ui->listWidget2_2,ui->listWidget2_3,serverList);
 
     //移除多余的自动tab标签生成页
@@ -65,6 +80,19 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(remoteDelItem,SIGNAL(triggered()),this,SLOT(on_remoteMenu_delItem_triggered()));
     ui->listWidget2_1->addAction(remoteAddDir);
     ui->listWidget2_1->addAction(remoteDelItem);
+    //退出释放sock
+    SendCommand(sock,QUIT);
+
+    //创建伴随存在的子线程
+    this->dataThread=new uploadThread(this->Username,this->Password,this->Ip);
+    connect(dataThread, SIGNAL(sendProgress(int,int)), this, SLOT(on_progressBar_valueChanged(int,int)));   //进度条数据绑定槽函数
+    connect(dataThread, SIGNAL(finishOne(int,int)), this, SLOT(on_finishOneTask(int, int)));                //任务结束信号绑定界面槽函数
+    connect(this,SIGNAL(send_filemsg(FileMsg)),dataThread,SLOT(receive_filemsg(FileMsg)));//传输文件信息和id
+    // 通信通道--传输remote_path
+
+    connect(this,SIGNAL(send_remote_path(string)),dataThread,SLOT(receive_remote_path(string)));
+    //应该还需要绑定其他的，比如暂停，比如终止
+    this->dataThread->start();
 
 }
 
@@ -93,6 +121,7 @@ void setFileIcon(QListWidgetItem* item,string type)
         item->setIcon(icon);
     }
 }
+
 //
 MainWindow::~MainWindow()
 {
@@ -164,6 +193,7 @@ void MainWindow::setupList(QListWidget* w1,QListWidget *w2,QListWidget*w3,vector
 
 void MainWindow::on_pushButton_upload_clicked()                                //点击上传
 {
+    SOCKET sock=login(this->Username,this->Password,this->Ip);
     QList<QListWidgetItem*> files= this->ui->listWidget1_1->selectedItems();
     vector<string> paths;
     vector<int> ids;
@@ -175,11 +205,12 @@ void MainWindow::on_pushButton_upload_clicked()                                /
             this->itemId=0;
         else
             this->itemId++;
+        FileMsg msg;
         ids.push_back(this->itemId);
-
+        msg.id=this->itemId;
         QString filePath=files.at(i)->data(Qt::UserRole).toString();
         paths.push_back(filePath.toStdString());                                 //得到string类型的vector，存储所有选中需要上传的文件或目录
-
+        msg.filepath=filePath.toStdString();
         QListWidgetItem* i_name=new QListWidgetItem(ui->listWidget_name);        //一项文件的名字
         i_name->setText(files.at(i)->text());
 
@@ -228,14 +259,11 @@ void MainWindow::on_pushButton_upload_clicked()                                /
         i_localPath->setText(filePath);
 
         QListWidgetItem* i_remotePath=new QListWidgetItem(ui->listWidget_remotePath);   //文件上传到服务器路径
-        i_remotePath->setText(QString::fromStdString(pwd(CommandSocket)));
+        i_remotePath->setText(QString::fromStdString(pwd(sock)));
+        //----------------------------------
+            emit send_filemsg(msg);            //传送文件信息和id到数据线程端
+        //----------------------------------
     }
-    uploadThread* thread=new uploadThread(CommandSocket, paths,ids);               //创建一个线程，用于完成后台的上传任务，防止页面卡死
-    vector<QListWidgetItem*> uploadItems;                                        //记录上传产生的目录item
-
-    connect(thread, SIGNAL(sendProgress(int,int)), this, SLOT(on_progressBar_valueChanged(int,int)));   //进度条数据绑定槽函数
-    connect(thread, SIGNAL(finishOne(int,int)), this, SLOT(on_finishOneTask(int, int))); //任务结束信号绑定界面槽函数
-    thread->start();
 }
 
 void MainWindow::on_pushButton_download_clicked()
@@ -291,6 +319,7 @@ void MainWindow::on_progressBar_valueChanged(int value,int id)     //修改进�
             return ;
         }
     }
+
 }
 
 void MainWindow::on_pushButton_pause_clicked(int id)

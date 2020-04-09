@@ -6,11 +6,18 @@
 #include <QDebug>
 #include "ftpsock/upload.h"
 
-uploadThread::uploadThread(SOCKET sock, vector<string> filePath, vector<int> ids) //构造器
+uploadThread::uploadThread(string username,string password,string ip) //构造器
 {
-    this->sock=sock;
-    this->filePath.assign(filePath.begin(), filePath.end());
-    this->ids.assign(ids.begin(),ids.end());      //其一
+    // 只传递必要的信息，文件信息通过信号槽传递
+    this->Username=(char*)malloc(400);
+    this->Password=(char*)malloc(400);
+    this->Ip=(char*)malloc(400);
+    memset(this->Username,0,400);
+    memset(this->Password,0,400);
+    memset(this->Ip,0,400);
+    sprintf(this->Username,username.data());
+    sprintf(this->Password,password.data());
+    sprintf(this->Ip,ip.data());
 }
 
 uploadThread::~uploadThread()   //析构器
@@ -27,19 +34,37 @@ void uploadThread::setStop()
         state=0;    //进度继续（开始）
     }
 }
-
-void uploadThread::run()
+void uploadThread::receive_filemsg(FileMsg msg)   //  接受UI界面传递过来的文件信息
 {
-    for(int i=0; i<filePath.size(); i++){
-        id=ids.at(i);
-        if(i<filePath.size()-1)
-            nextId=ids.at(i+1);
-        else nextId=-1;
-        string path=filePath.at(i);
-        upload(sock, path,id);
-        emit(finishOne(id,nextId));  //任务为一个文件则发送一个任务完成
-    }
-
+    this->ids.push(msg.id);
+    this->filePath.push(msg.filepath);
+}
+void uploadThread::run()             // 此进程修改成和UI主界面共生存在
+{
+   while(thread_alive)               // 应该设置成无限循环，不停止,通过设置thread_alive实现终止线程
+   {
+       int size=filePath.size();
+       for (int i = 0; i < size; i++) {
+           // 每次取队列头，然后处理完再把头扔了
+           id=ids.front();
+           ids.pop();
+           cout<<"========================="<<endl;
+           cout<<endl;
+           cout<<id<<endl;
+           cout<<endl;
+           cout<<"========================="<<endl;
+           if (i < size - 1)
+               nextId = ids.front();
+           else nextId = -1;
+           string path = filePath.front();
+           filePath.pop();
+           SOCKET  sock=login(this->Username,this->Password,this->Ip);
+           cwd(sock,this->remote_path);
+           upload(sock, path, id);
+           emit(finishOne(id, nextId));        //任务为一个文件则发送一个任务完成
+           SendCommand(sock,QUIT);
+       }
+   }
 }
 
 /***
@@ -145,25 +170,28 @@ bool uploadThread::uploadFile(SOCKET sock, string filePath,int id)     //上传�
         closesocket(dataSock);
         return false;   //失败返回
     }
-    while(! file.atEnd()){    //在到达文件末尾前持续读文件，将文件内容通过数据端口上传到服务器
-        if(state==1){   //被暂停的项目
-            /***
-             * 将方法getFilePath得到的没传完的文件路径返回到主窗口的槽函数中，将没写完的当前文件加入断点续传日志中。
-             * 余下内容同终止状态
-             */
-             cout<<"项目被暂停！"<<endl;
-        }
-        if(state){   //该项目被终止或暂停，则需要销毁线程
-            /***
-             * 此处空出来后面再写，要完成的内容有终止线程、删除上传了一半的文件/文件夹
-             */
-             cout<<"项目被终止！（暂停目前也会经过这句）"<<endl;
-        }
-        char* message=(char*)malloc(Dlength);   //dataBuffer
-        memset(message, 0, Dlength);
-        size_t rlength=file.read(message, Dlength); //read返回当前读到的字节数
-        send(dataSock, message, rlength, 0);
-        offset+=rlength;
+    long upSize=filesize(sock,fileName);
+    while(upSize<sizeLocal)                    //使用两层循环，一层上传，一层检测数据
+    {
+        while (!file.atEnd()) {    //在到达文件末尾前持续读文件，将文件内容通过数据端口上传到服务器
+            if (state == 1) {   //被暂停的项目
+                /***
+                 * 将方法getFilePath得到的没传完的文件路径返回到主窗口的槽函数中，将没写完的当前文件加入断点续传日志中。
+                 * 余下内容同终止状态
+                 */
+                cout << "项目被暂停！" << endl;
+            }
+            if (state) {   //该项目被终止或暂停，则需要销毁线程
+                /***
+                 * 此处空出来后面再写，要完成的内容有终止线程、删除上传了一半的文件/文件夹
+                 */
+                cout << "项目被终止！（暂停目前也会经过这句）" << endl;
+            }
+            char *message = (char *) malloc(Dlength);   //dataBuffer
+            memset(message, 0, Dlength);
+            size_t rlength = file.read(message, Dlength); //read返回当前读到的字节数
+            send(dataSock, message, rlength, 0);
+            offset += rlength;
 //        if(offset+Dlength>sizeLocal){
 //            size_t rlength=sizeLocal-offset;
 //            file.read(message, rlength+1);  //多读一个字节，判断已不能读，使得eof为true，从而避免死循环问题。否则永远无法多读一位，使eof为true
@@ -175,10 +203,19 @@ bool uploadThread::uploadFile(SOCKET sock, string filePath,int id)     //上传�
 //            send(dataSock, message, Dlength, 0);
 //            offset+=Dlength;
 //        }
-        free(message);
-        if(!isDir)
-            emit sendProgress(100*offset/sizeLocal, id);    //将文件发送进度
+            free(message);
+            upSize=filesize(sock,fileName);
+            if (!isDir) {
+                emit sendProgress(int(100 * (upSize / (sizeLocal*1.0) )), id);    //将文件发送进度
+            }
+
+        }
+        upSize=filesize(sock,fileName);
+        if (!isDir) {
+            emit sendProgress(int(100 * (upSize / (sizeLocal*1.0) )), id);    //将文件发送进度
+        }
     }
+
     file.close();   //清理现场
     free(fileName);
     string s=closeDataSock(sock, dataSock);     //关闭数据端口
@@ -229,4 +266,22 @@ bool uploadThread::uploadDir(SOCKET sock, string dirPath,int id)    //上传文�
         emit sendProgress(100*(i+1)/files.size(), id);    //上传目录的进度
     }
     return true;
+}
+
+long uploadThread::filesize(SOCKET sock,char* filename){
+    char*  path=(char*)malloc(Dlength);
+    memset(path,0,Dlength);
+    sprintf(path,filename);
+    string p=SendCommand(sock,SIZE,path);
+    int i=p.find_last_of(' ');
+    string size=p.substr(i+1,(p.size()-i-3));  //p.size()-2 -(i+1)
+    istringstream  is(size);
+    long sizel;
+    is>>sizel;
+    free(path);
+    return sizel;
+}
+
+void uploadThread::receive_remote_path(string path) {
+    this->remote_path=path;
 }

@@ -21,6 +21,7 @@
 #include <QListWidget>
 #include <QAction>
 #include "ftpsock/upload_qThread.h"
+#include "FileMsg.h"
 extern  vector<File> localFiles;
 namespace Ui {
 class MainWindow;
@@ -32,12 +33,17 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
+    char* Password;
+    char* Username;
+    char* Ip;
+    FileMsg msg;
     string local_pwd;
     string remote_pwd;
     string local_lastItemName;         // 此刻本地处理的item
     string remote_lastItemName;        // 此刻远程处理的item
     vector<File> localList;
     vector<File> remoteList;
+    uploadThread* dataThread;               //数据线程
     int itemId=-1;                      // 下载项的唯一item值，每次打开的时候从零开始(每次在新建任务的开始+1)
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
@@ -45,7 +51,11 @@ public:
      void LocalRefresh();
     void RemoteRefresh();
 
+signals:
+    void send_filemsg(FileMsg);
+    void send_remote_path(string path);         //告知数据进程 远程目录的信号
 private slots:
+
      void on_listWidget1_1_itemSelectionChanged();
 
      void on_pushButton_upload_clicked();
@@ -70,11 +80,11 @@ private slots:
 
      void on_local_list_edited(QWidget *editor);
 
-     void on_pushButton_clicked();
+     void on_pushButton_clicked();         //本地刷新按钮
 
      void on_lineEdit_2_returnPressed();
 
-     void on_pushButton_2_clicked();
+     void on_pushButton_2_clicked();      //远程刷新按钮
 
      void on_listWidget2_1_itemSelectionChanged();
 
@@ -102,9 +112,9 @@ private slots:
 public:
     Ui::MainWindow *ui;
 
-//signals:
-//    void stopButton();
+
 };
+
 
 
 #endif // MAINWINDOW_H

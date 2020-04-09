@@ -22,7 +22,9 @@ int login_status=0;
 SOCKET CommandSocket;  //全局的socket对象
 ErrorCode code;
 vector<File> localFiles;
-
+string username;
+string  password;
+string ip;
 /**
  * @details 打开时事先获取本地的文件列表，加快处理速度
  *
