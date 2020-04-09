@@ -28,19 +28,22 @@ void MainWindow::on_localMenu_addDir_triggered() {
 }
 
 //点击右键菜单中的删除
+//Bug：无法批量删除，仅会删除第一个选择的  2020.4.8
+//Fixed：支持批量删除，已修复             2020.4.9
 void  MainWindow::on_localMenu_delItem_triggered() {
-
-  QListWidgetItem *item=ui->listWidget1_1->currentItem();
-  QDir dir(local_pwd.data());
-  //直接删除对应的文件或者文件夹即可
-  QString  path=item->text();
-  if(item->data(Qt::UserRole+2)==1)
-  {  //是一个文件夹
-      dir.rmdir(path);
-  } else{
-      //移除文件
-      dir.remove(path);
-  }
+    QList<QListWidgetItem*> items=ui->listWidget1_1->selectedItems();
+    for(int i=0;i<items.size();i++) {
+        QListWidgetItem *item = items[i];
+        QDir dir(local_pwd.data());
+        //直接删除对应的文件或者文件夹即可
+        QString path = item->text();
+        if (item->data(Qt::UserRole + 2) == 1) {  //是一个文件夹
+            dir.rmdir(path);
+        } else {
+            //移除文件
+            dir.remove(path);
+        }
+    }
 
   LocalRefresh();
 }

@@ -21,20 +21,22 @@ void MainWindow::on_remoteMenu_addDir_triggered() {
     ui->listWidget2_1->editItem(item);
 }
 
+//Bug：无法批量删除，仅会删除第一个选择的  2020.4.8
+//Fixed：支持批量删除，已修复             2020.4.9
 void MainWindow::on_remoteMenu_delItem_triggered() {
     SOCKET sock=login(this->Username,this->Password,this->Ip);
-    QListWidgetItem *item=ui->listWidget2_1->currentItem();
-     string path=item->text().toStdString();
-     cwd(sock,remote_pwd);
-   if(item->data(Qt::UserRole+2).toInt()==1)
-   {
-       //目录
-       rmd(sock,path);
-   }
-   else{
-       del(sock,path);
-   }
-
+    cwd(sock, remote_pwd);
+    QList<QListWidgetItem*> items=ui->listWidget2_1->selectedItems();
+    for(int i=0;i<items.size();i++) {
+        QListWidgetItem *item = items[i];
+        string path = item->text().toStdString();
+        if (item->data(Qt::UserRole + 2).toInt() == 1) {
+            //目录
+            rmd(sock, path);
+        } else {
+            del(sock, path);
+        }
+    }
     SOCKET datasock=pasv(sock);
     vector<File> serverList=ls(sock,datasock);
     File parent;
