@@ -265,6 +265,7 @@ bool uploadThread::uploadDir(SOCKET sock, string dirPath,int id)    //上传文�
             return false;
         emit sendProgress(100*(i+1)/files.size(), id);    //上传目录的进度
     }
+    cwd(sock, uploadPath);
     return true;
 }
 
