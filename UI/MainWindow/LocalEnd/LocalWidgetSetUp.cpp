@@ -20,13 +20,14 @@ void MainWindow::on_lineEdit_returnPressed()
         this->update();
         // IMPORTANT ： 要再次写回
         local_pwd = dir.path().toStdString();
+        emit send_local_path(local_pwd);
     } else{
         ui->lineEdit->setText("");
         ui->lineEdit->setPlaceholderText("请检查地址是否正确");
     }
 }
 
-// note :本地端
+// note :本地端滑动条
 void MainWindow::on_list1_3_scrollBar_value_changed(int action) {
     ui->listWidget1_1->verticalScrollBar()->setValue(action);
     ui->listWidget1_2->verticalScrollBar()->setValue(action);
@@ -42,6 +43,7 @@ void MainWindow::on_listWidget1_1_itemSelectionChanged()
     }
 }
 
+// 本地列表双击
 void MainWindow::on_listWidget1_1_itemDoubleClicked(QListWidgetItem *item) {
     string text=item->text().toStdString();
     QDir dir(local_pwd.data());
@@ -55,6 +57,7 @@ void MainWindow::on_listWidget1_1_itemDoubleClicked(QListWidgetItem *item) {
         this->update();
         // IMPORTANT ： 要再次写回
         local_pwd=dir.path().toStdString();
+        emit send_local_path(local_pwd);
     }
 }
 
@@ -66,7 +69,7 @@ void MainWindow::on_listWidget1_1_itemClicked(QListWidgetItem *item)
     local_lastItemName=item->text().toStdString();
 }
 
-
+// 本地地址栏编辑
 void MainWindow::on_local_list_edited(QWidget *editor) {
     string NewText=((QLineEdit*)editor)->text().toStdString();
     QListWidgetItem *current=ui->listWidget1_1->currentItem();
@@ -95,15 +98,18 @@ void MainWindow::on_local_list_edited(QWidget *editor) {
  *          使用时机：点击刷新按钮、重命名文件、下载文件完成
  * */
 void MainWindow::LocalRefresh() {
+
     QDir dir(local_pwd.data());
     QFileInfoList qlist=dir.entryInfoList();
     QFileInfoListToVector(&qlist,&localList);
     setupList(ui->listWidget1_1,ui->listWidget1_2,ui->listWidget1_3,localList);
     this->update();
+
 }
 
-
+//
 //  本地刷新按钮
+//
 void MainWindow::on_pushButton_clicked()
 {
     LocalRefresh();

@@ -42,11 +42,7 @@ string closeDataSock(SOCKET sock, SOCKET dataSock)   //说实话，直接用quit
  */
 size_t getFileSize(string filePath)    //得到本地文件的大小
 {
-//    ifstream file(filePath);
-//    file.seekg(0, ios::end);
-//    size_t size=file.tellg();
-//    file.close();
-//    return size;
+
     QString fileQstr=QString(filePath.data());
     QFileInfo info=QFileInfo(fileQstr);
     if( info.exists())         //如果文件存在才返回数据

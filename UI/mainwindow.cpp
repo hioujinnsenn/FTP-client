@@ -88,9 +88,11 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(dataThread, SIGNAL(sendProgress(int,int)), this, SLOT(on_progressBar_valueChanged(int,int)));   //进度条数据绑定槽函数
     connect(dataThread, SIGNAL(finishOne(int,int)), this, SLOT(on_finishOneTask(int, int)));                //任务结束信号绑定界面槽函数
     connect(this,SIGNAL(send_filemsg(FileMsg)),dataThread,SLOT(receive_filemsg(FileMsg)));//传输文件信息和id
-    // 通信通道--传输remote_path
-
+    // 通信通道--传输remote_path、local_path
+    connect(this,SIGNAL(send_local_path(string)),dataThread,SLOT(receive_local_path(string)));
     connect(this,SIGNAL(send_remote_path(string)),dataThread,SLOT(receive_remote_path(string)));
+    // 通信通道--传输文件夹内的文件数目
+    connect(dataThread,SIGNAL(send_Dir_filecount(int ,int)),this,SLOT(receive_Dir_fileCount(int,int)));
     //应该还需要绑定其他的，比如暂停，比如终止
     this->dataThread->start();
 
@@ -143,11 +145,11 @@ void MainWindow::setupList(QListWidget* w1,QListWidget *w2,QListWidget*w3,vector
                 continue;
               QListWidgetItem*i1=new QListWidgetItem(w1);
               QVariant path=QString(lists[i].path.data());
-              i1->setData(Qt::UserRole,path);
+              i1->setData(Qt::UserRole,path);             //文件路径
               QVariant isNew=0;
-              i1->setData(Qt::UserRole+1,isNew);
-              QVariant isDir=1;
-              i1->setData(Qt::UserRole+2,isDir);
+              i1->setData(Qt::UserRole+1,isNew);          //是不是新建的，只有在右键新建的时候才使用
+              QVariant isDir=1;                                //是一个文件
+              i1->setData(Qt::UserRole+2,isDir);          //是文件还是目录
               QVariant size=qlonglong(lists[i].size);
               i1->setData(Qt::UserRole+3, size);
               QListWidgetItem*i2=new QListWidgetItem(w2);
@@ -184,7 +186,6 @@ void MainWindow::setupList(QListWidget* w1,QListWidget *w2,QListWidget*w3,vector
             size.append("B");
             i2->setText(size.data());
             free(m);
-
         }
     }
 
@@ -206,6 +207,7 @@ void MainWindow::on_pushButton_upload_clicked()                                /
         else
             this->itemId++;
         FileMsg msg;
+        msg.UpOrDown=0;      //上传
         ids.push_back(this->itemId);
         msg.id=this->itemId;
         QString filePath=files.at(i)->data(Qt::UserRole).toString();
@@ -266,9 +268,76 @@ void MainWindow::on_pushButton_upload_clicked()                                /
     }
 }
 
-void MainWindow::on_pushButton_download_clicked()
+void MainWindow::on_pushButton_download_clicked()   //下载按钮
 {
+    //默认就是下载到本地路径的现在的位置上
+    SOCKET sock=login(this->Username,this->Password,this->Ip);
+    vector<string> paths;
+    vector<int> ids;
+   QList<QListWidgetItem*>  items=ui->listWidget2_1->selectedItems();
+   for(int i=0;i<items.size();i++)
+   {
+       this->itemId++;
+       QListWidgetItem* item=items[i];
+       FileMsg msg;
+       msg.UpOrDown=1;
+       ids.push_back(this->itemId);
+       msg.id=this->itemId;
+       QString filePath=items.at(i)->data(Qt::UserRole).toString();
+       paths.push_back(filePath.toStdString());                                 //得到string类型的vector，存储所有选中需要上传的文件或目录
+       msg.filepath=filePath.toStdString();
+       QListWidgetItem* i_name=new QListWidgetItem(ui->listWidget_name);        //一项文件的名字
+       i_name->setText(items.at(i)->text());
 
+       QListWidgetItem* i_status=new QListWidgetItem(ui->listWidget_status);    //文件状态（上传中、暂停）
+       i_status->setText("上传中");
+
+       QListWidgetItem* i_progress=new QListWidgetItem(ui->listWidget_progress);   //文件上传进度
+       i_progress->setSizeHint(QSize(300,30));
+       QVariant itemId=this->itemId;
+       i_progress->setData(Qt::UserRole,itemId);
+       QWidget* w=new QWidget(ui->listWidget_progress);
+       w->setGeometry(0,30*i+10,300,30);
+       QHBoxLayout* layout=new QHBoxLayout(w);
+       layout->setMargin(0);                                                       //重点,清除留白
+       JhProgressBar *progressBar=new JhProgressBar(w);                            //item内插入进度条
+       progressBar->setId(this->itemId);
+       progressBar->setFormat(QString("当前的进度为:%p%"));             //自定义文字，其中%p代表百分比，后一个%单纯是%而已
+       progressBar->setAlignment(Qt::AlignHCenter);                                //水平方向上居中进度文字
+       progressBar->setAlignment(Qt::AlignVCenter);                                //垂直方向上居中文字
+       progressBar->setGeometry(QRect(0, 5, 220, 30));
+       progressBar->setValue(0);
+       JhButton* pushButton_pause=new JhButton(w);                                 //item插入暂停/继续按钮
+       pushButton_pause->setId(this->itemId);
+       pushButton_pause->setObjectName("pauseButton");
+       pushButton_pause->setGeometry(QRect(230, 5, 30, 25));
+       QIcon pause("../UI/resoucre/icon/48/stop.png");
+       pushButton_pause->setIcon(pause);
+       if (i) pushButton_pause->hide();                                            //由于一次只跑一个，所以初始化只显示第一个暂停按钮，一次只显示当前正在跑的项目的暂停键
+       JhButton* pushButton_terminate=new JhButton(w);                             //item插入终止按钮
+       pushButton_terminate->setId(this->itemId);
+       pushButton_terminate->setObjectName("terminateButton");
+       pushButton_terminate->setGeometry(QRect(270, 5, 30, 25));
+       QIcon terminate("../UI/resoucre/icon/48/cancel.png");
+       pushButton_terminate->setIcon(terminate);
+       layout->addWidget(progressBar);
+       layout->addWidget(pushButton_pause);
+       layout->addWidget(pushButton_terminate);
+       w->setLayout(layout);
+       ui->listWidget_progress->setItemWidget(i_progress, w);
+
+       QListWidgetItem* i_size=new QListWidgetItem(ui->listWidget_size);                //文件大小
+       i_size->setText(items[i]->data(Qt::UserRole+3).toString()+"B");
+
+       QListWidgetItem* i_localPath=new QListWidgetItem(ui->listWidget_localPath);      //文件本地路径
+       i_localPath->setText(filePath);
+
+       QListWidgetItem* i_remotePath=new QListWidgetItem(ui->listWidget_remotePath);   //文件上传到服务器路径
+       i_remotePath->setText(QString::fromStdString(pwd(sock)));
+       //----------------------------------
+       emit send_filemsg(msg);            //传送文件信息和id到数据线程端
+       //----------------------------------
+   }
 }
 
 void MainWindow::on_pushButton_stop_clicked()
@@ -384,4 +453,23 @@ void MainWindow::on_finishOneTask(int id, int nextId)
 //        int y=w->geometry().y();
 //        w->setGeometry(0,y-30,300,30);
 //    }
+}
+
+
+     //  接受文件夹的文件数目
+void MainWindow::receive_Dir_fileCount(int filecount, int id) {
+    for (int i=0;i<ui->listWidget_progress->count();i++)
+    {
+        QListWidgetItem* item=ui->listWidget_progress->item(i);
+        if(item->data(Qt::UserRole).toInt()==id)
+        {
+            stringstream  textStream;
+            textStream<<filecount;
+            textStream<<"个";
+            // 设置文件数目
+            string text=textStream.str();
+            QListWidgetItem*  sizeItem=ui->listWidget_size->item(i);
+            sizeItem->setText(text.data());
+        }
+    }
 }

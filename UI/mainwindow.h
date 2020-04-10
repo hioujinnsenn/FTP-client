@@ -54,6 +54,7 @@ public:
 signals:
     void send_filemsg(FileMsg);
     void send_remote_path(string path);         //告知数据进程 远程目录的信号
+    void send_local_path(string path);          //告知数据进程，本地当前目录
 private slots:
 
      void on_listWidget1_1_itemSelectionChanged();
@@ -108,7 +109,9 @@ private slots:
 
     void on_listWidget_progress_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
 
-    void on_finishOneTask(int id, int nextId);
+    void on_finishOneTask(int id, int nextId);        //  后台完成一个项目的下载，本地移除列表的一个项目
+
+    void receive_Dir_fileCount(int filecount,int id); // 接受文件夹的文件数目
 public:
     Ui::MainWindow *ui;
 
