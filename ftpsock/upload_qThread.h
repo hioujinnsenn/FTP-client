@@ -13,7 +13,7 @@
 #include <string>
 #include<fstream>
 #include <io.h>
-#include <shlwapi.h>
+//#include <shlwapi.h>
 #include <queue>
 #include <deque>
 #include "UI/FileMsg.h"

@@ -4,6 +4,10 @@
 
 #include "commands.h"
 #include <QFileInfo>
+#include <QtCore/QDir>
+#include <QDebug>
+#include <QtCore/QDirIterator>
+
 /***
  * 进入被动模式，返回数据端口socket。每次调用后记得手动关闭打开的数据端口
  * @param sock  控制端口
@@ -73,22 +77,21 @@ size_t stringToSize_t(string s)
  */
 void getAllFiles(string dirPath, vector<string> &files, vector<string> &names)  //遍历文件夹中的所有文件（包括文件夹本身）
 {
-    WIN32_FIND_DATA findData;
-    HANDLE hFile;   //句柄
-    string path(dirPath);   //用于存储当前所在目录的string
-    path.append("\\*.*");   //末尾加上通配符用于遍历查找
-    hFile=FindFirstFile(path.c_str(), &findData);   //找到第一个文件
-    do{
-        if( findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY){     //若第一个子文件为目录
-            if(strcmp(findData.cFileName, ".")!=0 && strcmp(findData.cFileName, "..")!=0)  //且不为 . 和..（即当前目录和父目录）
-                getAllFiles(path.assign(dirPath).append("\\").append(findData.cFileName), files, names);    //递归遍历目录下子目录
-        }
-        else{   //若为文件则将其加入列表中
-            files.push_back(path.assign(dirPath).append("\\").append(findData.cFileName));  //文件路径加入列表
-            names.push_back(findData.cFileName);    //文件名加入列表
-        }
-    }while(FindNextFile(hFile, &findData));
-    FindClose(hFile);   //关闭句柄
+    QDir dir(QString::fromStdString(dirPath));
+    if(!dir.exists())
+    {
+        qDebug()<<"it is not true dir_path";
+    }
+    //迭代器遍历目录，设置过滤参数，QDir::NoDotAndDotDot表示不会去遍历上层目录
+    QDirIterator iterator(QString::fromStdString(dirPath), QDir::Files | QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
+    while(iterator.hasNext()){
+        iterator.next().toStdString();
+        string fileName=iterator.fileName().toStdString();
+        QFileInfo info=iterator.fileInfo();
+        string filePath=info.absoluteFilePath().toStdString();  //获取文件绝对路径
+        files.push_back(filePath);
+        names.push_back(fileName);
+    }
 }
 
 /***
