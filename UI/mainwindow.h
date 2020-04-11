@@ -107,8 +107,6 @@ private slots:
 
     void on_pushButton_terminate_clicked(int id);
 
-    void on_listWidget_progress_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
-
     void on_finishOneTask(int id, int nextId);        //  后台完成一个项目的下载，本地移除列表的一个项目
 
     void receive_Dir_fileCount(int filecount,int id); // 接受文件夹的文件数目

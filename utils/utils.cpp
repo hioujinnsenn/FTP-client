@@ -37,6 +37,7 @@ string SendCommand(SOCKET sock,const char*s,char* parameter)
     free(message);
     return Message;
 }
+// 对于Rest命令很有用
 string SendCommand(SOCKET sock,const char*s,long size)
 {
     char*command=(char*)malloc(clength);

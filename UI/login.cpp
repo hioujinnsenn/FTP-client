@@ -9,6 +9,9 @@ Login::Login(QWidget *parent) :
     ui(new Ui::Login)
 {
     ui->setupUi(this);
+    ui->lineEdit->setText("127.0.0.1");
+    ui->lineEdit_2->setText("jh");
+    ui->lineEdit_3->setText("123456");
 }
 
 Login::~Login()

@@ -208,6 +208,7 @@ void MainWindow::on_pushButton_upload_clicked()                                /
             this->itemId++;
         FileMsg msg;
         msg.UpOrDown=0;      //上传
+        msg.status=0  ;      //没有被暂停的项目
         ids.push_back(this->itemId);
         msg.id=this->itemId;
         QString filePath=files.at(i)->data(Qt::UserRole).toString();
@@ -237,10 +238,12 @@ void MainWindow::on_pushButton_upload_clicked()                                /
                                                                                     //        cout<<"当前在第几行进度："<<i_progress-><<endl;
         JhButton* pushButton_pause=new JhButton(w);                                 //item插入暂停/继续按钮
         pushButton_pause->setId(this->itemId);
+        pushButton_pause->ButtonType=0;                                             //设置按钮类型
         pushButton_pause->setObjectName("pauseButton");
         pushButton_pause->setGeometry(QRect(230, 5, 30, 25));
         QIcon pause("../UI/resoucre/icon/48/stop.png");
         pushButton_pause->setIcon(pause);
+        connect(pushButton_pause,SIGNAL(send_pause_id(int)),this->dataThread,SLOT(receive_pause_id(int)));  //接收暂停项目的id
         if (i) pushButton_pause->hide();                                            //由于一次只跑一个，所以初始化只显示第一个暂停按钮，一次只显示当前正在跑的项目的暂停键
         JhButton* pushButton_terminate=new JhButton(w);                             //item插入终止按钮
         pushButton_terminate->setId(this->itemId);
@@ -280,7 +283,8 @@ void MainWindow::on_pushButton_download_clicked()   //下载按钮
        this->itemId++;
        QListWidgetItem* item=items[i];
        FileMsg msg;
-       msg.UpOrDown=1;
+       msg.UpOrDown=1;  //下载
+       msg.status=0;    //没有被设置暂停
        ids.push_back(this->itemId);
        msg.id=this->itemId;
        QString filePath=items.at(i)->data(Qt::UserRole).toString();
@@ -307,10 +311,14 @@ void MainWindow::on_pushButton_download_clicked()   //下载按钮
        progressBar->setAlignment(Qt::AlignVCenter);                                //垂直方向上居中文字
        progressBar->setGeometry(QRect(0, 5, 220, 30));
        progressBar->setValue(0);
-       JhButton* pushButton_pause=new JhButton(w);                                 //item插入暂停/继续按钮
+       JhButton* pushButton_pause=new JhButton(w);   //item插入暂停/继续按钮
+       pushButton_pause->ButtonType=0;                    // 设置按钮的功能类型
        pushButton_pause->setId(this->itemId);
        pushButton_pause->setObjectName("pauseButton");
        pushButton_pause->setGeometry(QRect(230, 5, 30, 25));
+       // 连接暂停按钮和数据线程
+       // TODO 在删除按钮时，需要disconnet，避免对线程造成影响
+       connect(pushButton_pause,SIGNAL(send_pause_id(int)),this->dataThread,SLOT(receive_pause_id(int)));
        QIcon pause("../UI/resoucre/icon/48/stop.png");
        pushButton_pause->setIcon(pause);
        if (i) pushButton_pause->hide();                                            //由于一次只跑一个，所以初始化只显示第一个暂停按钮，一次只显示当前正在跑的项目的暂停键
@@ -318,6 +326,7 @@ void MainWindow::on_pushButton_download_clicked()   //下载按钮
        pushButton_terminate->setId(this->itemId);
        pushButton_terminate->setObjectName("terminateButton");
        pushButton_terminate->setGeometry(QRect(270, 5, 30, 25));
+
        QIcon terminate("../UI/resoucre/icon/48/cancel.png");
        pushButton_terminate->setIcon(terminate);
        layout->addWidget(progressBar);
@@ -335,17 +344,17 @@ void MainWindow::on_pushButton_download_clicked()   //下载按钮
        QListWidgetItem* i_remotePath=new QListWidgetItem(ui->listWidget_remotePath);   //文件上传到服务器路径
        i_remotePath->setText(QString::fromStdString(pwd(sock)));
        //----------------------------------
-       emit send_filemsg(msg);            //传送文件信息和id到数据线程端
+         emit send_filemsg(msg);            //传送文件信息和id到数据线程端
        //----------------------------------
    }
 }
 
-void MainWindow::on_pushButton_stop_clicked()
+void MainWindow::on_pushButton_stop_clicked()   //四个按钮里的暂停按钮
 {
 
 }
 
-void MainWindow::on_pushButton_cancel_clicked()
+void MainWindow::on_pushButton_cancel_clicked()  //四个按钮里的取消按钮
 {
 
 }
@@ -391,7 +400,7 @@ void MainWindow::on_progressBar_valueChanged(int value,int id)     //修改进�
 
 }
 
-void MainWindow::on_pushButton_pause_clicked(int id)
+void MainWindow::on_pushButton_pause_clicked(int id)    //做了绑定？
 {
     int count=this->ui->listWidget_progress->count();
     for(int i=0;i<count; i++){
@@ -415,10 +424,7 @@ void MainWindow::on_pushButton_terminate_clicked(int id)
 
 }
 
-void MainWindow::on_listWidget_progress_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous)
-{
-    cout<<"啊啊啊啊啊食屎啦！"<<ui->listWidget_progress->currentIndex().row()<<endl;
-}
+
 
 void MainWindow::on_finishOneTask(int id, int nextId)
 {
@@ -447,12 +453,7 @@ void MainWindow::on_finishOneTask(int id, int nextId)
             break;
         }
     }
-//    for( ;i<count;i++){ //改变被删除项后面item的widget位置，避免错位
-//        QListWidgetItem* item=ui->listWidget_progress->item(i);
-//        QWidget* w=ui->listWidget_progress->itemWidget(item);
-//        int y=w->geometry().y();
-//        w->setGeometry(0,y-30,300,30);
-//    }
+
 }
 
 

@@ -15,6 +15,7 @@
 #include <io.h>
 #include <shlwapi.h>
 #include <queue>
+#include <deque>
 #include "UI/FileMsg.h"
 #include <QFile>
 #include <ftpsock/ftpdata.h>
@@ -33,7 +34,8 @@ private:
     char* Ip;
     bool isDir;     //标记当前上传的是文件还是文件夹
     int state=0;    //标记当前进度状态，0为继续，1为暂停，2为终止
-    queue<FileMsg> msgs;
+    deque<FileMsg> msgs;
+    FileMsg currentMsg;     // IMPORTANT 正在传输中的任务的Msg，通过改变该元素的值，实现暂停
     int id;         //当前任务的id
     int nextId;     //下一个任务的id，
     bool thread_alive=true;
@@ -50,6 +52,8 @@ public:
     bool downloadFile(SOCKET sock,string filePath,int id);     // 单个文件的下载
     bool downloadFile(SOCKET sock,string filePath,string storePath,int id); // 单个文件的下载，指定本地路径
     bool downloadDir(SOCKET sock,string filePath,int id);      // 文件夹的下载处理
+    bool downloadFileContinue(SOCKET  sock,string filePath,string storePath,int id,long  downloadsize);  //文件断点续传
+    bool downloadContinue(SOCKET sock);
 protected:
     void run() override;
 signals:
@@ -62,6 +66,7 @@ public slots:
      void receive_remote_path(string path); // 由于使用的方式是每次自行登陆获取sock，导致每次操作回到根目录
     // 需要从UI界面拿回local_path
      void  receive_local_path(string path);
+     void  receive_pause_id(int id);         //接受暂停的任务的id，并暂停该任务
 };
 
 #endif //FTP_CLIENT_UPLOAD_QTHREAD_H

@@ -10,7 +10,6 @@
 #include <ftpsock/ftpdata.h>
 #include <utils/utils.h>
 #include "ftpsock/upload.h"
-#include "ftpsock/download.h"
 #include "UI/login.h"
 #include "UI/mainwindow.h"
 #include "utils/ErrorCode.h"
