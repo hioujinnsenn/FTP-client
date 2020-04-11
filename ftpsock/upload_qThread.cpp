@@ -102,57 +102,12 @@ bool uploadThread::uploadFile(SOCKET sock, string filePath,int id)     //上传�
     SendCommand(sock, "TYPE i\r\n");
 
     SOCKET dataSock=pasv(sock);   //开启被动模式，返回数据端口socket
-//    if(! uploadPath.empty()){    //若没有指定目录，则不需要change directory
-//        string r=cwd(sock, uploadPath);   //改变服务器工作目录
-//        if(r.substr(0,3)>"300"){    //该目录不存在
-//            mkd(sock, uploadPath);  //创建目录
-//            cwd(sock, uploadPath);  //进入目录
-//        }
-//    }
     char* fileName=(char*)malloc(filePath.size()); //所需上传文件的文件名
     memset(fileName, 0,filePath.size());
     int i=(filePath.find_last_of('\\')!=string::npos) ? filePath.find_last_of('\\') : filePath.find_last_of('/');  //找到文件名前的分隔符
     sprintf(fileName, filePath.substr(i+1, string::npos).c_str());  //得到所需上传的文件名
-    size_t offset=0;  //文件写偏移量，用于断点续传。文件内容格式：一个断点文件一行，【文件路径 上传偏移量】中间空格隔开
-//    int progress=0;     //通过offset/
 
-//    ifstream logFile_i("upload.log");  //用于记录上传断点情况，例如手动停止、断网等情况
-//    size_t logPosition=0; //日志中文件所在的位置
-//    if(! logFile_i.is_open()){    //若该文件记录不存在，offset=0
-//        string size=SendCommand(sock,SIZE, fileName);   //用size命令判断要上传的文件是否已经在目录中
-//        if(size.substr(0, 3)=="213") {   //有重名文件eg："213 7900000\r\n"否则505
-//            string r = "文件已存在或重名！是否覆盖？（0取消上传，1覆盖当前文件）";
-//            cout << r << endl;
-//            int operation;
-//            cin >> operation;
-//            if (!operation) {
-//                free(fileName);
-//                closesocket(dataSock);
-//                return false;
-//            }
-//            else{
-//                del(sock, fileName);    //覆盖文件则先删掉该文件
-//            }
-//        }
-//    }
-//    else{   //存在日志文件则查找该文件是否需要续传
-//        while(!logFile_i.eof()){
-////            logPosition=logFile.tellg();
-//            char* buffer=(char*)malloc(Dlength);
-//            logFile_i.getline(buffer, Dlength);
-//            string line=buffer;
-//            int p=line.find(filePath.c_str());
-//            if(p!=-1){
-//                offset=stoul(line.substr(p+filePath.size()+1) );
-//                logPosition=logFile_i.tellg();
-//                logPosition-=line.size();
-//                break;
-//            }
-//        }
-//    }
     size_t sizeLocal=getFileSize(filePath);     //得到本地需要上传的文件的大小
-//    ofstream logFile_o("upload.log");
-//    ifstream file(filePath, ios::binary);  //需要上传的文件流
     QFile file(QString::fromStdString(filePath));
     if(! file.open(QIODevice::ReadOnly)){
         string r("文件打开失败！");
@@ -160,9 +115,8 @@ bool uploadThread::uploadFile(SOCKET sock, string filePath,int id)     //上传�
         closesocket(dataSock);
         return false;
     }
-    file.seek(offset);
-//    file.seek(offset, ios::beg);   //将file流的读取指针移到上传的文件内容后面，继续上传
-    string mes=SendCommand(sock, APPE, fileName);  //请求上传文件，若不存在则新建，反之则在文件中接着上传
+
+    string mes=SendCommand(sock, STOR, fileName);  //请求上传文件，若不存在则新建，反之则在文件中接着上传
     string m=mes.substr(0,2);
     if(m>"300" || m.empty()){
         cout<<"文件上传失败"<<endl;
@@ -192,18 +146,6 @@ bool uploadThread::uploadFile(SOCKET sock, string filePath,int id)     //上传�
             memset(message, 0, Dlength);
             size_t rlength = file.read(message, Dlength); //read返回当前读到的字节数
             send(dataSock, message, rlength, 0);
-            offset += rlength;
-//        if(offset+Dlength>sizeLocal){
-//            size_t rlength=sizeLocal-offset;
-//            file.read(message, rlength+1);  //多读一个字节，判断已不能读，使得eof为true，从而避免死循环问题。否则永远无法多读一位，使eof为true
-//            send(dataSock, message, rlength, 0);
-//            offset+=rlength;
-//        }
-//        else{
-//            file.read(message, Dlength);
-//            send(dataSock, message, Dlength, 0);
-//            offset+=Dlength;
-//        }
             free(message);
             upSize=filesize(sock,fileName);
             if (!isDir) {
@@ -238,11 +180,7 @@ bool uploadThread::uploadDir(SOCKET sock, string dirPath,int id)    //上传文�
     string uploadPath=pwd(sock);    //得到需要上传到的目录
     vector<string> files, names;
     string dirName=dirPath.substr(dirPath.find_last_of("\\")+1, dirPath.size());
-//    string r=cwd(sock, uploadPath+dirName);
-//    if(r.substr(0,3)=="250"){   //目录名重名或已存在
-//        cout<<"目录重名或已存在!"<<endl;
-//        return false;
-//    }
+
     getAllFiles(dirPath, files, names);       //得到目录下所有的文件路径和名称，两者顺序对应
     if(files.size()!=names.size()){
         cout<<"查找目录子文件出错！路径数和文件名数不等"<<endl;
