@@ -84,19 +84,19 @@ CMakeFiles/WinFtp.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/WinFtp.dir/main.cpp.s"
 	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ye11\Documents\GitHub\FTP-lient\main.cpp -o CMakeFiles\WinFtp.dir\main.cpp.s
 
-CMakeFiles/WinFtp.dir/mainwindow.cpp.obj: CMakeFiles/WinFtp.dir/flags.make
-CMakeFiles/WinFtp.dir/mainwindow.cpp.obj: CMakeFiles/WinFtp.dir/includes_CXX.rsp
-CMakeFiles/WinFtp.dir/mainwindow.cpp.obj: ../mainwindow.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\ye11\Documents\GitHub\FTP-lient\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/WinFtp.dir/mainwindow.cpp.obj"
-	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\WinFtp.dir\mainwindow.cpp.obj -c C:\Users\ye11\Documents\GitHub\FTP-lient\mainwindow.cpp
+CMakeFiles/WinFtp.dir/UI/mainwindow.cpp.obj: CMakeFiles/WinFtp.dir/flags.make
+CMakeFiles/WinFtp.dir/UI/mainwindow.cpp.obj: CMakeFiles/WinFtp.dir/includes_CXX.rsp
+CMakeFiles/WinFtp.dir/UI/mainwindow.cpp.obj: ../UI/mainwindow.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\ye11\Documents\GitHub\FTP-lient\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/WinFtp.dir/UI/mainwindow.cpp.obj"
+	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\WinFtp.dir\UI\mainwindow.cpp.obj -c C:\Users\ye11\Documents\GitHub\FTP-lient\UI\mainwindow.cpp
 
-CMakeFiles/WinFtp.dir/mainwindow.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/WinFtp.dir/mainwindow.cpp.i"
-	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ye11\Documents\GitHub\FTP-lient\mainwindow.cpp > CMakeFiles\WinFtp.dir\mainwindow.cpp.i
+CMakeFiles/WinFtp.dir/UI/mainwindow.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/WinFtp.dir/UI/mainwindow.cpp.i"
+	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ye11\Documents\GitHub\FTP-lient\UI\mainwindow.cpp > CMakeFiles\WinFtp.dir\UI\mainwindow.cpp.i
 
-CMakeFiles/WinFtp.dir/mainwindow.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/WinFtp.dir/mainwindow.cpp.s"
-	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ye11\Documents\GitHub\FTP-lient\mainwindow.cpp -o CMakeFiles\WinFtp.dir\mainwindow.cpp.s
+CMakeFiles/WinFtp.dir/UI/mainwindow.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/WinFtp.dir/UI/mainwindow.cpp.s"
+	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ye11\Documents\GitHub\FTP-lient\UI\mainwindow.cpp -o CMakeFiles\WinFtp.dir\UI\mainwindow.cpp.s
 
 CMakeFiles/WinFtp.dir/ftpsock/login.cpp.obj: CMakeFiles/WinFtp.dir/flags.make
 CMakeFiles/WinFtp.dir/ftpsock/login.cpp.obj: CMakeFiles/WinFtp.dir/includes_CXX.rsp
@@ -140,24 +140,232 @@ CMakeFiles/WinFtp.dir/utils/utils.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/WinFtp.dir/utils/utils.cpp.s"
 	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ye11\Documents\GitHub\FTP-lient\utils\utils.cpp -o CMakeFiles\WinFtp.dir\utils\utils.cpp.s
 
+CMakeFiles/WinFtp.dir/utils/commands.cpp.obj: CMakeFiles/WinFtp.dir/flags.make
+CMakeFiles/WinFtp.dir/utils/commands.cpp.obj: CMakeFiles/WinFtp.dir/includes_CXX.rsp
+CMakeFiles/WinFtp.dir/utils/commands.cpp.obj: ../utils/commands.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\ye11\Documents\GitHub\FTP-lient\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/WinFtp.dir/utils/commands.cpp.obj"
+	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\WinFtp.dir\utils\commands.cpp.obj -c C:\Users\ye11\Documents\GitHub\FTP-lient\utils\commands.cpp
+
+CMakeFiles/WinFtp.dir/utils/commands.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/WinFtp.dir/utils/commands.cpp.i"
+	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ye11\Documents\GitHub\FTP-lient\utils\commands.cpp > CMakeFiles\WinFtp.dir\utils\commands.cpp.i
+
+CMakeFiles/WinFtp.dir/utils/commands.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/WinFtp.dir/utils/commands.cpp.s"
+	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ye11\Documents\GitHub\FTP-lient\utils\commands.cpp -o CMakeFiles\WinFtp.dir\utils\commands.cpp.s
+
+CMakeFiles/WinFtp.dir/ftpsock/upload.cpp.obj: CMakeFiles/WinFtp.dir/flags.make
+CMakeFiles/WinFtp.dir/ftpsock/upload.cpp.obj: CMakeFiles/WinFtp.dir/includes_CXX.rsp
+CMakeFiles/WinFtp.dir/ftpsock/upload.cpp.obj: ../ftpsock/upload.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\ye11\Documents\GitHub\FTP-lient\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/WinFtp.dir/ftpsock/upload.cpp.obj"
+	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\WinFtp.dir\ftpsock\upload.cpp.obj -c C:\Users\ye11\Documents\GitHub\FTP-lient\ftpsock\upload.cpp
+
+CMakeFiles/WinFtp.dir/ftpsock/upload.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/WinFtp.dir/ftpsock/upload.cpp.i"
+	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ye11\Documents\GitHub\FTP-lient\ftpsock\upload.cpp > CMakeFiles\WinFtp.dir\ftpsock\upload.cpp.i
+
+CMakeFiles/WinFtp.dir/ftpsock/upload.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/WinFtp.dir/ftpsock/upload.cpp.s"
+	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ye11\Documents\GitHub\FTP-lient\ftpsock\upload.cpp -o CMakeFiles\WinFtp.dir\ftpsock\upload.cpp.s
+
+CMakeFiles/WinFtp.dir/UI/login.cpp.obj: CMakeFiles/WinFtp.dir/flags.make
+CMakeFiles/WinFtp.dir/UI/login.cpp.obj: CMakeFiles/WinFtp.dir/includes_CXX.rsp
+CMakeFiles/WinFtp.dir/UI/login.cpp.obj: ../UI/login.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\ye11\Documents\GitHub\FTP-lient\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/WinFtp.dir/UI/login.cpp.obj"
+	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\WinFtp.dir\UI\login.cpp.obj -c C:\Users\ye11\Documents\GitHub\FTP-lient\UI\login.cpp
+
+CMakeFiles/WinFtp.dir/UI/login.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/WinFtp.dir/UI/login.cpp.i"
+	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ye11\Documents\GitHub\FTP-lient\UI\login.cpp > CMakeFiles\WinFtp.dir\UI\login.cpp.i
+
+CMakeFiles/WinFtp.dir/UI/login.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/WinFtp.dir/UI/login.cpp.s"
+	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ye11\Documents\GitHub\FTP-lient\UI\login.cpp -o CMakeFiles\WinFtp.dir\UI\login.cpp.s
+
+CMakeFiles/WinFtp.dir/utils/ErrorCode.cpp.obj: CMakeFiles/WinFtp.dir/flags.make
+CMakeFiles/WinFtp.dir/utils/ErrorCode.cpp.obj: CMakeFiles/WinFtp.dir/includes_CXX.rsp
+CMakeFiles/WinFtp.dir/utils/ErrorCode.cpp.obj: ../utils/ErrorCode.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\ye11\Documents\GitHub\FTP-lient\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/WinFtp.dir/utils/ErrorCode.cpp.obj"
+	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\WinFtp.dir\utils\ErrorCode.cpp.obj -c C:\Users\ye11\Documents\GitHub\FTP-lient\utils\ErrorCode.cpp
+
+CMakeFiles/WinFtp.dir/utils/ErrorCode.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/WinFtp.dir/utils/ErrorCode.cpp.i"
+	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ye11\Documents\GitHub\FTP-lient\utils\ErrorCode.cpp > CMakeFiles\WinFtp.dir\utils\ErrorCode.cpp.i
+
+CMakeFiles/WinFtp.dir/utils/ErrorCode.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/WinFtp.dir/utils/ErrorCode.cpp.s"
+	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ye11\Documents\GitHub\FTP-lient\utils\ErrorCode.cpp -o CMakeFiles\WinFtp.dir\utils\ErrorCode.cpp.s
+
+CMakeFiles/WinFtp.dir/UI/MainWindow/LocalEnd/localMenuSetup.cpp.obj: CMakeFiles/WinFtp.dir/flags.make
+CMakeFiles/WinFtp.dir/UI/MainWindow/LocalEnd/localMenuSetup.cpp.obj: CMakeFiles/WinFtp.dir/includes_CXX.rsp
+CMakeFiles/WinFtp.dir/UI/MainWindow/LocalEnd/localMenuSetup.cpp.obj: ../UI/MainWindow/LocalEnd/localMenuSetup.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\ye11\Documents\GitHub\FTP-lient\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/WinFtp.dir/UI/MainWindow/LocalEnd/localMenuSetup.cpp.obj"
+	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\WinFtp.dir\UI\MainWindow\LocalEnd\localMenuSetup.cpp.obj -c C:\Users\ye11\Documents\GitHub\FTP-lient\UI\MainWindow\LocalEnd\localMenuSetup.cpp
+
+CMakeFiles/WinFtp.dir/UI/MainWindow/LocalEnd/localMenuSetup.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/WinFtp.dir/UI/MainWindow/LocalEnd/localMenuSetup.cpp.i"
+	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ye11\Documents\GitHub\FTP-lient\UI\MainWindow\LocalEnd\localMenuSetup.cpp > CMakeFiles\WinFtp.dir\UI\MainWindow\LocalEnd\localMenuSetup.cpp.i
+
+CMakeFiles/WinFtp.dir/UI/MainWindow/LocalEnd/localMenuSetup.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/WinFtp.dir/UI/MainWindow/LocalEnd/localMenuSetup.cpp.s"
+	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ye11\Documents\GitHub\FTP-lient\UI\MainWindow\LocalEnd\localMenuSetup.cpp -o CMakeFiles\WinFtp.dir\UI\MainWindow\LocalEnd\localMenuSetup.cpp.s
+
+CMakeFiles/WinFtp.dir/UI/MainWindow/LocalEnd/LocalWidgetSetUp.cpp.obj: CMakeFiles/WinFtp.dir/flags.make
+CMakeFiles/WinFtp.dir/UI/MainWindow/LocalEnd/LocalWidgetSetUp.cpp.obj: CMakeFiles/WinFtp.dir/includes_CXX.rsp
+CMakeFiles/WinFtp.dir/UI/MainWindow/LocalEnd/LocalWidgetSetUp.cpp.obj: ../UI/MainWindow/LocalEnd/LocalWidgetSetUp.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\ye11\Documents\GitHub\FTP-lient\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/WinFtp.dir/UI/MainWindow/LocalEnd/LocalWidgetSetUp.cpp.obj"
+	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\WinFtp.dir\UI\MainWindow\LocalEnd\LocalWidgetSetUp.cpp.obj -c C:\Users\ye11\Documents\GitHub\FTP-lient\UI\MainWindow\LocalEnd\LocalWidgetSetUp.cpp
+
+CMakeFiles/WinFtp.dir/UI/MainWindow/LocalEnd/LocalWidgetSetUp.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/WinFtp.dir/UI/MainWindow/LocalEnd/LocalWidgetSetUp.cpp.i"
+	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ye11\Documents\GitHub\FTP-lient\UI\MainWindow\LocalEnd\LocalWidgetSetUp.cpp > CMakeFiles\WinFtp.dir\UI\MainWindow\LocalEnd\LocalWidgetSetUp.cpp.i
+
+CMakeFiles/WinFtp.dir/UI/MainWindow/LocalEnd/LocalWidgetSetUp.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/WinFtp.dir/UI/MainWindow/LocalEnd/LocalWidgetSetUp.cpp.s"
+	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ye11\Documents\GitHub\FTP-lient\UI\MainWindow\LocalEnd\LocalWidgetSetUp.cpp -o CMakeFiles\WinFtp.dir\UI\MainWindow\LocalEnd\LocalWidgetSetUp.cpp.s
+
+CMakeFiles/WinFtp.dir/ftpsock/upload_qThread.cpp.obj: CMakeFiles/WinFtp.dir/flags.make
+CMakeFiles/WinFtp.dir/ftpsock/upload_qThread.cpp.obj: CMakeFiles/WinFtp.dir/includes_CXX.rsp
+CMakeFiles/WinFtp.dir/ftpsock/upload_qThread.cpp.obj: ../ftpsock/upload_qThread.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\ye11\Documents\GitHub\FTP-lient\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/WinFtp.dir/ftpsock/upload_qThread.cpp.obj"
+	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\WinFtp.dir\ftpsock\upload_qThread.cpp.obj -c C:\Users\ye11\Documents\GitHub\FTP-lient\ftpsock\upload_qThread.cpp
+
+CMakeFiles/WinFtp.dir/ftpsock/upload_qThread.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/WinFtp.dir/ftpsock/upload_qThread.cpp.i"
+	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ye11\Documents\GitHub\FTP-lient\ftpsock\upload_qThread.cpp > CMakeFiles\WinFtp.dir\ftpsock\upload_qThread.cpp.i
+
+CMakeFiles/WinFtp.dir/ftpsock/upload_qThread.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/WinFtp.dir/ftpsock/upload_qThread.cpp.s"
+	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ye11\Documents\GitHub\FTP-lient\ftpsock\upload_qThread.cpp -o CMakeFiles\WinFtp.dir\ftpsock\upload_qThread.cpp.s
+
+CMakeFiles/WinFtp.dir/UI/MainWindow/RemoteEnd/RemoteWidgetSetUp.cpp.obj: CMakeFiles/WinFtp.dir/flags.make
+CMakeFiles/WinFtp.dir/UI/MainWindow/RemoteEnd/RemoteWidgetSetUp.cpp.obj: CMakeFiles/WinFtp.dir/includes_CXX.rsp
+CMakeFiles/WinFtp.dir/UI/MainWindow/RemoteEnd/RemoteWidgetSetUp.cpp.obj: ../UI/MainWindow/RemoteEnd/RemoteWidgetSetUp.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\ye11\Documents\GitHub\FTP-lient\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/WinFtp.dir/UI/MainWindow/RemoteEnd/RemoteWidgetSetUp.cpp.obj"
+	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\WinFtp.dir\UI\MainWindow\RemoteEnd\RemoteWidgetSetUp.cpp.obj -c C:\Users\ye11\Documents\GitHub\FTP-lient\UI\MainWindow\RemoteEnd\RemoteWidgetSetUp.cpp
+
+CMakeFiles/WinFtp.dir/UI/MainWindow/RemoteEnd/RemoteWidgetSetUp.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/WinFtp.dir/UI/MainWindow/RemoteEnd/RemoteWidgetSetUp.cpp.i"
+	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ye11\Documents\GitHub\FTP-lient\UI\MainWindow\RemoteEnd\RemoteWidgetSetUp.cpp > CMakeFiles\WinFtp.dir\UI\MainWindow\RemoteEnd\RemoteWidgetSetUp.cpp.i
+
+CMakeFiles/WinFtp.dir/UI/MainWindow/RemoteEnd/RemoteWidgetSetUp.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/WinFtp.dir/UI/MainWindow/RemoteEnd/RemoteWidgetSetUp.cpp.s"
+	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ye11\Documents\GitHub\FTP-lient\UI\MainWindow\RemoteEnd\RemoteWidgetSetUp.cpp -o CMakeFiles\WinFtp.dir\UI\MainWindow\RemoteEnd\RemoteWidgetSetUp.cpp.s
+
+CMakeFiles/WinFtp.dir/UI/MainWindow/RemoteEnd/RemoteMenuSetup.cpp.obj: CMakeFiles/WinFtp.dir/flags.make
+CMakeFiles/WinFtp.dir/UI/MainWindow/RemoteEnd/RemoteMenuSetup.cpp.obj: CMakeFiles/WinFtp.dir/includes_CXX.rsp
+CMakeFiles/WinFtp.dir/UI/MainWindow/RemoteEnd/RemoteMenuSetup.cpp.obj: ../UI/MainWindow/RemoteEnd/RemoteMenuSetup.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\ye11\Documents\GitHub\FTP-lient\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/WinFtp.dir/UI/MainWindow/RemoteEnd/RemoteMenuSetup.cpp.obj"
+	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\WinFtp.dir\UI\MainWindow\RemoteEnd\RemoteMenuSetup.cpp.obj -c C:\Users\ye11\Documents\GitHub\FTP-lient\UI\MainWindow\RemoteEnd\RemoteMenuSetup.cpp
+
+CMakeFiles/WinFtp.dir/UI/MainWindow/RemoteEnd/RemoteMenuSetup.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/WinFtp.dir/UI/MainWindow/RemoteEnd/RemoteMenuSetup.cpp.i"
+	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ye11\Documents\GitHub\FTP-lient\UI\MainWindow\RemoteEnd\RemoteMenuSetup.cpp > CMakeFiles\WinFtp.dir\UI\MainWindow\RemoteEnd\RemoteMenuSetup.cpp.i
+
+CMakeFiles/WinFtp.dir/UI/MainWindow/RemoteEnd/RemoteMenuSetup.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/WinFtp.dir/UI/MainWindow/RemoteEnd/RemoteMenuSetup.cpp.s"
+	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ye11\Documents\GitHub\FTP-lient\UI\MainWindow\RemoteEnd\RemoteMenuSetup.cpp -o CMakeFiles\WinFtp.dir\UI\MainWindow\RemoteEnd\RemoteMenuSetup.cpp.s
+
+CMakeFiles/WinFtp.dir/ftpsock/Thread_Download.cpp.obj: CMakeFiles/WinFtp.dir/flags.make
+CMakeFiles/WinFtp.dir/ftpsock/Thread_Download.cpp.obj: CMakeFiles/WinFtp.dir/includes_CXX.rsp
+CMakeFiles/WinFtp.dir/ftpsock/Thread_Download.cpp.obj: ../ftpsock/Thread_Download.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\ye11\Documents\GitHub\FTP-lient\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/WinFtp.dir/ftpsock/Thread_Download.cpp.obj"
+	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\WinFtp.dir\ftpsock\Thread_Download.cpp.obj -c C:\Users\ye11\Documents\GitHub\FTP-lient\ftpsock\Thread_Download.cpp
+
+CMakeFiles/WinFtp.dir/ftpsock/Thread_Download.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/WinFtp.dir/ftpsock/Thread_Download.cpp.i"
+	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ye11\Documents\GitHub\FTP-lient\ftpsock\Thread_Download.cpp > CMakeFiles\WinFtp.dir\ftpsock\Thread_Download.cpp.i
+
+CMakeFiles/WinFtp.dir/ftpsock/Thread_Download.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/WinFtp.dir/ftpsock/Thread_Download.cpp.s"
+	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ye11\Documents\GitHub\FTP-lient\ftpsock\Thread_Download.cpp -o CMakeFiles\WinFtp.dir\ftpsock\Thread_Download.cpp.s
+
+CMakeFiles/WinFtp.dir/ftpsock/Thread_Upload.cpp.obj: CMakeFiles/WinFtp.dir/flags.make
+CMakeFiles/WinFtp.dir/ftpsock/Thread_Upload.cpp.obj: CMakeFiles/WinFtp.dir/includes_CXX.rsp
+CMakeFiles/WinFtp.dir/ftpsock/Thread_Upload.cpp.obj: ../ftpsock/Thread_Upload.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\ye11\Documents\GitHub\FTP-lient\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/WinFtp.dir/ftpsock/Thread_Upload.cpp.obj"
+	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\WinFtp.dir\ftpsock\Thread_Upload.cpp.obj -c C:\Users\ye11\Documents\GitHub\FTP-lient\ftpsock\Thread_Upload.cpp
+
+CMakeFiles/WinFtp.dir/ftpsock/Thread_Upload.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/WinFtp.dir/ftpsock/Thread_Upload.cpp.i"
+	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ye11\Documents\GitHub\FTP-lient\ftpsock\Thread_Upload.cpp > CMakeFiles\WinFtp.dir\ftpsock\Thread_Upload.cpp.i
+
+CMakeFiles/WinFtp.dir/ftpsock/Thread_Upload.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/WinFtp.dir/ftpsock/Thread_Upload.cpp.s"
+	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ye11\Documents\GitHub\FTP-lient\ftpsock\Thread_Upload.cpp -o CMakeFiles\WinFtp.dir\ftpsock\Thread_Upload.cpp.s
+
+CMakeFiles/WinFtp.dir/UI/Concurrent/JhProgressBar.cpp.obj: CMakeFiles/WinFtp.dir/flags.make
+CMakeFiles/WinFtp.dir/UI/Concurrent/JhProgressBar.cpp.obj: CMakeFiles/WinFtp.dir/includes_CXX.rsp
+CMakeFiles/WinFtp.dir/UI/Concurrent/JhProgressBar.cpp.obj: ../UI/Concurrent/JhProgressBar.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\ye11\Documents\GitHub\FTP-lient\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/WinFtp.dir/UI/Concurrent/JhProgressBar.cpp.obj"
+	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\WinFtp.dir\UI\Concurrent\JhProgressBar.cpp.obj -c C:\Users\ye11\Documents\GitHub\FTP-lient\UI\Concurrent\JhProgressBar.cpp
+
+CMakeFiles/WinFtp.dir/UI/Concurrent/JhProgressBar.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/WinFtp.dir/UI/Concurrent/JhProgressBar.cpp.i"
+	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ye11\Documents\GitHub\FTP-lient\UI\Concurrent\JhProgressBar.cpp > CMakeFiles\WinFtp.dir\UI\Concurrent\JhProgressBar.cpp.i
+
+CMakeFiles/WinFtp.dir/UI/Concurrent/JhProgressBar.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/WinFtp.dir/UI/Concurrent/JhProgressBar.cpp.s"
+	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ye11\Documents\GitHub\FTP-lient\UI\Concurrent\JhProgressBar.cpp -o CMakeFiles\WinFtp.dir\UI\Concurrent\JhProgressBar.cpp.s
+
+CMakeFiles/WinFtp.dir/UI/Concurrent/JhButton.cpp.obj: CMakeFiles/WinFtp.dir/flags.make
+CMakeFiles/WinFtp.dir/UI/Concurrent/JhButton.cpp.obj: CMakeFiles/WinFtp.dir/includes_CXX.rsp
+CMakeFiles/WinFtp.dir/UI/Concurrent/JhButton.cpp.obj: ../UI/Concurrent/JhButton.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\ye11\Documents\GitHub\FTP-lient\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/WinFtp.dir/UI/Concurrent/JhButton.cpp.obj"
+	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\WinFtp.dir\UI\Concurrent\JhButton.cpp.obj -c C:\Users\ye11\Documents\GitHub\FTP-lient\UI\Concurrent\JhButton.cpp
+
+CMakeFiles/WinFtp.dir/UI/Concurrent/JhButton.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/WinFtp.dir/UI/Concurrent/JhButton.cpp.i"
+	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ye11\Documents\GitHub\FTP-lient\UI\Concurrent\JhButton.cpp > CMakeFiles\WinFtp.dir\UI\Concurrent\JhButton.cpp.i
+
+CMakeFiles/WinFtp.dir/UI/Concurrent/JhButton.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/WinFtp.dir/UI/Concurrent/JhButton.cpp.s"
+	C:\Qt\Qt5.13.0\Tools\mingw730_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ye11\Documents\GitHub\FTP-lient\UI\Concurrent\JhButton.cpp -o CMakeFiles\WinFtp.dir\UI\Concurrent\JhButton.cpp.s
+
 # Object files for target WinFtp
 WinFtp_OBJECTS = \
 "CMakeFiles/WinFtp.dir/WinFtp_autogen/mocs_compilation.cpp.obj" \
 "CMakeFiles/WinFtp.dir/main.cpp.obj" \
-"CMakeFiles/WinFtp.dir/mainwindow.cpp.obj" \
+"CMakeFiles/WinFtp.dir/UI/mainwindow.cpp.obj" \
 "CMakeFiles/WinFtp.dir/ftpsock/login.cpp.obj" \
 "CMakeFiles/WinFtp.dir/ftpsock/ftpdata.cpp.obj" \
-"CMakeFiles/WinFtp.dir/utils/utils.cpp.obj"
+"CMakeFiles/WinFtp.dir/utils/utils.cpp.obj" \
+"CMakeFiles/WinFtp.dir/utils/commands.cpp.obj" \
+"CMakeFiles/WinFtp.dir/ftpsock/upload.cpp.obj" \
+"CMakeFiles/WinFtp.dir/UI/login.cpp.obj" \
+"CMakeFiles/WinFtp.dir/utils/ErrorCode.cpp.obj" \
+"CMakeFiles/WinFtp.dir/UI/MainWindow/LocalEnd/localMenuSetup.cpp.obj" \
+"CMakeFiles/WinFtp.dir/UI/MainWindow/LocalEnd/LocalWidgetSetUp.cpp.obj" \
+"CMakeFiles/WinFtp.dir/ftpsock/upload_qThread.cpp.obj" \
+"CMakeFiles/WinFtp.dir/UI/MainWindow/RemoteEnd/RemoteWidgetSetUp.cpp.obj" \
+"CMakeFiles/WinFtp.dir/UI/MainWindow/RemoteEnd/RemoteMenuSetup.cpp.obj" \
+"CMakeFiles/WinFtp.dir/ftpsock/Thread_Download.cpp.obj" \
+"CMakeFiles/WinFtp.dir/ftpsock/Thread_Upload.cpp.obj" \
+"CMakeFiles/WinFtp.dir/UI/Concurrent/JhProgressBar.cpp.obj" \
+"CMakeFiles/WinFtp.dir/UI/Concurrent/JhButton.cpp.obj"
 
 # External object files for target WinFtp
 WinFtp_EXTERNAL_OBJECTS =
 
 WinFtp.exe: CMakeFiles/WinFtp.dir/WinFtp_autogen/mocs_compilation.cpp.obj
 WinFtp.exe: CMakeFiles/WinFtp.dir/main.cpp.obj
-WinFtp.exe: CMakeFiles/WinFtp.dir/mainwindow.cpp.obj
+WinFtp.exe: CMakeFiles/WinFtp.dir/UI/mainwindow.cpp.obj
 WinFtp.exe: CMakeFiles/WinFtp.dir/ftpsock/login.cpp.obj
 WinFtp.exe: CMakeFiles/WinFtp.dir/ftpsock/ftpdata.cpp.obj
 WinFtp.exe: CMakeFiles/WinFtp.dir/utils/utils.cpp.obj
+WinFtp.exe: CMakeFiles/WinFtp.dir/utils/commands.cpp.obj
+WinFtp.exe: CMakeFiles/WinFtp.dir/ftpsock/upload.cpp.obj
+WinFtp.exe: CMakeFiles/WinFtp.dir/UI/login.cpp.obj
+WinFtp.exe: CMakeFiles/WinFtp.dir/utils/ErrorCode.cpp.obj
+WinFtp.exe: CMakeFiles/WinFtp.dir/UI/MainWindow/LocalEnd/localMenuSetup.cpp.obj
+WinFtp.exe: CMakeFiles/WinFtp.dir/UI/MainWindow/LocalEnd/LocalWidgetSetUp.cpp.obj
+WinFtp.exe: CMakeFiles/WinFtp.dir/ftpsock/upload_qThread.cpp.obj
+WinFtp.exe: CMakeFiles/WinFtp.dir/UI/MainWindow/RemoteEnd/RemoteWidgetSetUp.cpp.obj
+WinFtp.exe: CMakeFiles/WinFtp.dir/UI/MainWindow/RemoteEnd/RemoteMenuSetup.cpp.obj
+WinFtp.exe: CMakeFiles/WinFtp.dir/ftpsock/Thread_Download.cpp.obj
+WinFtp.exe: CMakeFiles/WinFtp.dir/ftpsock/Thread_Upload.cpp.obj
+WinFtp.exe: CMakeFiles/WinFtp.dir/UI/Concurrent/JhProgressBar.cpp.obj
+WinFtp.exe: CMakeFiles/WinFtp.dir/UI/Concurrent/JhButton.cpp.obj
 WinFtp.exe: CMakeFiles/WinFtp.dir/build.make
 WinFtp.exe: C:/Qt/Qt5.13.0/5.13.0/mingw73_64/lib/libQt5Widgetsd.a
 WinFtp.exe: C:/Qt/Qt5.13.0/5.13.0/mingw73_64/lib/libQt5Guid.a
@@ -165,7 +373,7 @@ WinFtp.exe: C:/Qt/Qt5.13.0/5.13.0/mingw73_64/lib/libQt5Cored.a
 WinFtp.exe: CMakeFiles/WinFtp.dir/linklibs.rsp
 WinFtp.exe: CMakeFiles/WinFtp.dir/objects1.rsp
 WinFtp.exe: CMakeFiles/WinFtp.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\ye11\Documents\GitHub\FTP-lient\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable WinFtp.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\ye11\Documents\GitHub\FTP-lient\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Linking CXX executable WinFtp.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\WinFtp.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

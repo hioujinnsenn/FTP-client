@@ -44,19 +44,18 @@ void uploadThread::run()             // 此进程修改成和UI主界面共生�
 {
    while(thread_alive)               // 应该设置成无限循环，不停止,通过设置thread_alive实现终止线程
    {
-       int size=this->msgs.size();
-       for (int i = 0; i < size; i++) {
+       if(this->msgs.size()>0){
            // 每次取队列头，然后处理完再把头扔了
-           FileMsg msg=msgs.front();
-           msgs.pop_front();
-           if(msg.status==1)       //属于被暂停的项目，应该扔回队尾继续等待
+           FileMsg msg=msgs[0];
+           msgs.erase(msgs.begin());   //先访问第一个再移除
+           if(msg.status.testAndSetOrdered(1,1))       //属于被暂停的项目，应该扔回队尾继续等待
            {
                this->msgs.push_back(msg);
                continue;
            }
            this->currentMsg=msg;     //设置当前项目
            id=msg.id;
-           if (i < size - 1)
+           if (this->msgs.size()>0)
                nextId = msgs.front().id;
            else nextId = -1;
            string path = msg.filepath;
@@ -104,20 +103,32 @@ void  uploadThread::receive_local_path(string path)
 void uploadThread::receive_pause_id(int id){
 
     // 暂停的时候，是不会有currentMsg的，然后旧的信息没有清除，一直卡在这
-    if(this->currentMsg.id==id)
-        this->currentMsg.status=1;  //修改状态,会在currentMsg的一定是下载中的任务
+    if(this->currentMsg.id==id) {
+        this->currentMsg.status.fetchAndStoreOrdered(1)  ;//修改状态,会在currentMsg的一定是下载中的任务
+        cout<<"暂停下载"<<this->currentMsg.status.fetchAndAddOrdered(0)<<endl;
+    }
     else {
-
         for(int i=0;i<this->msgs.size();i++)
         {
             if(this->msgs[i].id==id)    //如果是非正在下载进程
             {
                 cout<<"按钮点击事件触发"<<endl;
-                if(this->msgs[i].status==0)
-                    this->msgs[i].status=1;
-                else
-                     this->msgs[i].status=0;
-                cout<<this->msgs[i].status<<endl;
+                if(this->msgs[i].status.testAndSetOrdered(0,1)) {
+                    while(this->msgs[i].status.testAndSetOrdered(0,1))
+                        ;
+                    cout<<"暂停下载";
+                    cout<<this->msgs[i].status.fetchAndAddOrdered(0)<<endl;
+                    cout.flush();
+                }
+                else if (this->msgs[i].status.testAndSetOrdered(1,0))
+                {
+                    while(this->msgs[i].status.testAndSetOrdered(1,0))
+                        ;
+                    cout<<"恢复下载";
+                    cout<<this->msgs[i].status.fetchAndAddOrdered(0)<<endl;
+                    cout.flush();
+                }
+
                 cout.flush();
                 break;
             }

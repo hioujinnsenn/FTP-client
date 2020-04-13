@@ -44,20 +44,23 @@ bool uploadThread::downloadFileContinue(SOCKET sock, string filePath, string sto
     while(downloadsize<sizeTotal)
     {
         long recvSize=recv(dataSock,fileData,Dlength,0);
-        if(recvSize==0)       //如果发生中断，则设置暂停和处理断点续传
-        {                     //文件夹的中断处理，需要进行标记
-
-            dataSock=pasv(sock);
-            SendCommand(sock,"TYPE i\r\n");
-            SendCommand(sock,REST,downloadsize);
-            SendCommand(sock,RETR,filechars);
-            recvSize=recv(dataSock,fileData,Dlength,0);
+        if(recvSize==0||this->currentMsg.status==1)       //如果发生中断，则设置暂停和处理断点续传
+        {       //文件夹的中断处理，需要进行标记
+                // 暂停当前项目,项目回到队列尾，记录此刻的状态
+                // 当前下载的是文件，只需要保存一个文件需要的信息即可
+                this->currentMsg.filesize=downloadsize;   //记录已经下载的文件大小
+                this->currentMsg.UpOrDown=3;       //切换成下载的断点续传任务
+                this->currentMsg.isDir=0;         //0为文件
+                this->currentMsg.storepath=storePath;   //记录存储路径
+                this->msgs.push_back(this->currentMsg);     //返回队尾
+                SendCommand(sock,"ABOR\r\n");
+                break;                               //跳出结束此次任务，同时，不能让finishedOne信号发出
         }
         file.write(fileData,recvSize);
         file.flush();
         downloadsize+=recvSize;
         if (id!=-1)  //  -1 代表通过下载目录而下载的文件
-                emit sendProgress(int(100*(downloadsize*1.0/sizeTotal)),id);    //更新进度条
+           emit sendProgress(int(100*(downloadsize*1.0/sizeTotal)),id);    //更新进度条
         memset(fileData,0,Dlength);
     }
     free(fileData);
@@ -159,7 +162,7 @@ bool  uploadThread::downloadFile(SOCKET socket,string Path,int  id)
         memset(fileData,0,Dlength);
         while(count<filesize){
             // 触发暂停后的响应
-            if(this->currentMsg.status==1)
+            if(this->currentMsg.status.testAndSetOrdered(1,1))
             {
                 // 暂停当前项目,项目回到队列尾，记录此刻的状态
                 // 当前下载的是文件，只需要保存一个文件需要的信息即可
@@ -168,20 +171,22 @@ bool  uploadThread::downloadFile(SOCKET socket,string Path,int  id)
                 this->currentMsg.isDir=0;         //0为文件
                 this->currentMsg.storepath=storePath;   //记录存储路径
                 this->msgs.push_back(this->currentMsg);     //返回队尾
+                SendCommand(socket,"ABOR\r\n");
                 break;                               //跳出结束此次任务，同时，不能让finishedOne信号发出
             }
             long recvSize=recv(dataSocket,fileData,Dlength,0);
             if(recvSize==0)       //如果发生中断，则进行断点处理
             {
-                memset(message,0,Dlength);
-                sprintf(message,Path.data());
-                newport=SendCommand(socket,PASV);
-                port=getNewPort(newport);
-                dataSocket=getNewSocket("127.0.0.1",port);
-                SendCommand(socket,"TYPE i\r\n");
-                SendCommand(socket,REST,count);
-                SendCommand(socket,RETR,message);
-                recvSize=recv(dataSocket,fileData,Dlength,0);
+                // 暂停当前项目,项目回到队列尾，记录此刻的状态
+                // 当前下载的是文件，只需要保存一个文件需要的信息即可
+                this->currentMsg.filesize=count;   //记录已经下载的文件大小
+                this->currentMsg.UpOrDown=3;       //切换成下载的断点续传任务
+                this->currentMsg.isDir=0;         //0为文件
+                this->currentMsg.storepath=storePath;   //记录存储路径
+                this->currentMsg.status.fetchAndStoreOrdered(1);
+                this->msgs.push_back(this->currentMsg);     //返回队尾
+                SendCommand(socket,"ABOR\r\n");
+                break;
             }
             file.write(fileData,recvSize);
             file.flush();

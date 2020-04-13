@@ -4,11 +4,24 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
+  "C:/Users/ye11/Documents/GitHub/FTP-lient/UI/Concurrent/JhButton.cpp" "C:/Users/ye11/Documents/GitHub/FTP-lient/cmake-build-debug/CMakeFiles/WinFtp.dir/UI/Concurrent/JhButton.cpp.obj"
+  "C:/Users/ye11/Documents/GitHub/FTP-lient/UI/Concurrent/JhProgressBar.cpp" "C:/Users/ye11/Documents/GitHub/FTP-lient/cmake-build-debug/CMakeFiles/WinFtp.dir/UI/Concurrent/JhProgressBar.cpp.obj"
+  "C:/Users/ye11/Documents/GitHub/FTP-lient/UI/MainWindow/LocalEnd/LocalWidgetSetUp.cpp" "C:/Users/ye11/Documents/GitHub/FTP-lient/cmake-build-debug/CMakeFiles/WinFtp.dir/UI/MainWindow/LocalEnd/LocalWidgetSetUp.cpp.obj"
+  "C:/Users/ye11/Documents/GitHub/FTP-lient/UI/MainWindow/LocalEnd/localMenuSetup.cpp" "C:/Users/ye11/Documents/GitHub/FTP-lient/cmake-build-debug/CMakeFiles/WinFtp.dir/UI/MainWindow/LocalEnd/localMenuSetup.cpp.obj"
+  "C:/Users/ye11/Documents/GitHub/FTP-lient/UI/MainWindow/RemoteEnd/RemoteMenuSetup.cpp" "C:/Users/ye11/Documents/GitHub/FTP-lient/cmake-build-debug/CMakeFiles/WinFtp.dir/UI/MainWindow/RemoteEnd/RemoteMenuSetup.cpp.obj"
+  "C:/Users/ye11/Documents/GitHub/FTP-lient/UI/MainWindow/RemoteEnd/RemoteWidgetSetUp.cpp" "C:/Users/ye11/Documents/GitHub/FTP-lient/cmake-build-debug/CMakeFiles/WinFtp.dir/UI/MainWindow/RemoteEnd/RemoteWidgetSetUp.cpp.obj"
+  "C:/Users/ye11/Documents/GitHub/FTP-lient/UI/login.cpp" "C:/Users/ye11/Documents/GitHub/FTP-lient/cmake-build-debug/CMakeFiles/WinFtp.dir/UI/login.cpp.obj"
+  "C:/Users/ye11/Documents/GitHub/FTP-lient/UI/mainwindow.cpp" "C:/Users/ye11/Documents/GitHub/FTP-lient/cmake-build-debug/CMakeFiles/WinFtp.dir/UI/mainwindow.cpp.obj"
   "C:/Users/ye11/Documents/GitHub/FTP-lient/cmake-build-debug/WinFtp_autogen/mocs_compilation.cpp" "C:/Users/ye11/Documents/GitHub/FTP-lient/cmake-build-debug/CMakeFiles/WinFtp.dir/WinFtp_autogen/mocs_compilation.cpp.obj"
+  "C:/Users/ye11/Documents/GitHub/FTP-lient/ftpsock/Thread_Download.cpp" "C:/Users/ye11/Documents/GitHub/FTP-lient/cmake-build-debug/CMakeFiles/WinFtp.dir/ftpsock/Thread_Download.cpp.obj"
+  "C:/Users/ye11/Documents/GitHub/FTP-lient/ftpsock/Thread_Upload.cpp" "C:/Users/ye11/Documents/GitHub/FTP-lient/cmake-build-debug/CMakeFiles/WinFtp.dir/ftpsock/Thread_Upload.cpp.obj"
   "C:/Users/ye11/Documents/GitHub/FTP-lient/ftpsock/ftpdata.cpp" "C:/Users/ye11/Documents/GitHub/FTP-lient/cmake-build-debug/CMakeFiles/WinFtp.dir/ftpsock/ftpdata.cpp.obj"
   "C:/Users/ye11/Documents/GitHub/FTP-lient/ftpsock/login.cpp" "C:/Users/ye11/Documents/GitHub/FTP-lient/cmake-build-debug/CMakeFiles/WinFtp.dir/ftpsock/login.cpp.obj"
+  "C:/Users/ye11/Documents/GitHub/FTP-lient/ftpsock/upload.cpp" "C:/Users/ye11/Documents/GitHub/FTP-lient/cmake-build-debug/CMakeFiles/WinFtp.dir/ftpsock/upload.cpp.obj"
+  "C:/Users/ye11/Documents/GitHub/FTP-lient/ftpsock/upload_qThread.cpp" "C:/Users/ye11/Documents/GitHub/FTP-lient/cmake-build-debug/CMakeFiles/WinFtp.dir/ftpsock/upload_qThread.cpp.obj"
   "C:/Users/ye11/Documents/GitHub/FTP-lient/main.cpp" "C:/Users/ye11/Documents/GitHub/FTP-lient/cmake-build-debug/CMakeFiles/WinFtp.dir/main.cpp.obj"
-  "C:/Users/ye11/Documents/GitHub/FTP-lient/mainwindow.cpp" "C:/Users/ye11/Documents/GitHub/FTP-lient/cmake-build-debug/CMakeFiles/WinFtp.dir/mainwindow.cpp.obj"
+  "C:/Users/ye11/Documents/GitHub/FTP-lient/utils/ErrorCode.cpp" "C:/Users/ye11/Documents/GitHub/FTP-lient/cmake-build-debug/CMakeFiles/WinFtp.dir/utils/ErrorCode.cpp.obj"
+  "C:/Users/ye11/Documents/GitHub/FTP-lient/utils/commands.cpp" "C:/Users/ye11/Documents/GitHub/FTP-lient/cmake-build-debug/CMakeFiles/WinFtp.dir/utils/commands.cpp.obj"
   "C:/Users/ye11/Documents/GitHub/FTP-lient/utils/utils.cpp" "C:/Users/ye11/Documents/GitHub/FTP-lient/cmake-build-debug/CMakeFiles/WinFtp.dir/utils/utils.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")

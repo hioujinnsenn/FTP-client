@@ -34,7 +34,7 @@ private:
     char* Ip;
     bool isDir;     //标记当前上传的是文件还是文件夹
     int state=0;    //标记当前进度状态，0为继续，1为暂停，2为终止
-    deque<FileMsg> msgs;
+    vector<FileMsg> msgs;
     FileMsg currentMsg;     // IMPORTANT 正在传输中的任务的Msg，通过改变该元素的值，实现暂停
     int id;         //当前任务的id
     int nextId;     //下一个任务的id，

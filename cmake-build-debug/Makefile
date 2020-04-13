@@ -135,6 +135,222 @@ WinFtp_autogen/fast:
 	$(MAKE) -f CMakeFiles\WinFtp_autogen.dir\build.make CMakeFiles/WinFtp_autogen.dir/build
 .PHONY : WinFtp_autogen/fast
 
+UI/Concurrent/JhButton.obj: UI/Concurrent/JhButton.cpp.obj
+
+.PHONY : UI/Concurrent/JhButton.obj
+
+# target to build an object file
+UI/Concurrent/JhButton.cpp.obj:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/UI/Concurrent/JhButton.cpp.obj
+.PHONY : UI/Concurrent/JhButton.cpp.obj
+
+UI/Concurrent/JhButton.i: UI/Concurrent/JhButton.cpp.i
+
+.PHONY : UI/Concurrent/JhButton.i
+
+# target to preprocess a source file
+UI/Concurrent/JhButton.cpp.i:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/UI/Concurrent/JhButton.cpp.i
+.PHONY : UI/Concurrent/JhButton.cpp.i
+
+UI/Concurrent/JhButton.s: UI/Concurrent/JhButton.cpp.s
+
+.PHONY : UI/Concurrent/JhButton.s
+
+# target to generate assembly for a file
+UI/Concurrent/JhButton.cpp.s:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/UI/Concurrent/JhButton.cpp.s
+.PHONY : UI/Concurrent/JhButton.cpp.s
+
+UI/Concurrent/JhProgressBar.obj: UI/Concurrent/JhProgressBar.cpp.obj
+
+.PHONY : UI/Concurrent/JhProgressBar.obj
+
+# target to build an object file
+UI/Concurrent/JhProgressBar.cpp.obj:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/UI/Concurrent/JhProgressBar.cpp.obj
+.PHONY : UI/Concurrent/JhProgressBar.cpp.obj
+
+UI/Concurrent/JhProgressBar.i: UI/Concurrent/JhProgressBar.cpp.i
+
+.PHONY : UI/Concurrent/JhProgressBar.i
+
+# target to preprocess a source file
+UI/Concurrent/JhProgressBar.cpp.i:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/UI/Concurrent/JhProgressBar.cpp.i
+.PHONY : UI/Concurrent/JhProgressBar.cpp.i
+
+UI/Concurrent/JhProgressBar.s: UI/Concurrent/JhProgressBar.cpp.s
+
+.PHONY : UI/Concurrent/JhProgressBar.s
+
+# target to generate assembly for a file
+UI/Concurrent/JhProgressBar.cpp.s:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/UI/Concurrent/JhProgressBar.cpp.s
+.PHONY : UI/Concurrent/JhProgressBar.cpp.s
+
+UI/MainWindow/LocalEnd/LocalWidgetSetUp.obj: UI/MainWindow/LocalEnd/LocalWidgetSetUp.cpp.obj
+
+.PHONY : UI/MainWindow/LocalEnd/LocalWidgetSetUp.obj
+
+# target to build an object file
+UI/MainWindow/LocalEnd/LocalWidgetSetUp.cpp.obj:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/UI/MainWindow/LocalEnd/LocalWidgetSetUp.cpp.obj
+.PHONY : UI/MainWindow/LocalEnd/LocalWidgetSetUp.cpp.obj
+
+UI/MainWindow/LocalEnd/LocalWidgetSetUp.i: UI/MainWindow/LocalEnd/LocalWidgetSetUp.cpp.i
+
+.PHONY : UI/MainWindow/LocalEnd/LocalWidgetSetUp.i
+
+# target to preprocess a source file
+UI/MainWindow/LocalEnd/LocalWidgetSetUp.cpp.i:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/UI/MainWindow/LocalEnd/LocalWidgetSetUp.cpp.i
+.PHONY : UI/MainWindow/LocalEnd/LocalWidgetSetUp.cpp.i
+
+UI/MainWindow/LocalEnd/LocalWidgetSetUp.s: UI/MainWindow/LocalEnd/LocalWidgetSetUp.cpp.s
+
+.PHONY : UI/MainWindow/LocalEnd/LocalWidgetSetUp.s
+
+# target to generate assembly for a file
+UI/MainWindow/LocalEnd/LocalWidgetSetUp.cpp.s:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/UI/MainWindow/LocalEnd/LocalWidgetSetUp.cpp.s
+.PHONY : UI/MainWindow/LocalEnd/LocalWidgetSetUp.cpp.s
+
+UI/MainWindow/LocalEnd/localMenuSetup.obj: UI/MainWindow/LocalEnd/localMenuSetup.cpp.obj
+
+.PHONY : UI/MainWindow/LocalEnd/localMenuSetup.obj
+
+# target to build an object file
+UI/MainWindow/LocalEnd/localMenuSetup.cpp.obj:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/UI/MainWindow/LocalEnd/localMenuSetup.cpp.obj
+.PHONY : UI/MainWindow/LocalEnd/localMenuSetup.cpp.obj
+
+UI/MainWindow/LocalEnd/localMenuSetup.i: UI/MainWindow/LocalEnd/localMenuSetup.cpp.i
+
+.PHONY : UI/MainWindow/LocalEnd/localMenuSetup.i
+
+# target to preprocess a source file
+UI/MainWindow/LocalEnd/localMenuSetup.cpp.i:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/UI/MainWindow/LocalEnd/localMenuSetup.cpp.i
+.PHONY : UI/MainWindow/LocalEnd/localMenuSetup.cpp.i
+
+UI/MainWindow/LocalEnd/localMenuSetup.s: UI/MainWindow/LocalEnd/localMenuSetup.cpp.s
+
+.PHONY : UI/MainWindow/LocalEnd/localMenuSetup.s
+
+# target to generate assembly for a file
+UI/MainWindow/LocalEnd/localMenuSetup.cpp.s:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/UI/MainWindow/LocalEnd/localMenuSetup.cpp.s
+.PHONY : UI/MainWindow/LocalEnd/localMenuSetup.cpp.s
+
+UI/MainWindow/RemoteEnd/RemoteMenuSetup.obj: UI/MainWindow/RemoteEnd/RemoteMenuSetup.cpp.obj
+
+.PHONY : UI/MainWindow/RemoteEnd/RemoteMenuSetup.obj
+
+# target to build an object file
+UI/MainWindow/RemoteEnd/RemoteMenuSetup.cpp.obj:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/UI/MainWindow/RemoteEnd/RemoteMenuSetup.cpp.obj
+.PHONY : UI/MainWindow/RemoteEnd/RemoteMenuSetup.cpp.obj
+
+UI/MainWindow/RemoteEnd/RemoteMenuSetup.i: UI/MainWindow/RemoteEnd/RemoteMenuSetup.cpp.i
+
+.PHONY : UI/MainWindow/RemoteEnd/RemoteMenuSetup.i
+
+# target to preprocess a source file
+UI/MainWindow/RemoteEnd/RemoteMenuSetup.cpp.i:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/UI/MainWindow/RemoteEnd/RemoteMenuSetup.cpp.i
+.PHONY : UI/MainWindow/RemoteEnd/RemoteMenuSetup.cpp.i
+
+UI/MainWindow/RemoteEnd/RemoteMenuSetup.s: UI/MainWindow/RemoteEnd/RemoteMenuSetup.cpp.s
+
+.PHONY : UI/MainWindow/RemoteEnd/RemoteMenuSetup.s
+
+# target to generate assembly for a file
+UI/MainWindow/RemoteEnd/RemoteMenuSetup.cpp.s:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/UI/MainWindow/RemoteEnd/RemoteMenuSetup.cpp.s
+.PHONY : UI/MainWindow/RemoteEnd/RemoteMenuSetup.cpp.s
+
+UI/MainWindow/RemoteEnd/RemoteWidgetSetUp.obj: UI/MainWindow/RemoteEnd/RemoteWidgetSetUp.cpp.obj
+
+.PHONY : UI/MainWindow/RemoteEnd/RemoteWidgetSetUp.obj
+
+# target to build an object file
+UI/MainWindow/RemoteEnd/RemoteWidgetSetUp.cpp.obj:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/UI/MainWindow/RemoteEnd/RemoteWidgetSetUp.cpp.obj
+.PHONY : UI/MainWindow/RemoteEnd/RemoteWidgetSetUp.cpp.obj
+
+UI/MainWindow/RemoteEnd/RemoteWidgetSetUp.i: UI/MainWindow/RemoteEnd/RemoteWidgetSetUp.cpp.i
+
+.PHONY : UI/MainWindow/RemoteEnd/RemoteWidgetSetUp.i
+
+# target to preprocess a source file
+UI/MainWindow/RemoteEnd/RemoteWidgetSetUp.cpp.i:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/UI/MainWindow/RemoteEnd/RemoteWidgetSetUp.cpp.i
+.PHONY : UI/MainWindow/RemoteEnd/RemoteWidgetSetUp.cpp.i
+
+UI/MainWindow/RemoteEnd/RemoteWidgetSetUp.s: UI/MainWindow/RemoteEnd/RemoteWidgetSetUp.cpp.s
+
+.PHONY : UI/MainWindow/RemoteEnd/RemoteWidgetSetUp.s
+
+# target to generate assembly for a file
+UI/MainWindow/RemoteEnd/RemoteWidgetSetUp.cpp.s:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/UI/MainWindow/RemoteEnd/RemoteWidgetSetUp.cpp.s
+.PHONY : UI/MainWindow/RemoteEnd/RemoteWidgetSetUp.cpp.s
+
+UI/login.obj: UI/login.cpp.obj
+
+.PHONY : UI/login.obj
+
+# target to build an object file
+UI/login.cpp.obj:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/UI/login.cpp.obj
+.PHONY : UI/login.cpp.obj
+
+UI/login.i: UI/login.cpp.i
+
+.PHONY : UI/login.i
+
+# target to preprocess a source file
+UI/login.cpp.i:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/UI/login.cpp.i
+.PHONY : UI/login.cpp.i
+
+UI/login.s: UI/login.cpp.s
+
+.PHONY : UI/login.s
+
+# target to generate assembly for a file
+UI/login.cpp.s:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/UI/login.cpp.s
+.PHONY : UI/login.cpp.s
+
+UI/mainwindow.obj: UI/mainwindow.cpp.obj
+
+.PHONY : UI/mainwindow.obj
+
+# target to build an object file
+UI/mainwindow.cpp.obj:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/UI/mainwindow.cpp.obj
+.PHONY : UI/mainwindow.cpp.obj
+
+UI/mainwindow.i: UI/mainwindow.cpp.i
+
+.PHONY : UI/mainwindow.i
+
+# target to preprocess a source file
+UI/mainwindow.cpp.i:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/UI/mainwindow.cpp.i
+.PHONY : UI/mainwindow.cpp.i
+
+UI/mainwindow.s: UI/mainwindow.cpp.s
+
+.PHONY : UI/mainwindow.s
+
+# target to generate assembly for a file
+UI/mainwindow.cpp.s:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/UI/mainwindow.cpp.s
+.PHONY : UI/mainwindow.cpp.s
+
 WinFtp_autogen/mocs_compilation.obj: WinFtp_autogen/mocs_compilation.cpp.obj
 
 .PHONY : WinFtp_autogen/mocs_compilation.obj
@@ -161,6 +377,60 @@ WinFtp_autogen/mocs_compilation.s: WinFtp_autogen/mocs_compilation.cpp.s
 WinFtp_autogen/mocs_compilation.cpp.s:
 	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/WinFtp_autogen/mocs_compilation.cpp.s
 .PHONY : WinFtp_autogen/mocs_compilation.cpp.s
+
+ftpsock/Thread_Download.obj: ftpsock/Thread_Download.cpp.obj
+
+.PHONY : ftpsock/Thread_Download.obj
+
+# target to build an object file
+ftpsock/Thread_Download.cpp.obj:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/ftpsock/Thread_Download.cpp.obj
+.PHONY : ftpsock/Thread_Download.cpp.obj
+
+ftpsock/Thread_Download.i: ftpsock/Thread_Download.cpp.i
+
+.PHONY : ftpsock/Thread_Download.i
+
+# target to preprocess a source file
+ftpsock/Thread_Download.cpp.i:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/ftpsock/Thread_Download.cpp.i
+.PHONY : ftpsock/Thread_Download.cpp.i
+
+ftpsock/Thread_Download.s: ftpsock/Thread_Download.cpp.s
+
+.PHONY : ftpsock/Thread_Download.s
+
+# target to generate assembly for a file
+ftpsock/Thread_Download.cpp.s:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/ftpsock/Thread_Download.cpp.s
+.PHONY : ftpsock/Thread_Download.cpp.s
+
+ftpsock/Thread_Upload.obj: ftpsock/Thread_Upload.cpp.obj
+
+.PHONY : ftpsock/Thread_Upload.obj
+
+# target to build an object file
+ftpsock/Thread_Upload.cpp.obj:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/ftpsock/Thread_Upload.cpp.obj
+.PHONY : ftpsock/Thread_Upload.cpp.obj
+
+ftpsock/Thread_Upload.i: ftpsock/Thread_Upload.cpp.i
+
+.PHONY : ftpsock/Thread_Upload.i
+
+# target to preprocess a source file
+ftpsock/Thread_Upload.cpp.i:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/ftpsock/Thread_Upload.cpp.i
+.PHONY : ftpsock/Thread_Upload.cpp.i
+
+ftpsock/Thread_Upload.s: ftpsock/Thread_Upload.cpp.s
+
+.PHONY : ftpsock/Thread_Upload.s
+
+# target to generate assembly for a file
+ftpsock/Thread_Upload.cpp.s:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/ftpsock/Thread_Upload.cpp.s
+.PHONY : ftpsock/Thread_Upload.cpp.s
 
 ftpsock/ftpdata.obj: ftpsock/ftpdata.cpp.obj
 
@@ -216,6 +486,60 @@ ftpsock/login.cpp.s:
 	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/ftpsock/login.cpp.s
 .PHONY : ftpsock/login.cpp.s
 
+ftpsock/upload.obj: ftpsock/upload.cpp.obj
+
+.PHONY : ftpsock/upload.obj
+
+# target to build an object file
+ftpsock/upload.cpp.obj:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/ftpsock/upload.cpp.obj
+.PHONY : ftpsock/upload.cpp.obj
+
+ftpsock/upload.i: ftpsock/upload.cpp.i
+
+.PHONY : ftpsock/upload.i
+
+# target to preprocess a source file
+ftpsock/upload.cpp.i:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/ftpsock/upload.cpp.i
+.PHONY : ftpsock/upload.cpp.i
+
+ftpsock/upload.s: ftpsock/upload.cpp.s
+
+.PHONY : ftpsock/upload.s
+
+# target to generate assembly for a file
+ftpsock/upload.cpp.s:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/ftpsock/upload.cpp.s
+.PHONY : ftpsock/upload.cpp.s
+
+ftpsock/upload_qThread.obj: ftpsock/upload_qThread.cpp.obj
+
+.PHONY : ftpsock/upload_qThread.obj
+
+# target to build an object file
+ftpsock/upload_qThread.cpp.obj:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/ftpsock/upload_qThread.cpp.obj
+.PHONY : ftpsock/upload_qThread.cpp.obj
+
+ftpsock/upload_qThread.i: ftpsock/upload_qThread.cpp.i
+
+.PHONY : ftpsock/upload_qThread.i
+
+# target to preprocess a source file
+ftpsock/upload_qThread.cpp.i:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/ftpsock/upload_qThread.cpp.i
+.PHONY : ftpsock/upload_qThread.cpp.i
+
+ftpsock/upload_qThread.s: ftpsock/upload_qThread.cpp.s
+
+.PHONY : ftpsock/upload_qThread.s
+
+# target to generate assembly for a file
+ftpsock/upload_qThread.cpp.s:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/ftpsock/upload_qThread.cpp.s
+.PHONY : ftpsock/upload_qThread.cpp.s
+
 main.obj: main.cpp.obj
 
 .PHONY : main.obj
@@ -243,32 +567,59 @@ main.cpp.s:
 	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/main.cpp.s
 .PHONY : main.cpp.s
 
-mainwindow.obj: mainwindow.cpp.obj
+utils/ErrorCode.obj: utils/ErrorCode.cpp.obj
 
-.PHONY : mainwindow.obj
+.PHONY : utils/ErrorCode.obj
 
 # target to build an object file
-mainwindow.cpp.obj:
-	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/mainwindow.cpp.obj
-.PHONY : mainwindow.cpp.obj
+utils/ErrorCode.cpp.obj:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/utils/ErrorCode.cpp.obj
+.PHONY : utils/ErrorCode.cpp.obj
 
-mainwindow.i: mainwindow.cpp.i
+utils/ErrorCode.i: utils/ErrorCode.cpp.i
 
-.PHONY : mainwindow.i
+.PHONY : utils/ErrorCode.i
 
 # target to preprocess a source file
-mainwindow.cpp.i:
-	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/mainwindow.cpp.i
-.PHONY : mainwindow.cpp.i
+utils/ErrorCode.cpp.i:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/utils/ErrorCode.cpp.i
+.PHONY : utils/ErrorCode.cpp.i
 
-mainwindow.s: mainwindow.cpp.s
+utils/ErrorCode.s: utils/ErrorCode.cpp.s
 
-.PHONY : mainwindow.s
+.PHONY : utils/ErrorCode.s
 
 # target to generate assembly for a file
-mainwindow.cpp.s:
-	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/mainwindow.cpp.s
-.PHONY : mainwindow.cpp.s
+utils/ErrorCode.cpp.s:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/utils/ErrorCode.cpp.s
+.PHONY : utils/ErrorCode.cpp.s
+
+utils/commands.obj: utils/commands.cpp.obj
+
+.PHONY : utils/commands.obj
+
+# target to build an object file
+utils/commands.cpp.obj:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/utils/commands.cpp.obj
+.PHONY : utils/commands.cpp.obj
+
+utils/commands.i: utils/commands.cpp.i
+
+.PHONY : utils/commands.i
+
+# target to preprocess a source file
+utils/commands.cpp.i:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/utils/commands.cpp.i
+.PHONY : utils/commands.cpp.i
+
+utils/commands.s: utils/commands.cpp.s
+
+.PHONY : utils/commands.s
+
+# target to generate assembly for a file
+utils/commands.cpp.s:
+	$(MAKE) -f CMakeFiles\WinFtp.dir\build.make CMakeFiles/WinFtp.dir/utils/commands.cpp.s
+.PHONY : utils/commands.cpp.s
 
 utils/utils.obj: utils/utils.cpp.obj
 
@@ -307,21 +658,60 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... WinFtp_autogen
+	@echo ... UI/Concurrent/JhButton.obj
+	@echo ... UI/Concurrent/JhButton.i
+	@echo ... UI/Concurrent/JhButton.s
+	@echo ... UI/Concurrent/JhProgressBar.obj
+	@echo ... UI/Concurrent/JhProgressBar.i
+	@echo ... UI/Concurrent/JhProgressBar.s
+	@echo ... UI/MainWindow/LocalEnd/LocalWidgetSetUp.obj
+	@echo ... UI/MainWindow/LocalEnd/LocalWidgetSetUp.i
+	@echo ... UI/MainWindow/LocalEnd/LocalWidgetSetUp.s
+	@echo ... UI/MainWindow/LocalEnd/localMenuSetup.obj
+	@echo ... UI/MainWindow/LocalEnd/localMenuSetup.i
+	@echo ... UI/MainWindow/LocalEnd/localMenuSetup.s
+	@echo ... UI/MainWindow/RemoteEnd/RemoteMenuSetup.obj
+	@echo ... UI/MainWindow/RemoteEnd/RemoteMenuSetup.i
+	@echo ... UI/MainWindow/RemoteEnd/RemoteMenuSetup.s
+	@echo ... UI/MainWindow/RemoteEnd/RemoteWidgetSetUp.obj
+	@echo ... UI/MainWindow/RemoteEnd/RemoteWidgetSetUp.i
+	@echo ... UI/MainWindow/RemoteEnd/RemoteWidgetSetUp.s
+	@echo ... UI/login.obj
+	@echo ... UI/login.i
+	@echo ... UI/login.s
+	@echo ... UI/mainwindow.obj
+	@echo ... UI/mainwindow.i
+	@echo ... UI/mainwindow.s
 	@echo ... WinFtp_autogen/mocs_compilation.obj
 	@echo ... WinFtp_autogen/mocs_compilation.i
 	@echo ... WinFtp_autogen/mocs_compilation.s
+	@echo ... ftpsock/Thread_Download.obj
+	@echo ... ftpsock/Thread_Download.i
+	@echo ... ftpsock/Thread_Download.s
+	@echo ... ftpsock/Thread_Upload.obj
+	@echo ... ftpsock/Thread_Upload.i
+	@echo ... ftpsock/Thread_Upload.s
 	@echo ... ftpsock/ftpdata.obj
 	@echo ... ftpsock/ftpdata.i
 	@echo ... ftpsock/ftpdata.s
 	@echo ... ftpsock/login.obj
 	@echo ... ftpsock/login.i
 	@echo ... ftpsock/login.s
+	@echo ... ftpsock/upload.obj
+	@echo ... ftpsock/upload.i
+	@echo ... ftpsock/upload.s
+	@echo ... ftpsock/upload_qThread.obj
+	@echo ... ftpsock/upload_qThread.i
+	@echo ... ftpsock/upload_qThread.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
-	@echo ... mainwindow.obj
-	@echo ... mainwindow.i
-	@echo ... mainwindow.s
+	@echo ... utils/ErrorCode.obj
+	@echo ... utils/ErrorCode.i
+	@echo ... utils/ErrorCode.s
+	@echo ... utils/commands.obj
+	@echo ... utils/commands.i
+	@echo ... utils/commands.s
 	@echo ... utils/utils.obj
 	@echo ... utils/utils.i
 	@echo ... utils/utils.s

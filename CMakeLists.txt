@@ -13,11 +13,15 @@ find_package(Qt5Widgets REQUIRED)
 add_executable(WinFtp main.cpp
         UI/mainwindow.cpp UI/mainwindow.h ftpsock/login.cpp
         ftpsock/login.h ftpsock/ftpdata.cpp ftpsock/ftpdata.h
-        utils/utils.cpp utils/utils.h ftpsock/download.cpp ftpsock/download.h
+        utils/utils.cpp utils/utils.h
         utils/commands.cpp  utils/commands.h ftpsock/upload.cpp  UI/login.h  UI/login.cpp
         ftpsock/upload.h utils/ErrorCode.cpp utils/ErrorCode.h utils/resource.h UI/MainWindow/LocalEnd/localMenuSetup.cpp
         UI/MainWindow/LocalEnd/LocalWidgetSetUp.cpp  ftpsock/upload_qThread.cpp ftpsock/upload_qThread.h
-        UI/MainWindow/RemoteEnd/RemoteWidgetSetUp.cpp UI/MainWindow/RemoteEnd/RemoteMenuSetup.cpp )
+        UI/MainWindow/RemoteEnd/RemoteWidgetSetUp.cpp UI/MainWindow/RemoteEnd/RemoteMenuSetup.cpp
+        ftpsock/Thread_Download.cpp ftpsock/Thread_Upload.cpp
+        UI/Concurrent/JhButton.h UI/Concurrent/JhProgressBar.cpp UI/Concurrent/JhButton.cpp UI/Concurrent/JhProgressBar.h
+
+        )
 target_link_libraries(WinFtp Qt5::Core)
 target_link_libraries(WinFtp Qt5::Widgets)
 target_link_libraries(WinFtp wsock32 shlwapi)
