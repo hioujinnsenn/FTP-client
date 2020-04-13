@@ -44,20 +44,15 @@ void uploadThread::run()             // 此进程修改成和UI主界面共生�
 {
    while(thread_alive)               // 应该设置成无限循环，不停止,通过设置thread_alive实现终止线程
    {
-       int size=this->msgs.size();
-       for (int i = 0; i < size; i++) {
+       while(msgs.size()>0) {
            // 每次取队列头，然后处理完再把头扔了
            FileMsg msg=msgs.front();
-           msgs.pop_front();
-           if(msg.status==1)       //属于被暂停的项目，应该扔回队尾继续等待
-           {
-               this->msgs.push_back(msg);
-               continue;
-           }
+           msgs.erase(msgs.begin());
            this->currentMsg=msg;     //设置当前项目
+           this->currentMsg.status=0;
            id=msg.id;
-           if (i < size - 1)
-               nextId = msgs.front().id;
+           if(this->msgs.size()>0)
+               nextId=this->msgs.front().id;
            else nextId = -1;
            string path = msg.filepath;
            SOCKET  sock=login(this->Username,this->Password,this->Ip);
@@ -102,10 +97,15 @@ void  uploadThread::receive_local_path(string path)
 //  恢复也是用同一个事件即可
 // 通过模二的加法即可
 void uploadThread::receive_pause_id(int id){
-
+    
     // 暂停的时候，是不会有currentMsg的，然后旧的信息没有清除，一直卡在这
-    if(this->currentMsg.id==id)
-        this->currentMsg.status=1;  //修改状态,会在currentMsg的一定是下载中的任务
+    if(this->currentMsg.id==id) {
+
+        this->currentMsg.status = 1;  //修改状态,会在currentMsg的一定是下载中的任务
+        this->currentMsg.UpOrDown=3;
+        this->currentMsg.isDir=0;
+        this->stopedMsgs.push_back(this->currentMsg);
+    }
     else {
 
         for(int i=0;i<this->msgs.size();i++)
@@ -113,13 +113,29 @@ void uploadThread::receive_pause_id(int id){
             if(this->msgs[i].id==id)    //如果是非正在下载进程
             {
                 cout<<"按钮点击事件触发"<<endl;
-                if(this->msgs[i].status==0)
-                    this->msgs[i].status=1;
-                else
-                     this->msgs[i].status=0;
-                cout<<this->msgs[i].status<<endl;
+                 this->msgs[i].status = 1;
+                 this->currentMsg.UpOrDown=3;       //切换成下载的断点续传任务
+                 this->currentMsg.isDir=0;         //0为文件
+                 this->stopedMsgs.push_back(this->currentMsg);
                 cout.flush();
+                return  ;
+            }
+        }
+        for(int i=0;i<this->stopedMsgs.size();i++)
+        {
+            int finish=0;
+            if(this->stopedMsgs[i].id==id)
+            {
+                this->currentMsg=this->stopedMsgs[i];
+                this->currentMsg.status=0;       //恢复成正常的元素
+                this->currentMsg.filesize=getFileSize(this->currentMsg.storepath);
+                this->msgs.push_back(this->currentMsg);
+                finish=1;
                 break;
+            }
+            if(finish==1&&this->stopedMsgs[i].id==id)
+            {
+                this->stopedMsgs.erase(this->stopedMsgs.begin()+i);
             }
         }
     }

@@ -43,6 +43,11 @@ bool uploadThread::downloadFileContinue(SOCKET sock, string filePath, string sto
     SendCommand(sock,RETR,filechars);
     while(downloadsize<sizeTotal)
     {
+        if(this->currentMsg.status==1)
+        {
+            SendCommand(sock,"ABOR\r\n");
+            break;                               //跳出结束此次任务，同时，不能让finishedOne信号发出
+        }
         long recvSize=recv(dataSock,fileData,Dlength,0);
         if(recvSize==0)       //如果发生中断，则设置暂停和处理断点续传
         {                     //文件夹的中断处理，需要进行标记
@@ -56,6 +61,7 @@ bool uploadThread::downloadFileContinue(SOCKET sock, string filePath, string sto
         file.write(fileData,recvSize);
         file.flush();
         downloadsize+=recvSize;
+        this->currentMsg.filesize=downloadsize;
         if (id!=-1)  //  -1 代表通过下载目录而下载的文件
                 emit sendProgress(int(100*(downloadsize*1.0/sizeTotal)),id);    //更新进度条
         memset(fileData,0,Dlength);
@@ -107,6 +113,7 @@ bool uploadThread::downloadFile(SOCKET sock, string filePath, string storePath, 
             file.write(fileData,recvSize);
             file.flush();
             count+=recvSize;
+            this->currentMsg.filesize=count;
             if (id!=-1)  //  -1 代表通过下载目录而下载的文件
                     emit sendProgress(int(100*(count*1.0/filesize)),id);    //更新进度条
             memset(fileData,0,Dlength);
@@ -154,6 +161,7 @@ bool  uploadThread::downloadFile(SOCKET socket,string Path,int  id)
         string filename=Path.substr(pos);
         storePath.append(filename);                     // 拼接本地路径
         QFile file(storePath.data());
+        this->currentMsg.storepath=storePath;
         file.open(QIODevice::WriteOnly);           //此处不涉及断点续传，直接覆盖
         char* fileData=(char*)malloc(Dlength);
         memset(fileData,0,Dlength);
@@ -168,6 +176,7 @@ bool  uploadThread::downloadFile(SOCKET socket,string Path,int  id)
                 this->currentMsg.isDir=0;         //0为文件
                 this->currentMsg.storepath=storePath;   //记录存储路径
                 this->msgs.push_back(this->currentMsg);     //返回队尾
+                SendCommand(socket,"ABOR\r\n");
                 break;                               //跳出结束此次任务，同时，不能让finishedOne信号发出
             }
             long recvSize=recv(dataSocket,fileData,Dlength,0);
@@ -186,6 +195,7 @@ bool  uploadThread::downloadFile(SOCKET socket,string Path,int  id)
             file.write(fileData,recvSize);
             file.flush();
             count+=recvSize;
+            this->currentMsg.filesize=count;
             if (id!=-1)  //  -1 代表通过下载目录而下载的文件
                     emit sendProgress(int(100*(count*1.0/filesize)),id);    //更新进度条
             memset(fileData,0,Dlength);
