@@ -11,7 +11,9 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+
     ui->setupUi(this);
+    this->setWindowIcon(QIcon("../UI/resoucre/icon/64/ftp.png"));
     setupList(ui->listWidget1_1,ui->listWidget1_2,ui->listWidget1_3,localFiles);
     qRegisterMetaType<FileMsg>("FileMsg");             // 注册FileMsg类为元信息
     qRegisterMetaType<string>("string");

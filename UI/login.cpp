@@ -8,6 +8,7 @@ Login::Login(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Login)
 {
+    this->setWindowIcon(QIcon("../UI/resoucre/icon/64/ftp.png"));
     ui->setupUi(this);
     ui->lineEdit->setText("127.0.0.1");
     ui->lineEdit_2->setText("jh");

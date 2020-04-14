@@ -342,9 +342,9 @@ bool uploadThread::downloadDir(string filePath,int id){
 // 断点续传：目录的，处理方式更普通文件不同
 // 记录当前正在下载的文件，文件顺序是固定的，只需要获取文件列表逐个遍历即可
 bool uploadThread::downloadDirContinue(string DirPath,string storePath, int finishedNum, int id) {
-    
+
     // 如后期不稳定，应改成每个单独文件创建一个sock命令端口
-    //创建本地文件夹
+    // 创建本地文件夹
     SOCKET  sock=login(this->Username,this->Password,this->Ip);
     char* cwdPath=(char*)malloc(400);
     memset(cwdPath,0,400);
