@@ -62,20 +62,19 @@ void uploadThread::run()             // 此进程修改成和UI主界面共生�
                upload(sock, path, id);
            }
            else  if(msg.UpOrDown==1){
-               download(sock,path,id);
+               download(path,id);
            }
-           else if(msg.UpOrDown==2)
+           else if(msg.UpOrDown==2)    //上传项目的断点续传
            {
              ;
            }
            else if(msg.UpOrDown==3)    //下载项目的断点续传
            {
                cout<<"断点续传"<<endl;
-              downloadContinue(sock);
+               downloadContinue();
            }
            if(this->currentMsg.status==0)          //没有被暂停的任务就会发送完成，被中断的项目就不会发送
                emit(finishOne(id, nextId));        //任务为一个文件则发送一个任务完成
-           SendCommand(sock,QUIT);
            this->currentMsg=FileMsg();             //每次都要新建一个空的，全0的数据覆盖掉旧的，保证receive_pause_id是正确的
            this->currentMsg.id=-1;                 //标记为-1的都是没有用的空项目
        }
@@ -97,44 +96,52 @@ void  uploadThread::receive_local_path(string path)
 //  恢复也是用同一个事件即可
 // 通过模二的加法即可
 void uploadThread::receive_pause_id(int id){
-    
+
     // 暂停的时候，是不会有currentMsg的，然后旧的信息没有清除，一直卡在这
     if(this->currentMsg.id==id) {
-
-        this->currentMsg.status = 1;  //修改状态,会在currentMsg的一定是下载中的任务
-        this->currentMsg.UpOrDown=3;
-        this->currentMsg.isDir=0;
-        this->stopedMsgs.push_back(this->currentMsg);
+        // 文件和目录的暂停，需要在这里做的一样
+        // 不同的部分在下载的函数内更新了
+            this->currentMsg.status = 1;  //修改状态,会在currentMsg的一定是下载中的任务
+            this->currentMsg.UpOrDown = 3;
+            this->stopedMsgs.push_back(this->currentMsg);
     }
     else {
-
+       //暂停
         for(int i=0;i<this->msgs.size();i++)
         {
             if(this->msgs[i].id==id)    //如果是非正在下载进程
             {
-                cout<<"按钮点击事件触发"<<endl;
-                 this->msgs[i].status = 1;
-                 this->currentMsg.UpOrDown=3;       //切换成下载的断点续传任务
-                 this->currentMsg.isDir=0;         //0为文件
-                 this->stopedMsgs.push_back(this->currentMsg);
-                cout.flush();
-                return  ;
+                // 文件和目录的暂停，需要在这里做的一样
+                // 不同的部分在下载的函数内更新了
+                    cout << "按钮点击事件触发" << endl;
+                    this->msgs[i].status = 1;
+                    this->currentMsg.UpOrDown = 3;       //切换成下载的断点续传任务
+                    cout.flush();
+                    return;
             }
         }
+        //恢复
         for(int i=0;i<this->stopedMsgs.size();i++)
         {
             int finish=0;
             if(this->stopedMsgs[i].id==id)
             {
-                this->currentMsg=this->stopedMsgs[i];
-                this->currentMsg.status=0;       //恢复成正常的元素
-                this->currentMsg.filesize=getFileSize(this->currentMsg.storepath);
-                this->msgs.push_back(this->currentMsg);
-                finish=1;
-                break;
+                if(this->stopedMsgs[i].isDir==0)
+                {
+                 this->stopedMsgs[i].filesize=getFileSize(this->currentMsg.storepath);  //数据不同步，应该直接问硬盘
+                 this->stopedMsgs[i].status=0;
+                 this->msgs.push_back(this->stopedMsgs[i]);
+                 finish=1;
+                }
+                else{
+                    this->stopedMsgs[i].status=0; //恢复下载
+                    this->msgs.push_back(this->stopedMsgs[i]);
+                    finish=1;
+                }
             }
             if(finish==1&&this->stopedMsgs[i].id==id)
             {
+                //从被暂停列表中移除项目
                 this->stopedMsgs.erase(this->stopedMsgs.begin()+i);
             }
         }

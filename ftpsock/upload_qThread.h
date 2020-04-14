@@ -45,16 +45,20 @@ private:
 public:
     uploadThread(string username,string password,string ip);
     ~uploadThread() override;
-    bool download(SOCKET sock,string filePath,int id);
+    bool download(string filePath,int id);
     long filesize(SOCKET sock ,char* filename);
     bool upload(SOCKET sock, string filePath,int id);
     bool uploadFile(SOCKET sock, string filePath,int id);      // 单个文件以文件的
     bool uploadDir(SOCKET sock, string dirPath,int id);        // 文件夹的上传处理，以文件的个数作为进度的依据
-    bool downloadFile(SOCKET sock,string filePath,int id);     // 单个文件的下载
-    bool downloadFile(SOCKET sock,string filePath,string storePath,int id); // 单个文件的下载，指定本地路径
-    bool downloadDir(SOCKET sock,string filePath,int id);      // 文件夹的下载处理
-    bool downloadFileContinue(SOCKET  sock,string filePath,string storePath,int id,long  downloadsize);  //文件断点续传
-    bool downloadContinue(SOCKET sock);
+    bool downloadFile(string filePath,int id);     // 单个文件的下载
+
+    //用于文件夹的下载
+    int downloadFile(string filePath,string storePath,int filecount); // 单个文件的下载，指定本地路径
+    bool downloadDir(string filePath,int id);      // 文件夹的下载处理
+    bool downloadFileContinue(string filePath,string storePath,long  downloadsize);  //文件断点续传
+    bool downloadDirContinue(string DirPath,string storePath,int finishedNum,int id);    //目录断点续传
+    bool downloadContinue();
+    int downloadDirStopedFileContinue(string filePath,string storePath,int filecount,long downloadsize);
 protected:
     void run() override;
 signals:
