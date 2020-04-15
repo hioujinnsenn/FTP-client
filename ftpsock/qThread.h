@@ -53,7 +53,7 @@ public:
     bool downloadFile(string filePath,int id);     // 单个文件的下载
 
     //用于文件夹的下载
-    int downloadDirFile(string filePath,string storePath,int filecount); // 单个文件的下载，指定本地路径
+    int downloadFile(string filePath,string storePath,int filecount); // 单个文件的下载，指定本地路径
     bool downloadDir(string filePath,int id);      // 文件夹的下载处理
     bool downloadFileContinue(string filePath,string storePath,long  downloadsize);  //文件断点续传
     bool downloadDirContinue(string DirPath,string storePath,int finishedNum,int id);    //目录断点续传
