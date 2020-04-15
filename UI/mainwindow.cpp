@@ -86,7 +86,7 @@ MainWindow::MainWindow(QWidget *parent) :
     SendCommand(sock,QUIT);
 
     //创建伴随存在的子线程
-    this->dataThread=new uploadThread(this->Username,this->Password,this->Ip);
+    this->dataThread=new qThread(this->Username, this->Password, this->Ip);
     connect(dataThread, SIGNAL(sendProgress(int,int)), this, SLOT(on_progressBar_valueChanged(int,int)));   //进度条数据绑定槽函数
     connect(dataThread, SIGNAL(finishOne(int,int)), this, SLOT(on_finishOneTask(int, int)));                //任务结束信号绑定界面槽函数
     connect(this,SIGNAL(send_filemsg(FileMsg)),dataThread,SLOT(receive_filemsg(FileMsg)));//传输文件信息和id

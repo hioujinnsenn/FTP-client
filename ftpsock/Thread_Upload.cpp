@@ -1,7 +1,7 @@
 //
 // Created by ye11 on 2020/4/11.
 //
-#include "upload_qThread.h"
+#include "qThread.h"
 
 // 拆分upload_qThread的代码
 
@@ -12,16 +12,16 @@
  * @param filePath 所需上传的文件所在本地路径
  * @return 返回参数可修改，目前为string
  */
-bool uploadThread::upload(SOCKET sock, string filePath,int id)
+bool qThread::upload(string filePath, int id)
 {
     bool result;
     if(PathIsDirectory(filePath.data())){   //是目录路径
         isDir=true;
-        result=uploadDir(sock, filePath,id);
+        result=uploadDir(filePath,id);
     }
     else{   //是文件路径
         isDir=false;
-        result=uploadFile(sock, filePath,id);
+        result=uploadFile(filePath, id);
     }
     return result;
 }
@@ -34,17 +34,16 @@ bool uploadThread::upload(SOCKET sock, string filePath,int id)
  * @return 执行的结果以字符串形式返回并打印
  * offset参数可作为上传进度的参考值，与sizeLocal的比值即可判断上传进度
  */
-bool uploadThread::uploadFile(SOCKET sock, string filePath,int id)     //上传文件到服务器
+bool qThread::uploadFile(string filePath, int id)     //上传文件到服务器
 {
+    SOCKET sock=login(this->Username, this->Password, this->Ip);
     SendCommand(sock, "TYPE i\r\n");
     SOCKET dataSock=pasv(sock);   //开启被动模式，返回数据端口socket
-
 
     char* fileName=(char*)malloc(filePath.size()); //所需上传文件的文件名
     memset(fileName, 0,filePath.size());
     int i=(filePath.find_last_of('\\')!=string::npos) ? filePath.find_last_of('\\') : filePath.find_last_of('/');  //找到文件名前的分隔符
     sprintf(fileName, filePath.substr(i+1, string::npos).c_str());  //得到所需上传的文件名
-    size_t offset=0;  //文件写偏移量，用于断点续传。文件内容格式：一个断点文件一行，【文件路径 上传偏移量】中间空格隔开
     size_t sizeLocal=getFileSize(filePath);     //得到本地需要上传的文件的大小
     QFile file(QString::fromStdString(filePath));
     if(! file.open(QIODevice::ReadOnly)){
@@ -53,26 +52,24 @@ bool uploadThread::uploadFile(SOCKET sock, string filePath,int id)     //上传�
         closesocket(dataSock);
         return false;
     }
-    file.seek(offset);
-//    file.seek(offset, ios::beg);   //将file流的读取指针移到上传的文件内容后面，继续上传
     string mes=SendCommand(sock, APPE, fileName);  //请求上传文件，若不存在则新建，反之则在文件中接着上传
     string m=mes.substr(0,2);
     if(m>"300" || m.empty()){
         cout<<"文件上传失败"<<endl;
         file.close();
         free(fileName);
+        SendCommand(sock,"ABOR\r\n");     //终止数据传输
         closesocket(dataSock);
+        SendCommand(sock,QUIT);
         return false;   //失败返回
     }
     long upSize=filesize(sock,fileName);
     while(upSize<sizeLocal)                    //使用两层循环，一层上传，一层检测数据
     {
         while (!file.atEnd()) {    //在到达文件末尾前持续读文件，将文件内容通过数据端口上传到服务器
-            if (state == 1) {   //被暂停的项目
-                /***
-                 * 将方法getFilePath得到的没传完的文件路径返回到主窗口的槽函数中，将没写完的当前文件加入断点续传日志中。
-                 * 余下内容同终止状态
-                 */
+            if (this->currentMsg.status == 1) {   //被暂停的项目
+                this->currentMsg.filesize=upSize;
+
                 cout << "项目被暂停！" << endl;
             }
             if (state) {   //该项目被终止或暂停，则需要销毁线程
@@ -85,7 +82,6 @@ bool uploadThread::uploadFile(SOCKET sock, string filePath,int id)     //上传�
             memset(message, 0, Dlength);
             size_t rlength = file.read(message, Dlength); //read返回当前读到的字节数
             send(dataSock, message, rlength, 0);
-            offset += rlength;
             free(message);
             upSize=filesize(sock,fileName);
             if (!isDir) {
@@ -115,8 +111,9 @@ bool uploadThread::uploadFile(SOCKET sock, string filePath,int id)     //上传�
  * @return
  * 下面的i和files.size()比值可得当前文件夹上传的进度（以文件夹中上传的文件数为计量单位）
  */
-bool uploadThread::uploadDir(SOCKET sock, string dirPath,int id)    //上传文件夹到服务器指定目录下
+bool qThread::uploadDir(string dirPath, int id)    //上传文件夹到服务器指定目录下
 {
+    SOCKET sock=login(this->Username, this->Password, this->Ip);
     string uploadPath=pwd(sock);    //得到需要上传到的目录
     vector<string> files, names;
     string dirName=dirPath.substr(dirPath.find_last_of("\\")+1, dirPath.size());
@@ -140,7 +137,7 @@ bool uploadThread::uploadDir(SOCKET sock, string dirPath,int id)    //上传文�
             mkd(sock, wd);  //创建目录
             cwd(sock, wd);  //进入目录
         }
-        if(! uploadFile(sock, path,id))
+        if(! uploadFile(path,id))
             return false;
         emit sendProgress(100*(i+1)/files.size(), id);    //上传目录的进度
     }
@@ -148,7 +145,7 @@ bool uploadThread::uploadDir(SOCKET sock, string dirPath,int id)    //上传文�
     return true;
 }
 
-long uploadThread::filesize(SOCKET sock,char* filename){
+long qThread::filesize(SOCKET sock, char* filename){
     char*  path=(char*)malloc(Dlength);
     memset(path,0,Dlength);
     sprintf(path,filename);

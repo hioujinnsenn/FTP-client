@@ -2,8 +2,8 @@
 // Created by asus on 2020/3/20.
 //
 
-#ifndef FTP_CLIENT_UPLOAD_QTHREAD_H
-#define FTP_CLIENT_UPLOAD_QTHREAD_H
+#ifndef FTP_CLIENT_QTHREAD_H
+#define FTP_CLIENT_QTHREAD_H
 
 #include <QThread>
 #include <winsock.h>
@@ -24,7 +24,7 @@ using namespace std;
 /***
  * 实际上下载和上传应该同一个了，没有区分了才对
  */
-class uploadThread: public QThread
+class qThread: public QThread
 {
     Q_OBJECT
 private:
@@ -43,13 +43,13 @@ private:
     string remote_path;       //备份的远程目前的路径，需要恢复
     string local_path;        //下载默认就是下载到选择的路径
 public:
-    uploadThread(string username,string password,string ip);
-    ~uploadThread() override;
+    qThread(string username, string password, string ip);
+    ~qThread() override;
     bool download(string filePath,int id);
     long filesize(SOCKET sock ,char* filename);
-    bool upload(SOCKET sock, string filePath,int id);
-    bool uploadFile(SOCKET sock, string filePath,int id);      // 单个文件以文件的
-    bool uploadDir(SOCKET sock, string dirPath,int id);        // 文件夹的上传处理，以文件的个数作为进度的依据
+    bool upload(string filePath,int id);
+    bool uploadFile(string filePath,int id);      // 单个文件以文件的
+    bool uploadDir(string dirPath,int id);        // 文件夹的上传处理，以文件的个数作为进度的依据
     bool downloadFile(string filePath,int id);     // 单个文件的下载
 
     //用于文件夹的下载
@@ -74,4 +74,4 @@ public slots:
      void  receive_pause_id(int id);         //接受暂停的任务的id，并暂停该任务
 };
 
-#endif //FTP_CLIENT_UPLOAD_QTHREAD_H
+#endif //FTP_CLIENT_QTHREAD_H

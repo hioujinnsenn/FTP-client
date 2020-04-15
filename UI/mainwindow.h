@@ -20,7 +20,7 @@
 #include <QScrollBar>
 #include <QListWidget>
 #include <QAction>
-#include "ftpsock/upload_qThread.h"
+#include "ftpsock/qThread.h"
 #include "FileMsg.h"
 extern  vector<File> localFiles;
 namespace Ui {
@@ -43,7 +43,7 @@ public:
     string remote_lastItemName;        // 此刻远程处理的item
     vector<File> localList;
     vector<File> remoteList;
-    uploadThread* dataThread;               //数据线程
+    qThread* dataThread;               //数据线程
     int itemId=-1;                      // 下载项的唯一item值，每次打开的时候从零开始(每次在新建任务的开始+1)
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();

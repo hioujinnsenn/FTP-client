@@ -2,11 +2,11 @@
 // Created by asus on 2020/3/20.
 //
 
-#include "upload_qThread.h"
+#include "qThread.h"
 #include <QDebug>
 #include "ftpsock/upload.h"
 
-uploadThread::uploadThread(string username,string password,string ip) //构造器
+qThread::qThread(string username, string password, string ip) //构造器
 {
     // 只传递必要的信息，文件信息通过信号槽传递
     this->Username=(char*)malloc(400);
@@ -21,12 +21,11 @@ uploadThread::uploadThread(string username,string password,string ip) //构造�
 
 }
 
-uploadThread::~uploadThread()   //析构器
+qThread::~qThread()   //析构器
 {
-    qDebug()<<"uploadThread::~uploadThread";
+    qDebug() << "qThread::qThread";
 }
-
-void uploadThread::setStop()
+void qThread::setStop()
 {
     if(state==0){
         state=1;    //进度暂停
@@ -35,12 +34,12 @@ void uploadThread::setStop()
         state=0;    //进度继续（开始）
     }
 }
-void uploadThread::receive_filemsg(FileMsg msg)   //  接受UI界面传递过来的文件信息
+void qThread::receive_filemsg(FileMsg msg)   //  接受UI界面传递过来的文件信息
 {
 
     this->msgs.push_back(msg);         //更改为deque类型，因为queue不好使用下标访问
 }
-void uploadThread::run()             // 此进程修改成和UI主界面共生存在
+void qThread::run()             // 此进程修改成和UI主界面共生存在
 {
    while(thread_alive)               // 应该设置成无限循环，不停止,通过设置thread_alive实现终止线程
    {
@@ -59,7 +58,7 @@ void uploadThread::run()             // 此进程修改成和UI主界面共生�
            cwd(sock,this->remote_path);
            if(msg.UpOrDown==0)       //上传
            {
-               upload(sock, path, id);
+               upload(path, id);
            }
            else  if(msg.UpOrDown==1){
                download(path,id);
@@ -80,13 +79,13 @@ void uploadThread::run()             // 此进程修改成和UI主界面共生�
        }
    }
 }
-void uploadThread::receive_remote_path(string path) {
+void qThread::receive_remote_path(string path) {
     this->remote_path=path;
 }
 
 
 
-void  uploadThread::receive_local_path(string path)
+void  qThread::receive_local_path(string path)
 {
     this->local_path=path;
 }
@@ -95,14 +94,16 @@ void  uploadThread::receive_local_path(string path)
 // 下载和上传的暂停都是设置
 //  恢复也是用同一个事件即可
 // 通过模二的加法即可
-void uploadThread::receive_pause_id(int id){
+void qThread::receive_pause_id(int id){
 
     // 暂停的时候，是不会有currentMsg的，然后旧的信息没有清除，一直卡在这
     if(this->currentMsg.id==id) {
         // 文件和目录的暂停，需要在这里做的一样
         // 不同的部分在下载的函数内更新了
             this->currentMsg.status = 1;  //修改状态,会在currentMsg的一定是下载中的任务
-            this->currentMsg.UpOrDown = 3;
+            if(this->currentMsg.UpOrDown==1)    //下载断点续传
+                this->currentMsg.UpOrDown = 3;
+            else this->currentMsg.UpOrDown=2;   //上传断点续传
             this->stopedMsgs.push_back(this->currentMsg);
     }
     else {
@@ -115,7 +116,10 @@ void uploadThread::receive_pause_id(int id){
                 // 不同的部分在下载的函数内更新了
                     cout << "按钮点击事件触发" << endl;
                     this->msgs[i].status = 1;
+                    if(this->msgs[i].UpOrDown)
                     this->currentMsg.UpOrDown = 3;       //切换成下载的断点续传任务
+                    this->stopedMsgs.push_back(this->msgs[i]);
+                    this->msgs.erase(this->msgs.begin()+i);
                     cout.flush();
                     return;
             }

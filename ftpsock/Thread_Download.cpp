@@ -1,10 +1,10 @@
 //
 // Created by ye11 on 2020/4/11.
 //
-#include "upload_qThread.h"
+#include "qThread.h"
 
 // 下载断点续传，分为单个文件处理还有文件夹处理
-bool uploadThread::downloadContinue() {
+bool qThread::downloadContinue() {
     if (this->currentMsg.isDir==1)
     {
         //多文件不会安排在此处，由于代码内部会不断申请新的sock
@@ -18,7 +18,7 @@ bool uploadThread::downloadContinue() {
 }
 
 //  被run调用的下载
-bool uploadThread::download(string filePath, int id) {
+bool qThread::download(string filePath, int id) {
     if(PathIsDirectory(filePath.data()))
     {
         this->currentMsg.isDir=1;  //1是目录，0是文件
@@ -31,7 +31,7 @@ bool uploadThread::download(string filePath, int id) {
 
 
 // 断点续传，单个文件的处理
-bool uploadThread::downloadFileContinue( string filePath, string storePath, long downloadsize) {
+bool qThread::downloadFileContinue( string filePath, string storePath, long downloadsize) {
     SOCKET sock=login(this->Username,this->Password,this->Ip);
     SOCKET dataSock=pasv(sock);                  // 被动模式
     SendCommand(sock,"TYPE i\r\n");           // 二进制数据传输
@@ -87,7 +87,7 @@ bool uploadThread::downloadFileContinue( string filePath, string storePath, long
  *  @param filecount: 当前元素的编号，也等于已经完成的文件数
  *  @return   1：下载正常结束 2：被暂停  -1：异常结束
  * */
-int uploadThread::downloadFile( string filePath, string storePath,int filecount) {
+int qThread::downloadFile( string filePath, string storePath,int filecount) {
     SOCKET  sock=login(this->Username,this->Password,this->Ip);
     long count=0;
     string newport=SendCommand(sock,PASV);
@@ -149,7 +149,7 @@ int uploadThread::downloadFile( string filePath, string storePath,int filecount)
 }
 
 // 默认无路径的下载文件函数，嵌入到数据线程中
-bool  uploadThread::downloadFile(string Path,int  id)
+bool  qThread::downloadFile(string Path,int  id)
 {
     /**
      *  socket：命令端口
@@ -235,7 +235,7 @@ bool  uploadThread::downloadFile(string Path,int  id)
 
 // 重写的目录下载
 // 增加了文件夹断点续传支持 2020.4.13
-bool uploadThread::downloadDir(string filePath,int id){
+bool qThread::downloadDir(string filePath,int id){
     SOCKET  sock=login(this->Username,this->Password,this->Ip);
     // 切换回当前目录
     char* cwdPath=(char*)malloc(400);
@@ -341,7 +341,7 @@ bool uploadThread::downloadDir(string filePath,int id){
 
 // 断点续传：目录的，处理方式更普通文件不同
 // 记录当前正在下载的文件，文件顺序是固定的，只需要获取文件列表逐个遍历即可
-bool uploadThread::downloadDirContinue(string DirPath,string storePath, int finishedNum, int id) {
+bool qThread::downloadDirContinue(string DirPath,string storePath, int finishedNum, int id) {
 
     // 如后期不稳定，应改成每个单独文件创建一个sock命令端口
     // 创建本地文件夹
@@ -454,7 +454,7 @@ bool uploadThread::downloadDirContinue(string DirPath,string storePath, int fini
  * @details：文件夹内文件的断点续传，只有一个需要调用此函数，其他的都是正常处理
  *           由于逻辑有细微区别，避免某个函数内部逻辑过于复杂，从而拆分开
  * */
-int uploadThread::downloadDirStopedFileContinue(string filePath, string storePath,  int filecount,long downloadsize) {
+int qThread::downloadDirStopedFileContinue(string filePath, string storePath,  int filecount,long downloadsize) {
     SOCKET  sock=login(this->Username,this->Password,this->Ip);
     SOCKET dataSock=pasv(sock);                  // 被动模式
     SendCommand(sock,"TYPE i\r\n");           // 二进制数据传输
