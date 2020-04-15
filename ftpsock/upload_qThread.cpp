@@ -100,7 +100,7 @@ void uploadThread::receive_pause_id(int id){
     // 暂停的时候，是不会有currentMsg的，然后旧的信息没有清除，一直卡在这
     if(this->currentMsg.id==id) {
         // 文件和目录的暂停，需要在这里做的一样
-        // 不同的部分在下载的函数内更新了
+        // 不同的部分的数据在下载的函数内更新了
             this->currentMsg.status = 1;  //修改状态,会在currentMsg的一定是下载中的任务
             this->currentMsg.UpOrDown = 3;
             this->stopedMsgs.push_back(this->currentMsg);
@@ -112,10 +112,12 @@ void uploadThread::receive_pause_id(int id){
             if(this->msgs[i].id==id)    //如果是非正在下载进程
             {
                 // 文件和目录的暂停，需要在这里做的一样
-                // 不同的部分在下载的函数内更新了
+                // 不同的部分在下载的函数内更新了，
                     cout << "按钮点击事件触发" << endl;
                     this->msgs[i].status = 1;
-                    this->currentMsg.UpOrDown = 3;       //切换成下载的断点续传任务
+                    this->msgs[i].UpOrDown = 3;       //切换成下载的断点续传任务
+                    this->stopedMsgs.push_back(this->msgs[i]);
+                    this->msgs.erase(this->msgs.begin()+i);   //项目擦除
                     cout.flush();
                     return;
             }
@@ -126,18 +128,11 @@ void uploadThread::receive_pause_id(int id){
             int finish=0;
             if(this->stopedMsgs[i].id==id)
             {
-                if(this->stopedMsgs[i].isDir==0)
-                {
-                 this->stopedMsgs[i].filesize=getFileSize(this->currentMsg.storepath);  //数据不同步，应该直接问硬盘
-                 this->stopedMsgs[i].status=0;
-                 this->msgs.push_back(this->stopedMsgs[i]);
-                 finish=1;
-                }
-                else{
+                   // 文件和文件夹的处理无区别，有区别的部分都是实时更新到Msg了
                     this->stopedMsgs[i].status=0; //恢复下载
                     this->msgs.push_back(this->stopedMsgs[i]);
                     finish=1;
-                }
+
             }
             if(finish==1&&this->stopedMsgs[i].id==id)
             {

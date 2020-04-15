@@ -246,7 +246,6 @@ void MainWindow::on_pushButton_upload_clicked()                                /
         QIcon pause("../UI/resoucre/icon/48/stop.png");
         pushButton_pause->setIcon(pause);
         connect(pushButton_pause,SIGNAL(send_pause_id(int)),this->dataThread,SLOT(receive_pause_id(int)));  //接收暂停项目的id
-        if (i) pushButton_pause->hide();                                            //由于一次只跑一个，所以初始化只显示第一个暂停按钮，一次只显示当前正在跑的项目的暂停键
         JhButton* pushButton_terminate=new JhButton(w);                             //item插入终止按钮
         pushButton_terminate->setId(this->itemId);
         pushButton_terminate->setObjectName("terminateButton");
