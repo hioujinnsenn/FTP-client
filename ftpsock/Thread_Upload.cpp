@@ -49,7 +49,9 @@ bool qThread::uploadFile(string filePath, int id)     //上传文件到服务器
     if(! file.open(QIODevice::ReadOnly)){
         string r("文件打开失败！");
         cout<<filePath<<r<<endl;
+        SendCommand(sock,"ABOR\r\n");
         closesocket(dataSock);
+        SendCommand(sock,QUIT);
         return false;
     }
     string mes=SendCommand(sock, APPE, fileName);  //请求上传文件，若不存在则新建，反之则在文件中接着上传
@@ -67,16 +69,11 @@ bool qThread::uploadFile(string filePath, int id)     //上传文件到服务器
     while(upSize<sizeLocal)                    //使用两层循环，一层上传，一层检测数据
     {
         while (!file.atEnd()) {    //在到达文件末尾前持续读文件，将文件内容通过数据端口上传到服务器
-            if (this->currentMsg.status == 1) {   //被暂停的项目
-                this->currentMsg.filesize=upSize;
-
+            if (this->currentMsg.status ) {   //被暂停或终止的项目
+                SendCommand(sock,"ABOR\r\n");
+                SendCommand(sock,QUIT);
                 cout << "项目被暂停！" << endl;
-            }
-            if (state) {   //该项目被终止或暂停，则需要销毁线程
-                /***
-                 * 此处空出来后面再写，要完成的内容有终止线程、删除上传了一半的文件/文件夹
-                 */
-                cout << "项目被终止！（暂停目前也会经过这句）" << endl;
+                break;
             }
             char *message = (char *) malloc(Dlength);   //dataBuffer
             memset(message, 0, Dlength);
@@ -132,16 +129,74 @@ bool qThread::uploadDir(string dirPath, int id)    //上传文件夹到服务器
         if(uploadPath=="\\" || uploadPath=="/")
             wd=uploadPath+path.substr(pos+1, path.size()-name.size()-pos-2);   //得到文件所在路径
         else  wd=uploadPath+"/"+path.substr(pos+1, path.size()-name.size()-pos-2);
-        string r=cwd(sock, wd);   //改变服务器工作目录
-        if(r.substr(0,3)>"300"){    //该目录不存在
-            mkd(sock, wd);  //创建目录
-            cwd(sock, wd);  //进入目录
-        }
-        if(! uploadFile(path,id))
+        SendCommand(sock,QUIT);
+        if(! uploadDirFile(path,id, wd))
             return false;
         emit sendProgress(100*(i+1)/files.size(), id);    //上传目录的进度
     }
-    cwd(sock, uploadPath);
+    return true;
+}
+
+bool qThread::uploadDirFile(string filePath, int id, string uploadPath)     //上传文件到服务器
+{
+    SOCKET sock=login(this->Username, this->Password, this->Ip);
+    SendCommand(sock, "TYPE i\r\n");
+    SOCKET dataSock=pasv(sock);   //开启被动模式，返回数据端口socket
+    string r=cwd(sock, uploadPath);   //改变服务器工作目录
+    if(r.substr(0,3)>"300"){    //该目录不存在
+        mkd(sock, uploadPath);  //创建目录
+        cwd(sock, uploadPath);  //进入目录
+    }
+
+    char* fileName=(char*)malloc(filePath.size()); //所需上传文件的文件名
+    memset(fileName, 0,filePath.size());
+    int i=(filePath.find_last_of('\\')!=string::npos) ? filePath.find_last_of('\\') : filePath.find_last_of('/');  //找到文件名前的分隔符
+    sprintf(fileName, filePath.substr(i+1, string::npos).c_str());  //得到所需上传的文件名
+    size_t sizeLocal=getFileSize(filePath);     //得到本地需要上传的文件的大小
+    QFile file(QString::fromStdString(filePath));
+    if(! file.open(QIODevice::ReadOnly)){
+        string r("文件打开失败！");
+        cout<<filePath<<r<<endl;
+        SendCommand(sock,"ABOR\r\n");
+        closesocket(dataSock);
+        SendCommand(sock,QUIT);
+        return false;
+    }
+    string mes=SendCommand(sock, APPE, fileName);  //请求上传文件，若不存在则新建，反之则在文件中接着上传
+    string m=mes.substr(0,2);
+    if(m>"300" || m.empty()){
+        cout<<"文件上传失败"<<endl;
+        file.close();
+        free(fileName);
+        SendCommand(sock,"ABOR\r\n");     //终止数据传输
+        closesocket(dataSock);
+        SendCommand(sock,QUIT);
+        return false;   //失败返回
+    }
+    long upSize=filesize(sock,fileName);
+    while(upSize<sizeLocal)                    //使用两层循环，一层上传，一层检测数据
+    {
+        while (!file.atEnd()) {    //在到达文件末尾前持续读文件，将文件内容通过数据端口上传到服务器
+            if (this->currentMsg.status ) {   //被暂停或终止的项目
+                SendCommand(sock,"ABOR\r\n");
+                SendCommand(sock,QUIT);
+                cout << "项目被暂停！" << endl;
+                break;
+            }
+            char *message = (char *) malloc(Dlength);   //dataBuffer
+            memset(message, 0, Dlength);
+            size_t rlength = file.read(message, Dlength); //read返回当前读到的字节数
+            send(dataSock, message, rlength, 0);
+            free(message);
+        }
+        upSize=filesize(sock,fileName);
+    }
+
+    file.close();   //清理现场
+    free(fileName);
+    string s=closeDataSock(sock, dataSock);     //关闭数据端口
+    cout<<s;
+    flush(cout);
     return true;
 }
 
@@ -158,4 +213,3 @@ long qThread::filesize(SOCKET sock, char* filename){
     free(path);
     return sizel;
 }
-

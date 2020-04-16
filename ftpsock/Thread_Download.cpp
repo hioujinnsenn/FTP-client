@@ -7,13 +7,15 @@
 bool qThread::downloadContinue() {
     if (this->currentMsg.isDir==1)
     {
-        //多文件不会安排在此处，由于代码内部会不断申请新的sock
-       downloadDirContinue(this->currentMsg.filepath,this->currentMsg.storepath,this->currentMsg.finishNum,this->currentMsg.id);
+        // storePath：与下载的目录对应的 本地保存的目录
+        downloadDirContinue(this->currentMsg.filepath,this->currentMsg.storepath,this->currentMsg.finishNum,this->currentMsg.id);
 
     } else{
-        cout<<"文件断点续传"<<endl;
-        // 实际没必要这么写参数，这么写是为了告知自己明细过程
-        downloadFileContinue(this->currentMsg.filepath,this->currentMsg.storepath,this->currentMsg.filesize);
+        long filesize=getFileSize(this->currentMsg.storepath);
+
+        //  实际可以将这些参数省去，直接在函数内部掉用，只是，写出来是为了让自己明确知道使用到的关键信息
+        //  storepath：文件的本地保存路径
+        downloadFileContinue(this->currentMsg.filepath,this->currentMsg.storepath,filesize);
     }
 }
 
@@ -24,7 +26,7 @@ bool qThread::download(string filePath, int id) {
         this->currentMsg.isDir=1;  //1是目录，0是文件
         downloadDir(filePath,id);
     } else{
-        this->currentMsg.isDir=0;
+        this->currentMsg.isDir=0;  //必须声明
         downloadFile(filePath,id);
     }
 }
@@ -66,8 +68,10 @@ bool qThread::downloadFileContinue( string filePath, string storePath, long down
         }
         file.write(fileData,recvSize);
         file.flush();
+
+        // 更新进度
         downloadsize+=recvSize;
-        this->currentMsg.filesize=downloadsize;
+        emit sendProgress(int(100*downloadsize*1.0/sizeTotal),id);
         memset(fileData,0,Dlength);
     }
     free(fileData);
@@ -87,7 +91,7 @@ bool qThread::downloadFileContinue( string filePath, string storePath, long down
  *  @param filecount: 当前元素的编号，也等于已经完成的文件数
  *  @return   1：下载正常结束 2：被暂停  -1：异常结束
  * */
-int qThread::downloadFile( string filePath, string storePath,int filecount) {
+int qThread::downloadDirFile( string filePath, string storePath,int filecount) {
     SOCKET  sock=login(this->Username,this->Password,this->Ip);
     long count=0;
     string newport=SendCommand(sock,PASV);
@@ -114,7 +118,7 @@ int qThread::downloadFile( string filePath, string storePath,int filecount) {
         while(count<filesize){
             if(this->currentMsg.status==1)  //项目暂停
             {   // 保存当前元素的编号
-                this->stopedMsgs.push_back(this->currentMsg);
+
                 SendCommand(sock,"ABOR\r\n");     //终止数据传输
                 SendCommand(sock,QUIT);
                 return 2;
@@ -135,7 +139,6 @@ int qThread::downloadFile( string filePath, string storePath,int filecount) {
             file.write(fileData,recvSize);
             file.flush();
             count+=recvSize;
-            this->currentMsg.filesize=count;
             memset(fileData,0,Dlength);
         }
         file.flush();
@@ -183,21 +186,16 @@ bool  qThread::downloadFile(string Path,int  id)
         string filename=Path.substr(pos);
         storePath.append(filename);                     // 拼接本地路径
         QFile file(storePath.data());
-        this->currentMsg.storepath=storePath;
-        file.open(QIODevice::WriteOnly);           //此处不涉及断点续传，直接覆盖
+
+        this->currentMsg.storepath=storePath;           //保存路径到this->currentMg,方便断点续传恢复
+        file.open(QIODevice::WriteOnly);                //此处不涉及断点续传，直接覆盖
         char* fileData=(char*)malloc(Dlength);
         memset(fileData,0,Dlength);
         while(count<filesize){
             // 触发暂停后的响应
             if(this->currentMsg.status==1)
             {
-                // 暂停当前项目,项目回到队列尾，记录此刻的状态
-                // 当前下载的是文件，只需要保存一个文件需要的信息即可
-                this->currentMsg.filesize=count;   //记录已经下载的文件大小
-                this->currentMsg.UpOrDown=3;       //切换成下载的断点续传任务
-                this->currentMsg.isDir=0;         //0为文件
-                this->currentMsg.storepath=storePath;   //记录存储路径
-                this->msgs.push_back(this->currentMsg);     //返回队尾
+                // 只需要直接结束下载，中断服务器的服务
                 SendCommand(socket,"ABOR\r\n");
                 SendCommand(socket,QUIT);
                 break;                               //跳出结束此次任务，同时，不能让finishedOne信号发出
@@ -218,9 +216,8 @@ bool  qThread::downloadFile(string Path,int  id)
             file.write(fileData,recvSize);
             file.flush();
             count+=recvSize;
-            this->currentMsg.filesize=count;
             if (id!=-1)  //  -1 代表通过下载目录而下载的文件
-                    emit sendProgress(int(100*(count*1.0/filesize)),id);    //更新进度条
+                emit sendProgress(int(100*(count*1.0/filesize)),id);    //更新进度条
             memset(fileData,0,Dlength);
         }
         file.flush();
@@ -325,12 +322,12 @@ bool qThread::downloadDir(string filePath,int id){
         storefpath.append(DirTail);
 
         //  IMPORTANT  使用的是调用目录处理的专属函数，跟一般用的不太一样
-         int pauseOrNot= downloadFile(file.path,storefpath,filecount);
-         if(pauseOrNot==2)
-         {
-             // 文件下载项目暂停
-             return  filecount;     //直接结束当前项目
-         }
+        int pauseOrNot= downloadDirFile(file.path,storefpath,filecount);
+        if(pauseOrNot==2)
+        {
+            // 文件下载项目暂停
+            return  filecount;     //直接结束当前项目
+        }
         filecount++;
         this->currentMsg.finishNum=filecount;                 //记录已经完成的数目
         emit sendProgress(int(100*(filecount*1.0/filesCount)),id);
@@ -416,7 +413,7 @@ bool qThread::downloadDirContinue(string DirPath,string storePath, int finishedN
     //fileDownloadQueue是为了下载使用的，存放所有文件的完整路径和信息
     for(int i=0;fileDownloadQueue.size()>0&&i<finishedNum;i++)
     {
-      fileDownloadQueue.pop();
+        fileDownloadQueue.pop();
     }
     int HaveOnePause=1;           //有一个被中断的元素，他的处理不一样
     while (fileDownloadQueue.size()>0)
@@ -438,7 +435,7 @@ bool qThread::downloadDirContinue(string DirPath,string storePath, int finishedN
             HaveOnePause=0;
         }
         else{
-            int PauseOrNot=downloadFile(file.path,storefpath,finishedNum);
+            int PauseOrNot=downloadDirFile(file.path,storefpath,finishedNum);
             if(PauseOrNot==2)
             {
                 return true;
@@ -492,7 +489,6 @@ int qThread::downloadDirStopedFileContinue(string filePath, string storePath,  i
         file.write(fileData,recvSize);
         file.flush();
         downloadsize+=recvSize;
-        this->currentMsg.filesize=downloadsize;
         memset(fileData,0,Dlength);
     }
     free(fileData);
