@@ -21,7 +21,7 @@ bool qThread::downloadContinue() {
 
 //  被run调用的下载
 bool qThread::download(string filePath, int id) {
-    if(PathIsDirectory(filePath.data()))
+    if(isDirRemote(filePath))
     {
         this->currentMsg.isDir=1;  //1是目录，0是文件
         downloadDir(filePath,id);
@@ -498,4 +498,13 @@ int qThread::downloadDirStopedFileContinue(string filePath, string storePath,  i
     SendCommand(sock,QUIT);
     return 1;
 
+}
+
+bool qThread::isDirRemote(string filePath)
+{
+    SOCKET sock=login(this->Username, this->Password, this->Ip);
+    string r=cwd(sock, filePath);   //改变服务器工作目录
+    //该目录不存在(返回>300的数)，说明该路径为文件
+        SendCommand(sock, QUIT);
+        return !(r.substr(0, 3) > "300");
 }

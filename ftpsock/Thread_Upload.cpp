@@ -39,6 +39,8 @@ bool qThread::uploadFile(string filePath, int id)     //上传文件到服务器
     SOCKET sock=login(this->Username, this->Password, this->Ip);
     SendCommand(sock, "TYPE i\r\n");
     SOCKET dataSock=pasv(sock);   //开启被动模式，返回数据端口socket
+    string storePath=this->remote_path;
+    cwd(sock, storePath);
 
     char* fileName=(char*)malloc(filePath.size()); //所需上传文件的文件名
     memset(fileName, 0,filePath.size());
@@ -111,7 +113,9 @@ bool qThread::uploadFile(string filePath, int id)     //上传文件到服务器
 bool qThread::uploadDir(string dirPath, int id)    //上传文件夹到服务器指定目录下
 {
     SOCKET sock=login(this->Username, this->Password, this->Ip);
-    string uploadPath=pwd(sock);    //得到需要上传到的目录
+    string uploadPath=this->remote_path;  //得到需要上传到的目录
+    cwd(sock, uploadPath);
+
     vector<string> files, names;
     string dirName=dirPath.substr(dirPath.find_last_of("\\")+1, dirPath.size());
     getAllFiles(dirPath, files, names);       //得到目录下所有的文件路径和名称，两者顺序对应
@@ -186,6 +190,8 @@ bool qThread::uploadDirFile(string filePath, int id, string uploadPath)     //�
             char *message = (char *) malloc(Dlength);   //dataBuffer
             memset(message, 0, Dlength);
             size_t rlength = file.read(message, Dlength); //read返回当前读到的字节数
+            if(rlength<Dlength)
+                cout<<"测试在哪里断开连接。"<<endl;
             send(dataSock, message, rlength, 0);
             free(message);
         }
@@ -194,9 +200,10 @@ bool qThread::uploadDirFile(string filePath, int id, string uploadPath)     //�
 
     file.close();   //清理现场
     free(fileName);
-    string s=closeDataSock(sock, dataSock);     //关闭数据端口
-    cout<<s;
-    flush(cout);
+//    string s=closeDataSock(sock, dataSock);     //关闭数据端口
+    SendCommand(sock, QUIT);
+//    cout<<s;
+//    flush(cout);
     return true;
 }
 

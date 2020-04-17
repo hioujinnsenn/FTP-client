@@ -102,7 +102,10 @@ void qThread::receive_pause_id(int id){
         // 文件和目录的暂停，需要在这里做的一样
         // 不同的部分的数据在下载的函数内更新了
         this->currentMsg.status = 1;  //修改状态,会在currentMsg的一定是下载中的任务
-        this->currentMsg.UpOrDown = 3;
+        if(this->currentMsg.UpOrDown==1)
+            this->currentMsg.UpOrDown = 3;
+        else if(this->currentMsg.UpOrDown==0)
+            this->currentMsg.UpOrDown=2;
         this->stopedMsgs.push_back(this->currentMsg);
     }
     else {
@@ -115,7 +118,10 @@ void qThread::receive_pause_id(int id){
                 // 不同的部分在下载的函数内更新了，
                 cout << "按钮点击事件触发" << endl;
                 this->msgs[i].status = 1;
-                this->msgs[i].UpOrDown = 3;       //切换成下载的断点续传任务
+                if(this->currentMsg.UpOrDown==1)
+                    this->msgs[i].UpOrDown = 3;       //切换成下载的断点续传任务
+                else if(this->currentMsg.UpOrDown==0)
+                    this->msgs[i].UpOrDown=2;
                 this->stopedMsgs.push_back(this->msgs[i]);
                 this->msgs.erase(this->msgs.begin()+i);   //项目擦除
                 cout.flush();

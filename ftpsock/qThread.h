@@ -51,6 +51,7 @@ public:
     bool uploadDir(string dirPath,int id);        // 文件夹的上传处理，以文件的个数作为进度的依据
     bool uploadDirFile(string filePath, int id, string uploadPath);    //文件夹中单个文件下载，指定目录
     bool downloadFile(string filePath,int id);     // 单个文件的下载
+    bool isDirRemote(string filePath);  //判断服务器端的路径是文件还是文件夹
 
     //用于文件夹的下载
     int downloadDirFile(string filePath,string storePath,int filecount); // 单个文件的下载，指定本地路径

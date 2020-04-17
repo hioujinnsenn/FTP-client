@@ -245,6 +245,7 @@ void MainWindow::on_pushButton_upload_clicked()                                /
         pushButton_pause->setGeometry(QRect(230, 5, 30, 25));
         QIcon pause("../UI/resoucre/icon/48/stop.png");
         pushButton_pause->setIcon(pause);
+        if (i) pushButton_pause->hide();         //由于一次只跑一个，所以初始化只显示第一个暂停按钮，一次只显示当前正在跑的项目的暂停键
         connect(pushButton_pause,SIGNAL(send_pause_id(int)),this->dataThread,SLOT(receive_pause_id(int)));  //接收暂停项目的id
         JhButton* pushButton_terminate=new JhButton(w);                             //item插入终止按钮
         pushButton_terminate->setId(this->itemId);
@@ -279,8 +280,7 @@ void MainWindow::on_pushButton_download_clicked()   //下载按钮
     vector<string> paths;
     vector<int> ids;
     QList<QListWidgetItem*>  items=ui->listWidget2_1->selectedItems();
-    for(int i=0;i<items.size();i++)
-    {
+    for(int i=0;i<items.size();i++){
         this->itemId++;
         QListWidgetItem* item=items[i];
         FileMsg msg;
@@ -431,30 +431,29 @@ void MainWindow::on_finishOneTask(int id, int nextId)
 {
     cout<<"任务完成"<<id<<"，下一个任务："<<nextId<<endl;
     int count=ui->listWidget_progress->count();
-    int i;
+    int i, flag=0;  //flag=2表示删除和下一项的show都完成
     for(i=0;i<count;i++){
         //删除本任务
         QListWidgetItem* item=ui->listWidget_progress->item(i);
         if(item->data(Qt::UserRole).toInt()==id){
             ui->listWidget_progress->removeItemWidget(item);
             ui->listWidget_progress->takeItem(i);
-//            delete item;
             ui->listWidget_name->takeItem(i);
             ui->listWidget_status->takeItem(i);
             ui->listWidget_size->takeItem(i);
             ui->listWidget_localPath->takeItem(i);
             ui->listWidget_remotePath->takeItem(i);
-            //下一项任务的暂停按钮取消隐藏
-            if(nextId!=-1) {
-                QListWidgetItem *nextItem = ui->listWidget_progress->item(nextId);
-                JhButton *pauseButton = ui->listWidget_progress->itemWidget(nextItem)->findChild<JhButton *>("pauseButton");
-                pauseButton->show();
-            }
 //            RemoteRefresh();
-            break;
+            flag++;
         }
+        if(item->data(Qt::UserRole).toInt()==nextId) {    //下一项任务的暂停按钮取消隐藏
+            JhButton *pauseButton = ui->listWidget_progress->itemWidget(item)->findChild<JhButton *>("pauseButton");
+            pauseButton->show();
+            flag++;
+        }
+        else if(nextId==-1) flag++;
+        if(flag>=2) break;
     }
-
 }
 
 
