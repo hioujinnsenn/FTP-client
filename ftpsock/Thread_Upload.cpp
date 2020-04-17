@@ -2,7 +2,7 @@
 // Created by ye11 on 2020/4/11.
 //
 #include "qThread.h"
-
+#define Slength 500
 // 拆分upload_qThread的代码
 
 /***
@@ -56,7 +56,7 @@ bool qThread::uploadFile(string filePath, int id)     //上传文件到服务器
         SendCommand(sock,QUIT);
         return false;
     }
-    string mes=SendCommand(sock, APPE, fileName);  //请求上传文件，若不存在则新建，反之则在文件中接着上传
+    string mes=SendCommand(sock, STOR, fileName);  //请求上传文件，若不存在则新建，反之则在文件中接着上传
     string m=mes.substr(0,2);
     if(m>"300" || m.empty()){
         cout<<"文件上传失败"<<endl;
@@ -68,37 +68,36 @@ bool qThread::uploadFile(string filePath, int id)     //上传文件到服务器
         return false;   //失败返回
     }
     long upSize=filesize(sock,fileName);
+    int offset=0;
+
+    while (!file.atEnd()) {    //在到达文件末尾前持续读文件，将文件内容通过数据端口上传到服务器
+        if (this->currentMsg.status ) {   //被暂停或终止的项目
+            SendCommand(sock,"ABOR\r\n");
+            SendCommand(sock,QUIT);
+            break;
+        }
+        char *message = (char *) malloc(Slength);   //dataBuffer
+        memset(message, 0, Slength);
+        size_t rlength = file.read(message, Slength); //read返回当前读到的字节数
+        send(dataSock, message, rlength, 0);
+        offset+=rlength;
+        free(message);
+        emit sendProgress(int(100 * (offset / (sizeLocal*1.0) )), id);    //将文件发送进度
+    }
+//    if (!isDir) {
+//        emit sendProgress(int(100 * (upSize / (sizeLocal*1.0) )), id);    //将文件发送进度
+//    }
     while(upSize<sizeLocal)                    //使用两层循环，一层上传，一层检测数据
     {
-        while (!file.atEnd()) {    //在到达文件末尾前持续读文件，将文件内容通过数据端口上传到服务器
-            if (this->currentMsg.status ) {   //被暂停或终止的项目
-                SendCommand(sock,"ABOR\r\n");
-                SendCommand(sock,QUIT);
-                cout << "项目被暂停！" << endl;
-                break;
-            }
-            char *message = (char *) malloc(Dlength);   //dataBuffer
-            memset(message, 0, Dlength);
-            size_t rlength = file.read(message, Dlength); //read返回当前读到的字节数
-            send(dataSock, message, rlength, 0);
-            free(message);
-            upSize=filesize(sock,fileName);
-            if (!isDir) {
-                emit sendProgress(int(100 * (upSize / (sizeLocal*1.0) )), id);    //将文件发送进度
-            }
-
-        }
+        msleep(300);
         upSize=filesize(sock,fileName);
-        if (!isDir) {
-            emit sendProgress(int(100 * (upSize / (sizeLocal*1.0) )), id);    //将文件发送进度
-        }
     }
-
     file.close();   //清理现场
     free(fileName);
-    string s=closeDataSock(sock, dataSock);     //关闭数据端口
-    cout<<s;
+    string s = closeDataSock(sock, dataSock);     //关闭数据端口
+    cout << s;
     flush(cout);
+    SendCommand(sock, QUIT);
     return true;
 }
 
@@ -177,33 +176,29 @@ bool qThread::uploadDirFile(string filePath, int id, string uploadPath)     //�
         SendCommand(sock,QUIT);
         return false;   //失败返回
     }
+    while (!file.atEnd()) {    //在到达文件末尾前持续读文件，将文件内容通过数据端口上传到服务器
+        if (this->currentMsg.status ) {   //被暂停或终止的项目
+            SendCommand(sock,"ABOR\r\n");
+            SendCommand(sock,QUIT);
+            cout << "项目被暂停！" << endl;
+            break;
+        }
+        char *message = (char *) malloc(Dlength);   //dataBuffer
+        memset(message, 0, Dlength);
+        size_t rlength = file.read(message, Dlength); //read返回当前读到的字节数
+        send(dataSock, message, rlength, 0);
+        free(message);
+    }
     long upSize=filesize(sock,fileName);
     while(upSize<sizeLocal)                    //使用两层循环，一层上传，一层检测数据
     {
-        while (!file.atEnd()) {    //在到达文件末尾前持续读文件，将文件内容通过数据端口上传到服务器
-            if (this->currentMsg.status ) {   //被暂停或终止的项目
-                SendCommand(sock,"ABOR\r\n");
-                SendCommand(sock,QUIT);
-                cout << "项目被暂停！" << endl;
-                break;
-            }
-            char *message = (char *) malloc(Dlength);   //dataBuffer
-            memset(message, 0, Dlength);
-            size_t rlength = file.read(message, Dlength); //read返回当前读到的字节数
-            if(rlength<Dlength)
-                cout<<"测试在哪里断开连接。"<<endl;
-            send(dataSock, message, rlength, 0);
-            free(message);
-        }
+        msleep(200);
         upSize=filesize(sock,fileName);
     }
-
     file.close();   //清理现场
     free(fileName);
-//    string s=closeDataSock(sock, dataSock);     //关闭数据端口
+    string s = closeDataSock(sock, dataSock);     //关闭数据端口
     SendCommand(sock, QUIT);
-//    cout<<s;
-//    flush(cout);
     return true;
 }
 
