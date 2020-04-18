@@ -31,8 +31,6 @@ private:
     char* Username;
     char* Password;
     char* Ip;
-    bool isDir;     //标记当前上传的是文件还是文件夹
-    int state=0;    //标记当前进度状态，0为继续，1为暂停，2为终止
     vector<FileMsg> msgs;
     vector<FileMsg> stopedMsgs;
     FileMsg currentMsg;     // IMPORTANT 正在传输中的任务的Msg，通过改变该元素的值，实现暂停
@@ -49,10 +47,14 @@ public:
     bool upload(string filePath,int id);
     bool uploadFile(string filePath,int id);      // 单个文件以文件的
     bool uploadDir(string dirPath,int id);        // 文件夹的上传处理，以文件的个数作为进度的依据
-    bool uploadDirFile(string filePath, int id, string uploadPath);    //文件夹中单个文件下载，指定目录
+    bool uploadDirFile(string filePath, int id, string uploadPath);    //文件夹中单个文件上传，指定目录
+    bool uploadContinue();  //上传的断点续传
+    bool uploadFileContinue(string filePath, string storePath);
+    bool uploadDirContinue(string dirPath, string storePath, int filecount);
+    bool uploadDirFileContinue(string filePath, string uploadPath);
+
     bool downloadFile(string filePath,int id);     // 单个文件的下载
     bool isDirRemote(string filePath);  //判断服务器端的路径是文件还是文件夹
-
     //用于文件夹的下载
     int downloadDirFile(string filePath,string storePath,int filecount); // 单个文件的下载，指定本地路径
     bool downloadDir(string filePath,int id);      // 文件夹的下载处理
@@ -67,12 +69,12 @@ signals:
     void finishOne(int id, int nextId);
     void send_Dir_filecount(int filecount,int id );        //信号，回传到UI界面，文件夹目录的大小
 public slots:
-    void setStop();
     void receive_filemsg(FileMsg msg);
     void receive_remote_path(string path); // 由于使用的方式是每次自行登陆获取sock，导致每次操作回到根目录
     // 需要从UI界面拿回local_path
     void  receive_local_path(string path);
     void  receive_pause_id(int id);         //接受暂停的任务的id，并暂停该任务
+    void receive_cancel_id(int id);     //接收终止任务的id，并删除对应的项目界面和对应的文件
 };
 
 #endif //FTP_CLIENT_QTHREAD_H

@@ -253,6 +253,8 @@ void MainWindow::on_pushButton_upload_clicked()                                /
         pushButton_terminate->setGeometry(QRect(270, 5, 30, 25));
         QIcon terminate("../UI/resoucre/icon/48/cancel.png");
         pushButton_terminate->setIcon(terminate);
+        connect(pushButton_terminate, SIGNAL(send_cancel_id(int)), this->dataThread, SLOT(receive_cancel_id(int)));
+
         layout->addWidget(progressBar);
         layout->addWidget(pushButton_pause);
         layout->addWidget(pushButton_terminate);
@@ -295,9 +297,9 @@ void MainWindow::on_pushButton_download_clicked()   //下载按钮
         i_name->setText(items.at(i)->text());
 
         QListWidgetItem* i_status=new QListWidgetItem(ui->listWidget_status);    //文件状态（上传中、暂停）
-        i_status->setText("上传中");
+        i_status->setText("下载中");
 
-        QListWidgetItem* i_progress=new QListWidgetItem(ui->listWidget_progress);   //文件上传进度
+        QListWidgetItem* i_progress=new QListWidgetItem(ui->listWidget_progress);   //文件下载进度
         i_progress->setSizeHint(QSize(300,30));
         QVariant itemId=this->itemId;
         i_progress->setData(Qt::UserRole,itemId);

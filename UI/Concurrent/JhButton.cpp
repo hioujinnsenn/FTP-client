@@ -27,6 +27,16 @@ void JhButton::mousePressEvent(QMouseEvent *event) {
     if(this->ButtonType==0)
     {
         std::cout<<"点击了暂停/恢复"<<std::endl;
+        QIcon icon;
+        if(state==0){   //当前进度为上传/下载中
+            state=1;
+            icon=QIcon("../UI/resoucre/icon/48/continue.png");
+        }
+        else{
+            state=0;
+            icon=QIcon("../UI/resoucre/icon/48/stop.png");
+        }
+        this->setIcon(icon);    //改变图标
         emit send_pause_id(this->id);
     } else{
         emit  send_cancel_id(this->id);
