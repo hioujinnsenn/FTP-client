@@ -413,7 +413,7 @@ void MainWindow::receiveStateChange(int id, int state, int isUpload)    //更改
     cout<<"改变状态"<<id<<" "<<state<<" "<<isUpload<<endl;
     int count=this->ui->listWidget_status->count();
     for(int i=0;i<count; i++){
-        QListWidgetItem* i_state=ui->listWidget_status->takeItem(i);
+        QListWidgetItem* i_state=ui->listWidget_status->item(i);
         if(i_state->data(Qt::UserRole).toInt()==id){
             if(state==0){   //进行中
                 if(isUpload==0)
