@@ -66,7 +66,7 @@ void qThread::run()             // 此进程修改成和UI主界面共生存在
                 downloadContinue();
             }
             if(this->currentMsg.status==0)          //没有被暂停的任务就会发送完成，被中断的项目就不会发送
-                    emit(finishOne(id, nextId));        //任务为一个文件则发送一个任务完成
+                    emit(finishOne(id, nextId, this->currentMsg.UpOrDown%2));        //任务为一个文件则发送一个任务完成
             this->currentMsg=FileMsg();             //每次都要新建一个空的，全0的数据覆盖掉旧的，保证receive_pause_id是正确的
             this->currentMsg.id=-1;                 //标记为-1的都是没有用的空项目
         }
@@ -169,5 +169,5 @@ void qThread::receive_cancel_id(int id)
              }
          }
      }
-    emit(finishOne(id, -1));    //还不确定槽中传信号是否会有很大的延迟
+    emit(finishOne(id, -1, -1));    //还不确定槽中传信号是否会有很大的延迟
 }

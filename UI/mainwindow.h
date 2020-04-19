@@ -50,6 +50,7 @@ public:
      void setupList(QListWidget*w1,QListWidget*w2,QListWidget*w3,vector<File>list);
      void LocalRefresh();
     void RemoteRefresh();
+    void addFinishItem(int row, int isUpload);
 
 signals:
     void send_filemsg(FileMsg);
@@ -105,9 +106,7 @@ private slots:
 
     void receiveStateChange(int id, int state, int isUpload);
 
-    void on_pushButton_terminate_clicked(int id);
-
-    void on_finishOneTask(int id, int nextId);        //  后台完成一个项目的下载，本地移除列表的一个项目
+    void on_finishOneTask(int id, int nextId, int isUpload);        //  后台完成一个项目的下载，本地移除列表的一个项目
 
     void receive_Dir_fileCount(int filecount,int id); // 接受文件夹的文件数目
 public:

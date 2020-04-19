@@ -68,7 +68,7 @@ protected:
     void run() override;
 signals:
     void sendProgress(int progress, int id);
-    void finishOne(int id, int nextId);
+    void finishOne(int id, int nextId, int isUpload);
     void send_Dir_filecount(int filecount,int id );        //信号，回传到UI界面，文件夹目录的大小
     void sendStateChange(int id, int state, int isUpload);    //传递状态参数给前端
 public slots:

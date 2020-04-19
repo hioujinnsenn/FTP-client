@@ -88,7 +88,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //创建伴随存在的子线程
     this->dataThread=new qThread(this->Username,this->Password,this->Ip);
     connect(dataThread, SIGNAL(sendProgress(int,int)), this, SLOT(on_progressBar_valueChanged(int,int)));   //进度条数据绑定槽函数
-    connect(dataThread, SIGNAL(finishOne(int,int)), this, SLOT(on_finishOneTask(int, int)));                //任务结束信号绑定界面槽函数
+    connect(dataThread, SIGNAL(finishOne(int,int, int)), this, SLOT(on_finishOneTask(int, int, int)));                //任务结束信号绑定界面槽函数
     connect(this,SIGNAL(send_filemsg(FileMsg)),dataThread,SLOT(receive_filemsg(FileMsg)));//传输文件信息和id
     // 通信通道--传输remote_path、local_path
     connect(this,SIGNAL(send_local_path(string)),dataThread,SLOT(receive_local_path(string)));
@@ -271,7 +271,10 @@ void MainWindow::on_pushButton_upload_clicked()                                /
         i_localPath->setText(filePath);
 
         QListWidgetItem* i_remotePath=new QListWidgetItem(ui->listWidget_remotePath);   //文件上传到服务器路径
-        i_remotePath->setText(QString::fromStdString(pwd(sock)));
+        int pos=local_pwd.find_last_of('/');
+        if(pos==local_pwd.npos) pos=local_pwd.find_last_of('\\');
+        string fileName=local_pwd.substr(pos+1);
+        i_remotePath->setText(QString::fromStdString(remote_pwd+"/"+fileName));
         //----------------------------------
         emit send_filemsg(msg);            //传送文件信息和id到数据线程端
         //----------------------------------
@@ -350,7 +353,10 @@ void MainWindow::on_pushButton_download_clicked()   //下载按钮
         i_localPath->setText(filePath);
 
         QListWidgetItem* i_remotePath=new QListWidgetItem(ui->listWidget_remotePath);   //文件上传到服务器路径
-        i_remotePath->setText(QString::fromStdString(pwd(sock)));
+        int pos=local_pwd.find_last_of('/');
+        if(pos==local_pwd.npos) pos=local_pwd.find_last_of('\\');
+        string fileName=local_pwd.substr(pos+1);
+        i_remotePath->setText(QString::fromStdString(remote_pwd+"/"+fileName));
         //----------------------------------
         emit send_filemsg(msg);            //传送文件信息和id到数据线程端
         //----------------------------------
@@ -422,27 +428,12 @@ void MainWindow::receiveStateChange(int id, int state, int isUpload)    //更改
             }
             else if(state==1)
                 i_state->setText("已暂停");
-//            JhButton* pauseButton=ui->listWidget_progress->itemWidget(item)->findChild<JhButton*>("pauseButton");
-//            QIcon icon;
-//            if(pauseButton->state==0)   //当前任务正在上传
-//                icon=QIcon("../UI/resoucre/icon/48/continue.png");
-//            else icon=QIcon("../UI/resoucre/icon/48/stop.png");
-//            pauseButton->setIcon(icon); //改变按钮图标
-//            cout<<"改变暂停键图标！"<<endl;
-//            pauseButton->state^=1;
             return;
         }
     }
 }
 
-void MainWindow::on_pushButton_terminate_clicked(int id)
-{
-
-}
-
-
-
-void MainWindow::on_finishOneTask(int id, int nextId)
+void MainWindow::on_finishOneTask(int id, int nextId, int isUpload)
 {
     cout<<"任务完成"<<id<<"，下一个任务："<<nextId<<endl;
     int count=ui->listWidget_progress->count();
@@ -451,6 +442,8 @@ void MainWindow::on_finishOneTask(int id, int nextId)
         //删除本任务
         QListWidgetItem* item=ui->listWidget_progress->item(i);
         if(item->data(Qt::UserRole).toInt()==id){
+            if(isUpload!=-1)
+                addFinishItem(i,isUpload);
             ui->listWidget_progress->removeItemWidget(item);
             ui->listWidget_progress->takeItem(i);
             ui->listWidget_name->takeItem(i);
@@ -458,7 +451,6 @@ void MainWindow::on_finishOneTask(int id, int nextId)
             ui->listWidget_size->takeItem(i);
             ui->listWidget_localPath->takeItem(i);
             ui->listWidget_remotePath->takeItem(i);
-//            RemoteRefresh();
             flag++;
         }
         if(item->data(Qt::UserRole).toInt()==nextId) {    //下一项任务的暂停按钮取消隐藏
@@ -488,4 +480,20 @@ void MainWindow::receive_Dir_fileCount(int filecount, int id) {
             sizeItem->setText(text.data());
         }
     }
+}
+
+void MainWindow::addFinishItem(int i, int isUpload)
+{
+    QListWidgetItem* i_name=new QListWidgetItem(ui->listWidget_fname);
+    i_name->setText(ui->listWidget_name->item(i)->text());
+    QListWidgetItem* i_status=new QListWidgetItem(ui->listWidget_fstatus);
+    if(isUpload==0)
+        i_status->setText("已上传");
+    else i_status->setText("已下载");
+    QListWidgetItem* i_size=new QListWidgetItem(ui->listWidget_fsize);
+    i_size->setText(ui->listWidget_size->item(i)->text());
+    QListWidgetItem* i_localPath=new QListWidgetItem(ui->listWidget_floaclPath);
+    i_localPath->setText(ui->listWidget_localPath->item(i)->text());
+    QListWidgetItem* i_remotePath=new QListWidgetItem(ui->listWidget_fremotePath);
+    i_remotePath->setText(ui->listWidget_remotePath->item(i)->text());
 }
