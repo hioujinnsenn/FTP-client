@@ -62,12 +62,15 @@ public:
     bool downloadDirContinue(string DirPath,string storePath,int finishedNum,int id);    //目录断点续传
     bool downloadContinue();
     int downloadDirStopedFileContinue(string filePath,string storePath,int filecount,long downloadsize);
+
+//    bool deleteRemote(string fi)
 protected:
     void run() override;
 signals:
     void sendProgress(int progress, int id);
     void finishOne(int id, int nextId);
     void send_Dir_filecount(int filecount,int id );        //信号，回传到UI界面，文件夹目录的大小
+    void sendStateChange(int id, int state, int isUpload);    //传递状态参数给前端
 public slots:
     void receive_filemsg(FileMsg msg);
     void receive_remote_path(string path); // 由于使用的方式是每次自行登陆获取sock，导致每次操作回到根目录

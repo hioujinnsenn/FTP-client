@@ -51,7 +51,7 @@ bool qThread::downloadFileContinue( string filePath, string storePath, long down
     SendCommand(sock,RETR,filechars);
     while(downloadsize<sizeTotal)
     {
-        if(this->currentMsg.status==1)
+        if(this->currentMsg.status)
         {
             SendCommand(sock,"ABOR\r\n");
             SendCommand(sock,QUIT);
@@ -116,7 +116,7 @@ int qThread::downloadDirFile( string filePath, string storePath,int filecount) {
         char* fileData=(char*)malloc(Dlength);
         memset(fileData,0,Dlength);
         while(count<filesize){
-            if(this->currentMsg.status==1)  //项目暂停
+            if(this->currentMsg.status)  //项目暂停
             {   // 保存当前元素的编号
 
                 SendCommand(sock,"ABOR\r\n");     //终止数据传输
@@ -193,7 +193,7 @@ bool  qThread::downloadFile(string Path,int  id)
         memset(fileData,0,Dlength);
         while(count<filesize){
             // 触发暂停后的响应
-            if(this->currentMsg.status==1)
+            if(this->currentMsg.status)
             {
                 // 只需要直接结束下载，中断服务器的服务
                 SendCommand(socket,"ABOR\r\n");
@@ -469,7 +469,7 @@ int qThread::downloadDirStopedFileContinue(string filePath, string storePath,  i
     SendCommand(sock,RETR,filechars);
     while(downloadsize<sizeTotal)
     {
-        if(this->currentMsg.status==1)
+        if(this->currentMsg.status)
         {
             // 对队列的操作统一放在槽函数里做
             SendCommand(sock,"ABOR\r\n");        //结束数据传输

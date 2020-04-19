@@ -92,6 +92,7 @@ void qThread::receive_pause_id(int id){
         // 文件和目录的暂停，需要在这里做的一样
         // 不同的部分的数据在下载的函数内更新了
         this->currentMsg.status = 1;  //修改状态,会在currentMsg的一定是下载中的任务
+        emit(sendStateChange(id, this->currentMsg.status, this->currentMsg.UpOrDown%2));
         if(this->currentMsg.UpOrDown==1)
             this->currentMsg.UpOrDown = 3;
         else if(this->currentMsg.UpOrDown==0)
@@ -108,6 +109,7 @@ void qThread::receive_pause_id(int id){
                 // 不同的部分在下载的函数内更新了，
                 cout << "按钮点击事件触发" << endl;
                 this->msgs[i].status = 1;
+                emit(sendStateChange(id, this->msgs[i].status, this->currentMsg.UpOrDown%2));
                 if(this->currentMsg.UpOrDown==1)
                     this->msgs[i].UpOrDown = 3;       //切换成下载的断点续传任务
                 else if(this->currentMsg.UpOrDown==0)
@@ -127,6 +129,7 @@ void qThread::receive_pause_id(int id){
                 cout<<"项目被恢复"<<endl;
                 // 文件和文件夹的处理无区别，有区别的部分都是实时更新到Msg了
                 this->stopedMsgs[i].status=0; //恢复下载
+                emit(sendStateChange(id, this->stopedMsgs[i].status, this->stopedMsgs[i].UpOrDown%2));
                 this->msgs.push_back(this->stopedMsgs[i]);
                 finish=1;
 
@@ -146,35 +149,25 @@ void qThread::receive_cancel_id(int id)
      * 查找匹配id的msg，将status改为2，同时将对应的文件删掉。使用RMD <directory>删除指定目录，
      * DELE<filename>删除文件，本地的删除还没搜
      */
-     string filePath, storePath;
-     int isUpload;    //为0表示为上传删除服务器，否则为下载
-     int isDir;
-//    SOCKET sock=login(this->Username, this->Password, this->Ip);    //不知道同时登陆两次账号会不会有冲突
+     cout<<"按下了终止键"<<endl;
      if(this->currentMsg.id==id){
-         this->currentMsg.status=2;
-         filePath=this->currentMsg.filepath;
-         storePath=this->currentMsg.storepath;
-         if(this->currentMsg.UpOrDown==0 || this->curr)
+         this->currentMsg.status=2; //项目状态为终止
      }
      else{
          for(int i=0;i<this->msgs.size();i++){
              if(this->msgs[i].id==id){
-                 msg=this->msgs[i];
+                 this->msgs[i].status=2;
+                 this->msgs.erase(this->msgs.begin()+i);
                  break;
              }
          }
-         if(msg.id!=-1){    //若msg还没有被赋值，则继续找
-             for(int i=0;i<this->stopedMsgs.size();i++){
-                 if(this->stopedMsgs[i].id==id){
-                     msg=this->stopedMsgs[i];
-                     break;
-                 }
+         for(int i=0;i<this->stopedMsgs.size();i++){
+             if(this->stopedMsgs[i].id==id){
+                 this->stopedMsgs[i].status=2;
+                 this->stopedMsgs.erase(this->stopedMsgs.begin()+i);
+                 break;
              }
          }
      }
-    msg.status=2;  //表示项目终止
-    if(msg.UpOrDown==0 || msg.UpOrDown==2){ //为上传，则需要删除服务器端东西
-
-    }
     emit(finishOne(id, -1));    //还不确定槽中传信号是否会有很大的延迟
 }

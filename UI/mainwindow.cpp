@@ -96,6 +96,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // 通信通道--传输文件夹内的文件数目
     connect(dataThread,SIGNAL(send_Dir_filecount(int ,int)),this,SLOT(receive_Dir_fileCount(int,int)));
     //应该还需要绑定其他的，比如暂停，比如终止
+    connect(dataThread, SIGNAL(sendStateChange(int, int, int)), this, SLOT(receiveStateChange(int, int, int)));
     this->dataThread->start();
 
 }
@@ -221,6 +222,7 @@ void MainWindow::on_pushButton_upload_clicked()                                /
 
         QListWidgetItem* i_status=new QListWidgetItem(ui->listWidget_status);    //文件状态（上传中、暂停）
         i_status->setText("上传中");
+        i_status->setData(Qt::UserRole, itemId);
 
         QListWidgetItem* i_progress=new QListWidgetItem(ui->listWidget_progress);   //文件上传进度
         i_progress->setSizeHint(QSize(300,30));
@@ -253,6 +255,7 @@ void MainWindow::on_pushButton_upload_clicked()                                /
         pushButton_terminate->setGeometry(QRect(270, 5, 30, 25));
         QIcon terminate("../UI/resoucre/icon/48/cancel.png");
         pushButton_terminate->setIcon(terminate);
+        pushButton_terminate->ButtonType=1;
         connect(pushButton_terminate, SIGNAL(send_cancel_id(int)), this->dataThread, SLOT(receive_cancel_id(int)));
 
         layout->addWidget(progressBar);
@@ -298,6 +301,7 @@ void MainWindow::on_pushButton_download_clicked()   //下载按钮
 
         QListWidgetItem* i_status=new QListWidgetItem(ui->listWidget_status);    //文件状态（上传中、暂停）
         i_status->setText("下载中");
+        i_status->setData(Qt::UserRole, itemId);
 
         QListWidgetItem* i_progress=new QListWidgetItem(ui->listWidget_progress);   //文件下载进度
         i_progress->setSizeHint(QSize(300,30));
@@ -329,9 +333,10 @@ void MainWindow::on_pushButton_download_clicked()   //下载按钮
         pushButton_terminate->setId(this->itemId);
         pushButton_terminate->setObjectName("terminateButton");
         pushButton_terminate->setGeometry(QRect(270, 5, 30, 25));
-
         QIcon terminate("../UI/resoucre/icon/48/cancel.png");
         pushButton_terminate->setIcon(terminate);
+        pushButton_terminate->ButtonType=1;
+
         layout->addWidget(progressBar);
         layout->addWidget(pushButton_pause);
         layout->addWidget(pushButton_terminate);
@@ -403,20 +408,28 @@ void MainWindow::on_progressBar_valueChanged(int value,int id)     //修改进�
 
 }
 
-void MainWindow::on_pushButton_pause_clicked(int id)    //做了绑定？
+void MainWindow::receiveStateChange(int id, int state, int isUpload)    //更改项目的状态
 {
-    int count=this->ui->listWidget_progress->count();
+    cout<<"改变状态"<<id<<" "<<state<<" "<<isUpload<<endl;
+    int count=this->ui->listWidget_status->count();
     for(int i=0;i<count; i++){
-        QListWidgetItem* item=ui->listWidget_progress->item(i);
-        if(item->data(Qt::UserRole).toInt()==id){
-            JhButton* pauseButton=ui->listWidget_progress->itemWidget(item)->findChild<JhButton*>("pauseButton");
-            QIcon icon;
-            if(pauseButton->state==0)   //当前任务正在上传
-                icon=QIcon("../UI/resoucre/icon/48/continue.png");
-            else icon=QIcon("../UI/resoucre/icon/48/stop.png");
-            pauseButton->setIcon(icon); //改变按钮图标
-            cout<<"改变暂停键图标！"<<endl;
-            pauseButton->state^=1;
+        QListWidgetItem* i_state=ui->listWidget_status->takeItem(i);
+        if(i_state->data(Qt::UserRole).toInt()==id){
+            if(state==0){   //进行中
+                if(isUpload==0)
+                    i_state->setText("上传中");
+                else i_state->setText("下载中");
+            }
+            else if(state==1)
+                i_state->setText("已暂停");
+//            JhButton* pauseButton=ui->listWidget_progress->itemWidget(item)->findChild<JhButton*>("pauseButton");
+//            QIcon icon;
+//            if(pauseButton->state==0)   //当前任务正在上传
+//                icon=QIcon("../UI/resoucre/icon/48/continue.png");
+//            else icon=QIcon("../UI/resoucre/icon/48/stop.png");
+//            pauseButton->setIcon(icon); //改变按钮图标
+//            cout<<"改变暂停键图标！"<<endl;
+//            pauseButton->state^=1;
             return;
         }
     }

@@ -103,7 +103,7 @@ private slots:
 
     void on_progressBar_valueChanged(int value,int id);
 
-    void on_pushButton_pause_clicked(int id);
+    void receiveStateChange(int id, int state, int isUpload);
 
     void on_pushButton_terminate_clicked(int id);
 
